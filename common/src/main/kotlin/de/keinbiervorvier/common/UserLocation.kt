@@ -53,29 +53,29 @@ private fun Context.hasLocationPermission() =
     ContextCompat.checkSelfPermission(this, PERMISSION) == PackageManager.PERMISSION_GRANTED
 
 /**
- * Asks the platform for a fresh fix, falling back to the newest last-known one.
- * Uses LocationManager rather than Play Services: on a watch without a paired
- * phone the latter may never turn on GPS. Coarse permission still works with
- * every provider (Android 12+), the result is just blurred to city level.
+ * Reports the newest last-known position right away (phones nearly always have
+ * one), then asks for a fresh fix. Uses LocationManager rather than Play
+ * Services: on a watch without a paired phone the latter may never turn on GPS.
+ * Coarse permission still works with every provider (Android 12+), the result
+ * is just blurred to city level.
  *
- * The cheap fused provider goes first. With coarse permission it runs in low
- * power mode and never starts GPS, so a standalone watch gets nothing from it;
- * GPS is the fallback then.
+ * For the fresh fix the quick network provider goes first, then fused. With
+ * coarse permission fused runs in low power mode and never starts GPS, so a
+ * standalone watch gets nothing from either; GPS is the last resort.
  */
 @SuppressLint("MissingPermission") // only called once the permission is granted
 private fun Context.fetchLocation(onResult: (GeoPoint) -> Unit) {
     val manager = getSystemService(LocationManager::class.java) ?: return
-    val providers = listOf(LocationManager.FUSED_PROVIDER, LocationManager.NETWORK_PROVIDER, LocationManager.GPS_PROVIDER)
+    manager.getProviders(true)
+        .mapNotNull { manager.getLastKnownLocation(it) }
+        .maxByOrNull { it.time }
+        ?.let { onResult(GeoPoint(it.latitude, it.longitude)) }
+
+    val providers = listOf(LocationManager.NETWORK_PROVIDER, LocationManager.FUSED_PROVIDER, LocationManager.GPS_PROVIDER)
         .filter { it in manager.allProviders && manager.isProviderEnabled(it) }
 
     fun tryProvider(index: Int) {
-        if (index == providers.size) {
-            manager.getProviders(true)
-                .mapNotNull { manager.getLastKnownLocation(it) }
-                .maxByOrNull { it.time }
-                ?.let { onResult(GeoPoint(it.latitude, it.longitude)) }
-            return
-        }
+        if (index == providers.size) return
         val callback = Consumer<Location?> { fix ->
             if (fix != null) onResult(GeoPoint(fix.latitude, fix.longitude)) else tryProvider(index + 1)
         }

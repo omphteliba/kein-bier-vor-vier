@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cream on top, beer below - like the watch face. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="24dp" />
+    <gradient
+        android:angle="270"
+        android:centerColor="#FFFDF6E3"
+        android:endColor="#FFE89A00"
+        android:startColor="#FFFDF6E3" />
+</shape>

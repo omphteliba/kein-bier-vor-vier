@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">5 O\'Clock Somewhere</string>
+    <string name="edition_vier" translatable="false">Kein Bier vor Vier</string>
+    <string name="edition_five" translatable="false">5 O\'Clock Somewhere</string>
+    <string name="coming_up">Coming up</string>
+    <string name="add_widget">Add widget to home screen</string>
+    <string name="widget_description">Where it\'s beer o\'clock right now</string>
+    <string name="widget_next">Next: %1$s at %2$s</string>
+</resources>
