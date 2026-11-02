@@ -1,0 +1,885 @@
+{
+  "_comment": "Places and breweries for both apps. A small selection, no claim to completeness. Edit here, then run tools/make_spots.py. Sources: docs/beer-sources.md",
+  "spots": [
+    {
+      "city": "Kiritimati",
+      "zone": "Pacific/Kiritimati",
+      "country": "KI",
+      "lat": 1.87,
+      "lon": -157.43,
+      "short": "Kiriti",
+      "breweries": []
+    },
+    {
+      "city": "Chatham-Inseln",
+      "zone": "Pacific/Chatham",
+      "country": "NZ",
+      "lat": -43.95,
+      "lon": -176.56,
+      "cityEn": "Chatham Islands",
+      "shortEn": "Chatham",
+      "short": "Chatham",
+      "breweries": []
+    },
+    {
+      "city": "Nukuʻalofa",
+      "zone": "Pacific/Tongatapu",
+      "country": "TO",
+      "lat": -21.14,
+      "lon": -175.2,
+      "short": "Tonga",
+      "breweries": [
+        {
+          "name": "Tonga Breweries"
+        }
+      ]
+    },
+    {
+      "city": "Auckland",
+      "zone": "Pacific/Auckland",
+      "country": "NZ",
+      "lat": -36.85,
+      "lon": 174.76,
+      "short": "Auckld",
+      "breweries": [
+        {
+          "name": "Garage Project",
+          "town": "Wellington",
+          "lat": -41.29,
+          "lon": 174.77,
+          "website": "https://www.garageproject.co.nz"
+        },
+        {
+          "name": "Lion"
+        }
+      ]
+    },
+    {
+      "city": "Suva",
+      "zone": "Pacific/Fiji",
+      "country": "FJ",
+      "lat": -18.14,
+      "lon": 178.44,
+      "breweries": [
+        {
+          "name": "Carlton Brewery Fiji"
+        }
+      ]
+    },
+    {
+      "city": "Nouméa",
+      "zone": "Pacific/Noumea",
+      "country": "NC",
+      "lat": -22.27,
+      "lon": 166.46,
+      "breweries": [
+        {
+          "name": "Grande Brasserie de Nouvelle-Calédonie"
+        }
+      ]
+    },
+    {
+      "city": "Lord Howe",
+      "zone": "Australia/Lord_Howe",
+      "country": "AU",
+      "lat": -31.55,
+      "lon": 159.08,
+      "short": "L. Howe",
+      "breweries": []
+    },
+    {
+      "city": "Sydney",
+      "zone": "Australia/Sydney",
+      "country": "AU",
+      "lat": -33.87,
+      "lon": 151.21,
+      "breweries": [
+        {
+          "name": "Young Henrys",
+          "town": "Newtown",
+          "lat": -33.9,
+          "lon": 151.18,
+          "website": "https://www.younghenrys.com"
+        },
+        {
+          "name": "Tooheys"
+        }
+      ]
+    },
+    {
+      "city": "Brisbane",
+      "zone": "Australia/Brisbane",
+      "country": "AU",
+      "lat": -27.47,
+      "lon": 153.03,
+      "short": "Brisb.",
+      "breweries": [
+        {
+          "name": "Castlemaine Perkins"
+        }
+      ]
+    },
+    {
+      "city": "Adelaide",
+      "zone": "Australia/Adelaide",
+      "country": "AU",
+      "lat": -34.93,
+      "lon": 138.6,
+      "short": "Adel.",
+      "breweries": [
+        {
+          "name": "Coopers"
+        }
+      ]
+    },
+    {
+      "city": "Darwin",
+      "zone": "Australia/Darwin",
+      "country": "AU",
+      "lat": -12.46,
+      "lon": 130.84,
+      "breweries": [
+        {
+          "name": "One Mile Brewery",
+          "town": "Winnellie",
+          "lat": -12.43,
+          "lon": 130.88,
+          "website": "https://www.onemilebrewery.com.au"
+        }
+      ]
+    },
+    {
+      "city": "Tokio",
+      "zone": "Asia/Tokyo",
+      "country": "JP",
+      "lat": 35.68,
+      "lon": 139.69,
+      "cityEn": "Tokyo",
+      "breweries": [
+        {
+          "name": "Kiuchi Brewery",
+          "town": "Naka",
+          "lat": 36.46,
+          "lon": 140.49
+        },
+        {
+          "name": "Asahi"
+        }
+      ]
+    },
+    {
+      "city": "Eucla",
+      "zone": "Australia/Eucla",
+      "country": "AU",
+      "lat": -31.68,
+      "lon": 128.88,
+      "breweries": []
+    },
+    {
+      "city": "Shanghai",
+      "zone": "Asia/Shanghai",
+      "country": "CN",
+      "lat": 31.23,
+      "lon": 121.47,
+      "cityEn": "Shanghai",
+      "shortEn": "Beijing",
+      "short": "Peking",
+      "breweries": [
+        {
+          "name": "Tsingtao Brewery"
+        }
+      ]
+    },
+    {
+      "city": "Bangkok",
+      "zone": "Asia/Bangkok",
+      "country": "TH",
+      "lat": 13.76,
+      "lon": 100.5,
+      "breweries": [
+        {
+          "name": "Full Moon Brewworks",
+          "town": "Phuket",
+          "lat": 7.88,
+          "lon": 98.39
+        },
+        {
+          "name": "Boon Rawd"
+        }
+      ]
+    },
+    {
+      "city": "Yangon",
+      "zone": "Asia/Yangon",
+      "country": "MM",
+      "lat": 16.87,
+      "lon": 96.2,
+      "breweries": [
+        {
+          "name": "Myanmar Brewery"
+        }
+      ]
+    },
+    {
+      "city": "Dhaka",
+      "zone": "Asia/Dhaka",
+      "country": "BD",
+      "lat": 23.81,
+      "lon": 90.41,
+      "breweries": []
+    },
+    {
+      "city": "Kathmandu",
+      "zone": "Asia/Kathmandu",
+      "country": "NP",
+      "lat": 27.72,
+      "lon": 85.32,
+      "short": "Nepal",
+      "breweries": [
+        {
+          "name": "Sherpa Brewery",
+          "town": "Chitwan",
+          "lat": 27.68,
+          "lon": 84.43,
+          "website": "https://sherpabrewery.com.np"
+        },
+        {
+          "name": "Mount Everest Brewery"
+        }
+      ]
+    },
+    {
+      "city": "Mumbai",
+      "zone": "Asia/Kolkata",
+      "country": "IN",
+      "lat": 19.08,
+      "lon": 72.88,
+      "breweries": [
+        {
+          "name": "Gateway Brewing Co."
+        },
+        {
+          "name": "United Breweries"
+        }
+      ]
+    },
+    {
+      "city": "Karatschi",
+      "zone": "Asia/Karachi",
+      "country": "PK",
+      "lat": 24.86,
+      "lon": 67.01,
+      "cityEn": "Karachi",
+      "shortEn": "Lahore",
+      "short": "Lahore",
+      "breweries": [
+        {
+          "name": "Murree Brewery",
+          "town": "Rawalpindi",
+          "lat": 33.6,
+          "lon": 73.05
+        }
+      ]
+    },
+    {
+      "city": "Kabul",
+      "zone": "Asia/Kabul",
+      "country": "AF",
+      "lat": 34.56,
+      "lon": 69.21,
+      "breweries": []
+    },
+    {
+      "city": "Dubai",
+      "zone": "Asia/Dubai",
+      "country": "AE",
+      "lat": 25.2,
+      "lon": 55.27,
+      "breweries": []
+    },
+    {
+      "city": "Teheran",
+      "zone": "Asia/Tehran",
+      "country": "IR",
+      "lat": 35.69,
+      "lon": 51.39,
+      "breweries": []
+    },
+    {
+      "city": "Moskau",
+      "zone": "Europe/Moscow",
+      "country": "RU",
+      "lat": 55.76,
+      "lon": 37.62,
+      "cityEn": "Moscow",
+      "breweries": [
+        {
+          "name": "Baltika"
+        }
+      ]
+    },
+    {
+      "city": "Nairobi",
+      "zone": "Africa/Nairobi",
+      "country": "KE",
+      "lat": -1.29,
+      "lon": 36.82,
+      "breweries": [
+        {
+          "name": "East African Breweries"
+        }
+      ]
+    },
+    {
+      "city": "Athen",
+      "zone": "Europe/Athens",
+      "country": "GR",
+      "lat": 37.98,
+      "lon": 23.73,
+      "cityEn": "Athens",
+      "breweries": [
+        {
+          "name": "Noctua"
+        },
+        {
+          "name": "Mythos Brewery"
+        }
+      ]
+    },
+    {
+      "city": "Kairo",
+      "zone": "Africa/Cairo",
+      "country": "EG",
+      "lat": 30.04,
+      "lon": 31.24,
+      "cityEn": "Cairo",
+      "breweries": [
+        {
+          "name": "Al Ahram Beverages"
+        }
+      ]
+    },
+    {
+      "city": "München",
+      "zone": "Europe/Berlin",
+      "country": "DE",
+      "lat": 48.14,
+      "lon": 11.58,
+      "cityEn": "Munich",
+      "breweries": [
+        {
+          "name": "Kirner Privatbrauerei",
+          "town": "Kirn",
+          "lat": 49.79,
+          "lon": 7.46,
+          "website": "https://www.kirner-bier.de"
+        },
+        {
+          "name": "Kuehn Kunz Rosen",
+          "town": "Mainz",
+          "lat": 49.99,
+          "lon": 8.27,
+          "website": "https://kuehnkunzrosen.de"
+        },
+        {
+          "name": "Sudden Death Brewing",
+          "town": "Lübeck",
+          "lat": 53.87,
+          "lon": 10.69,
+          "website": "https://suddendeathbrewing.de"
+        },
+        {
+          "name": "Orca Brau",
+          "town": "Nürnberg",
+          "townEn": "Nuremberg",
+          "lat": 49.45,
+          "lon": 11.04
+        },
+        {
+          "name": "Privatbrauerei Sander",
+          "town": "Worms",
+          "lat": 49.63,
+          "lon": 8.36,
+          "website": "https://brauerei-sander.de"
+        },
+        {
+          "name": "Wormser Hagenbräu",
+          "town": "Worms",
+          "lat": 49.63,
+          "lon": 8.37,
+          "website": "https://www.hagenbraeu.de"
+        },
+        {
+          "name": "Schwarze Rose",
+          "town": "Mainz",
+          "lat": 50.0,
+          "lon": 8.26,
+          "website": "https://sr-cb.de"
+        },
+        {
+          "name": "Fuerst Wiacek",
+          "town": "Berlin",
+          "lat": 52.54,
+          "lon": 13.27,
+          "website": "https://fuerstwiacek.com"
+        },
+        {
+          "name": "Yankee & Kraut",
+          "town": "Ingolstadt",
+          "lat": 48.77,
+          "lon": 11.43,
+          "website": "https://www.yankeeundkraut.de"
+        },
+        {
+          "name": "Brauerei Lemke",
+          "town": "Berlin",
+          "lat": 52.52,
+          "lon": 13.4,
+          "website": "https://www.lemke.berlin"
+        },
+        {
+          "name": "Still Brewing Society",
+          "town": "Mannheim",
+          "lat": 49.49,
+          "lon": 8.47
+        },
+        {
+          "name": "Giesinger Bräu",
+          "town": "München",
+          "townEn": "Munich",
+          "lat": 48.11,
+          "lon": 11.58
+        },
+        {
+          "name": "Augustiner-Bräu",
+          "town": "München",
+          "townEn": "Munich",
+          "lat": 48.14,
+          "lon": 11.55,
+          "website": "https://www.augustiner-braeu.de"
+        }
+      ]
+    },
+    {
+      "city": "Paris",
+      "zone": "Europe/Paris",
+      "country": "FR",
+      "lat": 48.86,
+      "lon": 2.35,
+      "breweries": [
+        {
+          "name": "Paname Brewing Company",
+          "town": "Paris",
+          "lat": 48.89,
+          "lon": 2.38,
+          "website": "https://www.panamebrewingcompany.com"
+        },
+        {
+          "name": "Brasserie Sainte Cru",
+          "town": "Colmar",
+          "lat": 48.1,
+          "lon": 7.36
+        },
+        {
+          "name": "Les Intenables",
+          "town": "Rosheim",
+          "lat": 48.5,
+          "lon": 7.47
+        },
+        {
+          "name": "Brasserie Galibot",
+          "town": "Forbach",
+          "lat": 49.19,
+          "lon": 6.9,
+          "website": "https://brasserie-galibot.com"
+        },
+        {
+          "name": "Mogwaï Beer Company",
+          "town": "Mundolsheim",
+          "lat": 48.64,
+          "lon": 7.71,
+          "website": "https://www.mogwaibeercompany.fr"
+        }
+      ]
+    },
+    {
+      "city": "Brüssel",
+      "zone": "Europe/Brussels",
+      "country": "BE",
+      "lat": 50.85,
+      "lon": 4.35,
+      "cityEn": "Brussels",
+      "shortEn": "BXL",
+      "breweries": [
+        {
+          "name": "Brasserie Cantillon",
+          "website": "https://www.cantillon.be"
+        }
+      ]
+    },
+    {
+      "city": "Lagos",
+      "zone": "Africa/Lagos",
+      "country": "NG",
+      "lat": 6.52,
+      "lon": 3.38,
+      "breweries": [
+        {
+          "name": "Nigerian Breweries"
+        }
+      ]
+    },
+    {
+      "city": "Dublin",
+      "zone": "Europe/Dublin",
+      "country": "IE",
+      "lat": 53.35,
+      "lon": -6.26,
+      "breweries": [
+        {
+          "name": "Whiplash",
+          "town": "Ballyfermot",
+          "lat": 53.34,
+          "lon": -6.36
+        },
+        {
+          "name": "Guinness"
+        }
+      ]
+    },
+    {
+      "city": "Lissabon",
+      "zone": "Europe/Lisbon",
+      "country": "PT",
+      "lat": 38.72,
+      "lon": -9.14,
+      "cityEn": "Lisbon",
+      "short": "Lisboa",
+      "breweries": [
+        {
+          "name": "Dois Corvos",
+          "website": "https://www.doiscorvos.pt"
+        },
+        {
+          "name": "Super Bock Group",
+          "town": "Leça do Balio",
+          "lat": 41.21,
+          "lon": -8.63
+        }
+      ]
+    },
+    {
+      "city": "Reykjavík",
+      "zone": "Atlantic/Reykjavik",
+      "country": "IS",
+      "lat": 64.15,
+      "lon": -21.94,
+      "cityEn": "Reykjavík",
+      "shortEn": "Iceland",
+      "short": "Island",
+      "breweries": [
+        {
+          "name": "Einstök Ölgerð",
+          "town": "Akureyri",
+          "lat": 65.68,
+          "lon": -18.09,
+          "website": "https://einstokbeer.com"
+        }
+      ]
+    },
+    {
+      "city": "Azoren",
+      "zone": "Atlantic/Azores",
+      "country": "PT",
+      "lat": 37.74,
+      "lon": -25.67,
+      "cityEn": "Azores",
+      "breweries": [
+        {
+          "name": "Melo Abreu",
+          "town": "Ponta Delgada",
+          "lat": 37.74,
+          "lon": -25.67,
+          "website": "https://www.meloabreu.pt"
+        }
+      ]
+    },
+    {
+      "city": "Praia",
+      "zone": "Atlantic/Cape_Verde",
+      "country": "CV",
+      "lat": 14.93,
+      "lon": -23.51,
+      "breweries": [
+        {
+          "name": "Sociedade Cabo-verdiana de Cerveja"
+        }
+      ]
+    },
+    {
+      "city": "Südgeorgien",
+      "zone": "Atlantic/South_Georgia",
+      "country": "GS",
+      "lat": -54.28,
+      "lon": -36.51,
+      "cityEn": "South Georgia",
+      "shortEn": "S.Georg",
+      "short": "Südgeo.",
+      "breweries": []
+    },
+    {
+      "city": "Fernando de Noronha",
+      "zone": "America/Noronha",
+      "country": "BR",
+      "lat": -3.85,
+      "lon": -32.42,
+      "short": "Noronha",
+      "breweries": [
+        {
+          "name": "Ambev"
+        }
+      ]
+    },
+    {
+      "city": "São Paulo",
+      "zone": "America/Sao_Paulo",
+      "country": "BR",
+      "lat": -23.55,
+      "lon": -46.63,
+      "short": "Rio",
+      "breweries": [
+        {
+          "name": "Cervejaria Dogma",
+          "website": "https://cervejariadogma.com.br"
+        },
+        {
+          "name": "Ambev"
+        }
+      ]
+    },
+    {
+      "city": "Buenos Aires",
+      "zone": "America/Argentina/Buenos_Aires",
+      "country": "AR",
+      "lat": -34.6,
+      "lon": -58.38,
+      "short": "B.Aires",
+      "breweries": [
+        {
+          "name": "Cervecería Quilmes"
+        }
+      ]
+    },
+    {
+      "city": "St. John's",
+      "zone": "America/St_Johns",
+      "country": "CA",
+      "lat": 47.56,
+      "lon": -52.71,
+      "short": "St.John",
+      "breweries": [
+        {
+          "name": "Quidi Vidi Brewing"
+        }
+      ]
+    },
+    {
+      "city": "Halifax",
+      "zone": "America/Halifax",
+      "country": "CA",
+      "lat": 44.65,
+      "lon": -63.57,
+      "breweries": [
+        {
+          "name": "Garrison Brewing",
+          "website": "https://www.garrisonbrewing.com"
+        },
+        {
+          "name": "Labatt"
+        }
+      ]
+    },
+    {
+      "city": "Caracas",
+      "zone": "America/Caracas",
+      "country": "VE",
+      "lat": 10.48,
+      "lon": -66.9,
+      "breweries": [
+        {
+          "name": "Cervecería Polar"
+        }
+      ]
+    },
+    {
+      "city": "New York",
+      "zone": "America/New_York",
+      "country": "US",
+      "lat": 40.71,
+      "lon": -74.01,
+      "short": "NYC",
+      "breweries": [
+        {
+          "name": "Other Half Brewing",
+          "town": "Brooklyn",
+          "lat": 40.68,
+          "lon": -74.0,
+          "website": "https://otherhalfbrewing.com"
+        },
+        {
+          "name": "Brooklyn Brewery",
+          "town": "Brooklyn",
+          "lat": 40.72,
+          "lon": -73.96
+        }
+      ]
+    },
+    {
+      "city": "Chicago",
+      "zone": "America/Chicago",
+      "country": "US",
+      "lat": 41.88,
+      "lon": -87.63,
+      "breweries": [
+        {
+          "name": "Half Acre",
+          "website": "https://halfacrebeer.com"
+        }
+      ]
+    },
+    {
+      "city": "Mexiko-Stadt",
+      "zone": "America/Mexico_City",
+      "country": "MX",
+      "lat": 19.43,
+      "lon": -99.13,
+      "cityEn": "Mexico City",
+      "shortEn": "Mexico",
+      "short": "Mexiko",
+      "breweries": [
+        {
+          "name": "Grupo Modelo"
+        }
+      ]
+    },
+    {
+      "city": "Denver",
+      "zone": "America/Denver",
+      "country": "US",
+      "lat": 39.74,
+      "lon": -104.99,
+      "breweries": [
+        {
+          "name": "Great Divide",
+          "website": "https://greatdivide.com"
+        },
+        {
+          "name": "Coors",
+          "town": "Golden",
+          "lat": 39.76,
+          "lon": -105.22
+        }
+      ]
+    },
+    {
+      "city": "Phoenix",
+      "zone": "America/Phoenix",
+      "country": "US",
+      "lat": 33.45,
+      "lon": -112.07,
+      "breweries": [
+        {
+          "name": "Arizona Wilderness"
+        }
+      ]
+    },
+    {
+      "city": "Los Angeles",
+      "zone": "America/Los_Angeles",
+      "country": "US",
+      "lat": 34.05,
+      "lon": -118.24,
+      "short": "L.A.",
+      "breweries": [
+        {
+          "name": "Highland Park Brewery",
+          "website": "https://hpb.la"
+        }
+      ]
+    },
+    {
+      "city": "Anchorage",
+      "zone": "America/Anchorage",
+      "country": "US",
+      "lat": 61.22,
+      "lon": -149.9,
+      "short": "Alaska",
+      "breweries": [
+        {
+          "name": "Alaskan Brewing",
+          "town": "Juneau",
+          "lat": 58.36,
+          "lon": -134.58,
+          "website": "https://www.alaskanbeer.com"
+        }
+      ]
+    },
+    {
+      "city": "Gambierinseln",
+      "zone": "Pacific/Gambier",
+      "country": "PF",
+      "lat": -23.12,
+      "lon": -134.97,
+      "cityEn": "Gambier Islands",
+      "shortEn": "Gambier",
+      "short": "Gambier",
+      "breweries": [
+        {
+          "name": "Brasserie de Tahiti",
+          "town": "Papeete",
+          "lat": -17.54,
+          "lon": -149.57
+        }
+      ]
+    },
+    {
+      "city": "Marquesas",
+      "zone": "Pacific/Marquesas",
+      "country": "PF",
+      "lat": -8.91,
+      "lon": -140.1,
+      "short": "Marq.",
+      "breweries": [
+        {
+          "name": "Brasserie de Tahiti",
+          "town": "Papeete",
+          "lat": -17.54,
+          "lon": -149.57
+        }
+      ]
+    },
+    {
+      "city": "Honolulu",
+      "zone": "Pacific/Honolulu",
+      "country": "US",
+      "lat": 21.31,
+      "lon": -157.86,
+      "short": "Hawaii",
+      "breweries": [
+        {
+          "name": "Honolulu Beerworks",
+          "website": "https://www.honolulubeerworks.com"
+        }
+      ]
+    },
+    {
+      "city": "Pago Pago",
+      "zone": "Pacific/Pago_Pago",
+      "country": "AS",
+      "lat": -14.28,
+      "lon": -170.7,
+      "short": "Samoa",
+      "breweries": []
+    }
+  ]
+}

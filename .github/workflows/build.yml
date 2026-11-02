@@ -24,6 +24,9 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
+      - name: Generated data is up to date
+        run: python3 tools/make_spots.py --check
+
       - name: Test and build
         run: ./gradlew :core:test :phone:assembleDebug :wear:assembleDebug :watchface:assembleDebug
 
