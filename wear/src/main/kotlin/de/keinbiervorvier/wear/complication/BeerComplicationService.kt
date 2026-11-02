@@ -11,6 +11,9 @@ import androidx.wear.watchface.complications.data.LongTextComplicationData
 import androidx.wear.watchface.complications.data.MonochromaticImage
 import androidx.wear.watchface.complications.data.PlainComplicationText
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
+import androidx.wear.watchface.complications.data.SmallImage
+import androidx.wear.watchface.complications.data.SmallImageComplicationData
+import androidx.wear.watchface.complications.data.SmallImageType
 import androidx.wear.watchface.complications.data.TimeDifferenceComplicationText
 import androidx.wear.watchface.complications.data.TimeDifferenceStyle
 import androidx.wear.watchface.complications.datasource.ComplicationDataTimeline
@@ -66,21 +69,31 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
     private fun build(type: ComplicationType, spot: BeerSpot, next: BeerSpot, nextAt: Instant): ComplicationData? {
         val description = PlainComplicationText.Builder(getString(R.string.complication_description, spot.city)).build()
         return when (type) {
-            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(plain(spot.shortName), description)
-                .setTitle(plain(spot.flag))
-                .setMonochromaticImage(icon())
+            ComplicationType.SMALL_IMAGE -> SmallImageComplicationData.Builder(flagImage(spot), description)
                 .setTapAction(openApp())
                 .build()
 
-            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain("${spot.flag} ${spot.city}"), description)
+            // Watch faces tint complication text, which turns a flag emoji into a white
+            // blob, so text slots get the short name and the flag only as a colour image.
+            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(plain(spot.shortName), description)
+                .setMonochromaticImage(icon())
+                .setSmallImage(flagImage(spot))
+                .setTapAction(openApp())
+                .build()
+
+            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain(spot.city), description)
                 .setTitle(countdown(next.city, nextAt))
                 .setMonochromaticImage(icon())
+                .setSmallImage(flagImage(spot))
                 .setTapAction(openApp())
                 .build()
 
             else -> null
         }
     }
+
+    private fun flagImage(spot: BeerSpot): SmallImage =
+        SmallImage.Builder(Icon.createWithBitmap(renderFlag(spot.flag)), SmallImageType.PHOTO).build()
 
     private fun plain(text: String): ComplicationText = PlainComplicationText.Builder(text).build()
 

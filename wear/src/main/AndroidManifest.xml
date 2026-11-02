@@ -35,7 +35,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.support.wearable.complications.SUPPORTED_TYPES"
-                android:value="SHORT_TEXT,LONG_TEXT" />
+                android:value="SMALL_IMAGE,SHORT_TEXT,LONG_TEXT" />
             <!-- The 24h timeline does the switching; this just keeps it topped up. -->
             <meta-data
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
