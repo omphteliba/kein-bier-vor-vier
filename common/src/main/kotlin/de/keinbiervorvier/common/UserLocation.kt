@@ -1,9 +1,11 @@
-package de.keinbiervorvier.wear
+package de.keinbiervorvier.common
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
+import android.os.CancellationSignal
 import android.location.LocationManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,6 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
+import androidx.core.util.Consumer
 import de.keinbiervorvier.core.GeoPoint
 import kotlinx.coroutines.delay
 
@@ -61,7 +65,7 @@ private fun Context.hasLocationPermission() =
 @SuppressLint("MissingPermission") // only called once the permission is granted
 private fun Context.fetchLocation(onResult: (GeoPoint) -> Unit) {
     val manager = getSystemService(LocationManager::class.java) ?: return
-    val providers = listOf(LocationManager.FUSED_PROVIDER, LocationManager.GPS_PROVIDER)
+    val providers = listOf(LocationManager.FUSED_PROVIDER, LocationManager.NETWORK_PROVIDER, LocationManager.GPS_PROVIDER)
         .filter { it in manager.allProviders && manager.isProviderEnabled(it) }
 
     fun tryProvider(index: Int) {
@@ -72,9 +76,10 @@ private fun Context.fetchLocation(onResult: (GeoPoint) -> Unit) {
                 ?.let { onResult(GeoPoint(it.latitude, it.longitude)) }
             return
         }
-        manager.getCurrentLocation(providers[index], null, mainExecutor) { fix ->
+        val callback = Consumer<Location?> { fix ->
             if (fix != null) onResult(GeoPoint(fix.latitude, fix.longitude)) else tryProvider(index + 1)
         }
+        LocationManagerCompat.getCurrentLocation(manager, providers[index], null as CancellationSignal?, ContextCompat.getMainExecutor(this), callback)
     }
     tryProvider(0)
 }

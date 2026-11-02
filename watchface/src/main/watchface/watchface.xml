@@ -186,14 +186,14 @@
             <Text align="CENTER">
                 <Font family="SYNC_TO_DEVICE" size="{{TITLE_SIZE}}" weight="BOLD" color="#FFC62828"><![CDATA[{{TITLE_TOP}}]]></Font>
             </Text>
-            <Launch target="de.keinbiervorvier.wear/de.keinbiervorvier.wear.MainActivity" />
+            <Launch target="{{LAUNCH}}" />
         </PartText>
         <PartText x="45" y="268" width="360" height="46">
             <Variant mode="AMBIENT" target="alpha" value="0" />
             <Text align="CENTER">
                 <Font family="SYNC_TO_DEVICE" size="{{TITLE_SIZE}}" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{TITLE_BOTTOM}}]]></Font>
             </Text>
-            <Launch target="de.keinbiervorvier.wear/de.keinbiervorvier.wear.MainActivity" />
+            <Launch target="{{LAUNCH}}" />
         </PartText>
 
         <!-- Flag of the place where it is beer o'clock right now, in colour. -->

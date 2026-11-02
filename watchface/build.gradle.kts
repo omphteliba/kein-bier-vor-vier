@@ -10,6 +10,7 @@ val editions = mapOf(
         "TITLE_BOTTOM" to "VOR VIER",
         "TITLE_SIZE" to "40",
         "PROVIDER" to "de.keinbiervorvier.wear/de.keinbiervorvier.wear.complication.KeinBierVorVierComplicationService",
+        "LAUNCH" to "de.keinbiervorvier.wear/de.keinbiervorvier.wear.VierActivity",
     ),
     "five" to mapOf(
         "DIGIT" to "5",
@@ -17,6 +18,7 @@ val editions = mapOf(
         "TITLE_BOTTOM" to "SOMEWHERE",
         "TITLE_SIZE" to "34",
         "PROVIDER" to "de.keinbiervorvier.wear/de.keinbiervorvier.wear.complication.FiveOClockComplicationService",
+        "LAUNCH" to "de.keinbiervorvier.wear/de.keinbiervorvier.wear.FiveActivity",
     ),
 )
 

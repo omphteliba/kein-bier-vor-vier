@@ -3,8 +3,6 @@
 
     <uses-feature android:name="android.hardware.type.watch" />
 
-    <!-- City-level accuracy is plenty for "how far away is the beer". -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,12 +16,23 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Launch targets for the watch faces, which can't pass the edition as an extra. -->
+        <activity-alias
+            android:name=".VierActivity"
+            android:exported="true"
+            android:targetActivity=".MainActivity" />
+        <activity-alias
+            android:name=".FiveActivity"
+            android:exported="true"
+            android:targetActivity=".MainActivity" />
         <service
             android:name=".complication.KeinBierVorVierComplicationService"
             android:exported="true"

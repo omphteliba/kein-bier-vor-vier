@@ -2,14 +2,6 @@
 <resources>
     <string name="app_name">5 O\'Clock Somewhere</string>
 
-    <string name="now_in">🍺 It\'s 5 p.m. in</string>
-    <string name="since_minutes">for %1$d min</string>
-    <string name="you_are_there">You\'re there! 🍻</string>
-    <string name="no_local_beer">No local beer</string>
-    <string name="bring_your_own">Bring your own 🎒</string>
-    <string name="next_round">Next round</string>
-    <string name="next_in">%1$s in %2$s</string>
-
     <!-- The sayings are names, so they stay as they are in every language. -->
     <string name="complication_label_vier" translatable="false">Kein Bier vor Vier</string>
     <string name="complication_label_five" translatable="false">5 O\'Clock Somewhere</string>

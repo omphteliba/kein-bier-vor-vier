@@ -1,5 +1,6 @@
 package de.keinbiervorvier.wear
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,6 +33,11 @@ import de.keinbiervorvier.core.BeerStatus
 import de.keinbiervorvier.core.Edition
 import de.keinbiervorvier.core.GeoPoint
 import de.keinbiervorvier.core.formatDistance
+import de.keinbiervorvier.common.R as CommonR
+import de.keinbiervorvier.common.formatCountdown
+import de.keinbiervorvier.common.nowInRes
+import de.keinbiervorvier.common.requestedEdition
+import de.keinbiervorvier.common.rememberUserLocation
 import de.keinbiervorvier.wear.complication.refreshComplications
 import kotlinx.coroutines.delay
 import java.time.Duration
@@ -39,23 +45,33 @@ import java.time.Instant
 import java.util.Locale
 
 class MainActivity : ComponentActivity() {
+    private var edition by mutableStateOf(Edition.KEIN_BIER_VOR_VIER)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         refreshComplications()
+        edition = intent.requestedEdition(resources.configuration.locales[0])
         setContent {
             MaterialTheme {
                 AppScaffold {
                     ScreenScaffold {
-                        BeerScreen()
+                        BeerScreen(edition)
                     }
                 }
             }
         }
     }
+
+    // singleTask: a tap on a watch face while the app is open lands here.
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        edition = intent.requestedEdition(resources.configuration.locales[0])
+    }
 }
 
 @Composable
-fun BeerScreen() {
+fun BeerScreen(edition: Edition) {
     val locale = LocalConfiguration.current.locales[0]
     var now by remember { mutableStateOf(Instant.now()) }
     LaunchedEffect(Unit) {
@@ -65,11 +81,11 @@ fun BeerScreen() {
             now = Instant.now()
         }
     }
-    BeerStatusView(BeerClock.status(now, Edition.forLocale(locale)), rememberUserLocation(), locale)
+    BeerStatusView(BeerClock.status(now, edition), edition, rememberUserLocation(), locale)
 }
 
 @Composable
-fun BeerStatusView(status: BeerStatus, userLocation: GeoPoint?, locale: Locale) {
+fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?, locale: Locale) {
     val current = status.openNow.first()
     val distanceKm = userLocation?.distanceKmTo(current.spot.location)
     Column(
@@ -77,7 +93,7 @@ fun BeerStatusView(status: BeerStatus, userLocation: GeoPoint?, locale: Locale) 
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(stringResource(R.string.now_in), style = MaterialTheme.typography.labelMedium)
+        Text(stringResource(edition.nowInRes), style = MaterialTheme.typography.labelMedium)
         Text(
             buildAnnotatedString {
                 append("${current.spot.flag} ${current.spot.city(locale)}")
@@ -94,35 +110,30 @@ fun BeerStatusView(status: BeerStatus, userLocation: GeoPoint?, locale: Locale) 
         )
         Text(
             listOfNotNull(
-                stringResource(R.string.since_minutes, current.minutesIn),
-                distanceKm?.let { formatDistance(it, locale) ?: stringResource(R.string.you_are_there) },
+                stringResource(CommonR.string.since_minutes, current.minutesIn),
+                distanceKm?.let { formatDistance(it, locale) ?: stringResource(CommonR.string.you_are_there) },
             ).joinToString(" · "),
             style = MaterialTheme.typography.bodySmall,
         )
         Spacer(Modifier.height(6.dp))
         val beer = current.spot.beer
         Text(
-            beer?.name ?: stringResource(R.string.no_local_beer),
+            beer?.name ?: stringResource(CommonR.string.no_local_beer),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
         Text(
-            beer?.style ?: stringResource(R.string.bring_your_own),
+            beer?.style ?: stringResource(CommonR.string.bring_your_own),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(Modifier.height(10.dp))
-        Text(stringResource(R.string.next_round), style = MaterialTheme.typography.labelSmall)
+        Text(stringResource(CommonR.string.next_round), style = MaterialTheme.typography.labelSmall)
         val next = status.next.spots.first()
         Text(
-            stringResource(R.string.next_in, "${next.flag} ${next.city(locale)}", formatCountdown(status.next.countdown)),
+            stringResource(CommonR.string.next_in, "${next.flag} ${next.city(locale)}", formatCountdown(status.next.countdown)),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
     }
-}
-
-private fun formatCountdown(d: Duration): String {
-    val minutes = (d.toSeconds() + 59) / 60
-    return if (minutes < 60) "$minutes min" else "${minutes / 60} h ${minutes % 60} min"
 }

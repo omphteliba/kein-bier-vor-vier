@@ -21,6 +21,7 @@ import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import androidx.wear.watchface.complications.datasource.SuspendingTimelineComplicationDataSourceService
 import androidx.wear.watchface.complications.datasource.TimeInterval
 import androidx.wear.watchface.complications.datasource.TimelineEntry
+import de.keinbiervorvier.common.EXTRA_EDITION
 import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerSpot
 import de.keinbiervorvier.core.BeerSpots
@@ -115,11 +116,12 @@ abstract class BeerHourComplicationService(private val edition: Edition) :
 
     private fun icon() = MonochromaticImage.Builder(Icon.createWithResource(this, R.drawable.ic_beer)).build()
 
+    /** Opens the app on this complication's edition, whatever the watch's language. */
     private fun openApp(): PendingIntent = PendingIntent.getActivity(
         this,
-        0,
-        Intent(this, MainActivity::class.java),
-        PendingIntent.FLAG_IMMUTABLE,
+        edition.ordinal,
+        Intent(this, MainActivity::class.java).putExtra(EXTRA_EDITION, edition.name),
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
     )
 
     private companion object {

@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "kein-bier-vor-vier"
-include(":core", ":wear", ":watchface")
+include(":core", ":common", ":wear", ":watchface", ":phone")

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="now_in_vier">🍺 It\'s 4 p.m. in</string>
+    <string name="now_in_five">🍺 It\'s 5 p.m. in</string>
+    <string name="since_minutes">for %1$d min</string>
+    <string name="you_are_there">You\'re there! 🍻</string>
+    <string name="no_local_beer">No local beer</string>
+    <string name="bring_your_own">Bring your own 🎒</string>
+    <string name="next_round">Next round</string>
+    <string name="next_in">%1$s in %2$s</string>
+</resources>
