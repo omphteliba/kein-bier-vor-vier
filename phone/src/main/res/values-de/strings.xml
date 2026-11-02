@@ -11,4 +11,8 @@
     <string name="edition_vier_option">Kein Bier vor Vier (16 Uhr)</string>
     <string name="edition_five_option">5 O\'Clock Somewhere (17 Uhr)</string>
     <string name="close">Schließen</string>
+    <string name="tagline_vier">Irgendwo ist immer vier.</string>
+    <string name="tagline_five">Irgendwo ist immer fünf.</string>
+    <string name="local_beer">Lokales Bier</string>
+    <string name="drink_responsibly">Bitte verantwortungsvoll genießen 🍻</string>
 </resources>

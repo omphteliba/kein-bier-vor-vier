@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="#FFFFFFFF" />
-</shape>
+<!-- Foam crown between the cream glass and the beer, like on the watch face.
+     One path per bubble: overlapping subpaths in a single path would cancel out. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="28dp"
+    android:viewportWidth="200"
+    android:viewportHeight="28">
+    <path android:fillColor="#FFF6B400" android:pathData="M0,18 H200 V28 H0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M-9,14 a9,9 0 1,1 18,0 a9,9 0 1,1 -18,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M3,14 a11,11 0 1,1 22,0 a11,11 0 1,1 -22,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M22,14 a8,8 0 1,1 16,0 a8,8 0 1,1 -16,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M32,14 a12,12 0 1,1 24,0 a12,12 0 1,1 -24,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M53,14 a9,9 0 1,1 18,0 a9,9 0 1,1 -18,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M67,14 a11,11 0 1,1 22,0 a11,11 0 1,1 -22,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M87,14 a8,8 0 1,1 16,0 a8,8 0 1,1 -16,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M98,14 a12,12 0 1,1 24,0 a12,12 0 1,1 -24,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M119,14 a9,9 0 1,1 18,0 a9,9 0 1,1 -18,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M133,14 a11,11 0 1,1 22,0 a11,11 0 1,1 -22,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M152,14 a8,8 0 1,1 16,0 a8,8 0 1,1 -16,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M164,14 a12,12 0 1,1 24,0 a12,12 0 1,1 -24,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M184,14 a10,10 0 1,1 20,0 a10,10 0 1,1 -20,0 Z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M0,12 H200 V20 H0 Z" />
+</vector>

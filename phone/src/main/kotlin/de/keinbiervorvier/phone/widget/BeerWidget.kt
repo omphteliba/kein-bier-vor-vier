@@ -24,7 +24,11 @@ import androidx.glance.currentState
 import androidx.glance.action.clickable
 import androidx.glance.background
 import androidx.glance.layout.Alignment
+import androidx.glance.Image
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
+import androidx.glance.layout.ContentScale
+import androidx.glance.layout.size
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
@@ -106,13 +110,23 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                context.getString(edition.nowInRes),
-                style = TextStyle(color = BeerRed, fontSize = 13.sp, fontWeight = FontWeight.Bold),
+                context.getString(edition.nowInRes).uppercase(locale),
+                style = TextStyle(color = BeerRed, fontSize = 12.sp, fontWeight = FontWeight.Bold),
                 maxLines = 1,
             )
-            Text(current.flag, style = TextStyle(fontSize = 40.sp))
+            Box(
+                modifier = GlanceModifier.size(58.dp).background(ImageProvider(R.drawable.widget_coaster)),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(current.flag, style = TextStyle(fontSize = 30.sp))
+            }
         }
-        Spacer(GlanceModifier.fillMaxWidth().height(6.dp).background(ImageProvider(R.drawable.widget_foam)))
+        Image(
+            provider = ImageProvider(R.drawable.widget_foam),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
+            modifier = GlanceModifier.fillMaxWidth().height(22.dp).background(ImageProvider(R.drawable.widget_top_flat)),
+        )
         // Bottom: the beer, with the place in it.
         Column(
             modifier = GlanceModifier.fillMaxWidth().defaultWeight()
@@ -122,7 +136,7 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
         ) {
             Text(
                 current.city(locale),
-                style = TextStyle(color = Brown, fontSize = 20.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center),
+                style = TextStyle(color = Brown, fontSize = 22.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center),
                 maxLines = 1,
             )
             Text(
