@@ -21,7 +21,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
@@ -46,6 +49,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -57,6 +61,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -93,8 +102,8 @@ val Amber = Color(0xFFF6B400)
 val DarkAmber = Color(0xFFD98300)
 /** Text: warm grey, 90 % neutral grey with 10 % golden yellow (#FFD700) mixed in. */
 val Ink = Color(0xFF595540)
-/** Secondary text, same mix on a lighter grey; still readable on cream. */
-val InkSoft = Color(0xFF7D7963)
+/** Secondary text, same mix on a lighter grey: 5.3:1 on cream, 4.6:1 on [Foam] (WCAG AA). */
+val InkSoft = Color(0xFF6B6756)
 val BeerRed = Color(0xFFC62828)
 val Foam = Color(0xFFF3E7C9)
 
@@ -206,13 +215,14 @@ private fun Header(edition: Edition, now: Instant, onSettings: () -> Unit) {
         MiniDial(
             digit = edition.hour - 12,
             time = now.atZone(ZoneId.systemDefault()).toLocalTime(),
-            modifier = Modifier.size(52.dp),
+            modifier = Modifier.size(52.dp).clearAndSetSemantics {}, // decoration
         )
         Column(Modifier.weight(1f).padding(start = 14.dp)) {
             Text(
                 stringResource(R.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Black,
+                modifier = Modifier.semantics { heading() },
             )
             Text(
                 stringResource(if (edition == Edition.KEIN_BIER_VOR_VIER) R.string.tagline_vier else R.string.tagline_five),
@@ -227,26 +237,38 @@ private fun Header(edition: Edition, now: Instant, onSettings: () -> Unit) {
 }
 
 /** The hero: a glass of beer with the flag above the foam and the place in the beer. */
+@OptIn(ExperimentalLayoutApi::class) // FlowRow
 @Composable
 private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoint?, locale: Locale) {
     val context = LocalContext.current
     val current = status.openNow.first()
     val distance = userLocation?.distanceKmTo(current.spot.location)
         ?.let { formatDistance(it, locale) ?: stringResource(CommonR.string.you_are_there) }
+    // The foam sits wherever the top part ends, so it moves down with large font sizes.
+    var foamAt by remember { mutableIntStateOf(0) }
+    val saying = stringResource(edition.nowInRes)
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(10.dp, CardShape, ambientColor = DarkAmber, spotColor = DarkAmber)
             .clip(CardShape)
-            .beerGlass(foamAt = GLASS_FOAM_AT),
+            .beerGlass(foamAtPx = foamAt.toFloat())
+            // One unit for TalkBack: "It's 4 p.m. in, flag: Iran, Teheran, Iran, ..."
+            .clickable(onClickLabel = stringResource(R.string.show_on_map)) { context.openInMaps(current.spot) },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(
-            modifier = Modifier.height(GLASS_FOAM_AT).padding(top = 22.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = GLASS_FOAM_AT)
+                .onSizeChanged { foamAt = it.height }
+                .padding(top = 22.dp, bottom = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                stringResource(edition.nowInRes).uppercase(locale),
+                saying.uppercase(locale),
+                modifier = Modifier.semantics { contentDescription = saying },
+                textAlign = TextAlign.Center,
                 color = Ink,
                 fontFamily = Aleo,
                 fontWeight = FontWeight.Black,
@@ -257,10 +279,7 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
             FlagCoaster(current.spot.flag)
         }
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClickLabel = stringResource(R.string.show_on_map)) { context.openInMaps(current.spot) }
-                .padding(start = 20.dp, end = 20.dp, top = 22.dp, bottom = 24.dp),
+            modifier = Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp, top = 22.dp, bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -272,16 +291,21 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
                 color = Ink,
                 textAlign = TextAlign.Center,
             )
+            val country = current.spot.country(locale)
             Text(
-                current.spot.country(locale).uppercase(locale),
+                country.uppercase(locale),
+                modifier = Modifier.semantics { contentDescription = country },
                 style = MaterialTheme.typography.labelLarge,
                 letterSpacing = 2.sp,
                 color = Ink, // the lighter grey is too faint on the beer
             )
             Spacer(Modifier.height(14.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Pill("⏱ " + stringResource(CommonR.string.since_minutes, current.minutesIn))
-                Pill("📍 " + (distance ?: stringResource(R.string.show_on_map)))
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Pill("⏱", stringResource(CommonR.string.since_minutes, current.minutesIn))
+                Pill("📍", distance ?: stringResource(R.string.show_on_map))
             }
         }
     }
@@ -302,14 +326,14 @@ private fun FlagCoaster(flag: String) {
     }
 }
 
+/** A small label on the beer; the [icon] is decoration and not read out. */
 @Composable
-private fun Pill(text: String) {
+private fun Pill(icon: String, text: String) {
     Surface(shape = CircleShape, color = Color.White.copy(alpha = 0.4f), contentColor = Ink) {
-        Text(
-            text,
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-        )
+        Row(Modifier.padding(horizontal = 12.dp, vertical = 6.dp)) {
+            Text("$icon ", style = MaterialTheme.typography.labelLarge, modifier = Modifier.clearAndSetSemantics {})
+            Text(text, style = MaterialTheme.typography.labelLarge)
+        }
     }
 }
 
@@ -330,8 +354,10 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
         Column(Modifier.padding(20.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f).padding(end = 12.dp)) {
+                    val label = stringResource(CommonR.string.next_round)
                     Text(
-                        stringResource(CommonR.string.next_round).uppercase(locale),
+                        label.uppercase(locale),
+                        modifier = Modifier.semantics { contentDescription = label },
                         style = MaterialTheme.typography.labelMedium,
                         letterSpacing = 1.5.sp,
                         color = InkSoft,
@@ -368,11 +394,17 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
 @Composable
 private fun BeerCard(status: BeerStatus) {
     val beer = status.openNow.first().spot.beer
-    Surface(shape = CardShape, color = Foam, contentColor = Ink, modifier = Modifier.fillMaxWidth()) {
+    Surface(
+        shape = CardShape,
+        color = Foam,
+        contentColor = Ink,
+        modifier = Modifier.fillMaxWidth().semantics(mergeDescendants = true) {},
+    ) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
                     .size(56.dp)
+                    .clearAndSetSemantics {} // decoration
                     .clip(RoundedCornerShape(18.dp))
                     .background(Brush.verticalGradient(listOf(Amber, DarkAmber))),
                 contentAlignment = Alignment.Center,
@@ -380,8 +412,10 @@ private fun BeerCard(status: BeerStatus) {
                 Text(if (beer != null) "🍺" else "🎒", fontSize = 28.sp)
             }
             Column(Modifier.padding(start = 16.dp)) {
+                val label = stringResource(R.string.local_beer)
                 Text(
-                    stringResource(R.string.local_beer).uppercase(),
+                    label.uppercase(),
+                    modifier = Modifier.semantics { contentDescription = label },
                     style = MaterialTheme.typography.labelMedium,
                     letterSpacing = 1.5.sp,
                     color = InkSoft,
@@ -411,7 +445,7 @@ private fun SectionTitle(text: String) {
         text,
         style = MaterialTheme.typography.titleMedium,
         fontWeight = FontWeight.Black,
-        modifier = Modifier.padding(top = 8.dp),
+        modifier = Modifier.padding(top = 8.dp).semantics { heading() },
     )
 }
 
@@ -424,17 +458,18 @@ private fun UpcomingRow(round: NextRound, locale: Locale) {
     Row(
         Modifier
             .fillMaxWidth()
+            .heightIn(min = 48.dp) // touch target
             .clip(CircleShape)
             .clickable(onClickLabel = stringResource(R.string.show_on_map)) { context.openInMaps(round.spots.first()) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Surface(shape = CircleShape, color = Foam, modifier = Modifier.width(72.dp)) {
+        Surface(shape = CircleShape, color = Foam, modifier = Modifier.widthIn(min = 72.dp)) {
             Text(
                 time,
                 style = MaterialTheme.typography.labelLarge,
                 fontFamily = FontFamily.Monospace,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(vertical = 6.dp),
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
             )
         }
         Text(
@@ -455,7 +490,7 @@ private fun AddWidgetButton() {
     FilledTonalButton(
         onClick = { manager.requestPinAppWidget(ComponentName(context, BeerWidgetReceiver::class.java), null, null) },
         colors = ButtonDefaults.filledTonalButtonColors(containerColor = Amber, contentColor = Ink),
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp).height(52.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp).heightIn(min = 52.dp),
     ) {
         Text("＋  " + stringResource(R.string.add_widget), fontWeight = FontWeight.Bold)
     }
@@ -493,5 +528,6 @@ private fun SettingsDialog(choice: Edition?, onChoice: (Edition?) -> Unit, onDis
     )
 }
 
+/** Minimum height of the cream part; it grows with large font sizes. */
 private val GLASS_FOAM_AT = 170.dp
 private val UPCOMING_WINDOW: Duration = Duration.ofHours(12)

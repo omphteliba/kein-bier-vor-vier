@@ -17,6 +17,14 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. D
   Flagge, Stadt und Countdown kommen aus den Complications der App, die also mit installiert sein muss.
 - geplant: später eine watchOS-Version
 
+## Barrierefreiheit
+
+- Textfarben erfüllen WCAG AA: `#595540` (7,0 : 1 auf Creme) und `#6B6756` (5,3 : 1 auf Creme, 4,6 : 1 auf den Karten)
+- TalkBack liest Karten als Einheit vor, Großbuchstaben normal, Deko (Mini-Uhr, Symbole) wird übersprungen; Überschriften sind als solche markiert
+- Tippflächen mindestens 48 dp; Layout wächst mit großer Schrift (getestet mit 200 %)
+- Die Bläschen stehen still, wenn in Android „Animationen entfernen“ aktiv ist
+- Das Widget hat eine Vorlesebeschreibung; die Complications der Uhr ebenso
+
 ## Bauen & testen
 
 Voraussetzung: Android Studio (inkl. Android SDK).

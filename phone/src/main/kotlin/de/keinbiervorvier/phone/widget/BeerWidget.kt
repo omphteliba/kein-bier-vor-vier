@@ -35,6 +35,8 @@ import androidx.glance.layout.height
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
+import androidx.glance.semantics.contentDescription
+import androidx.glance.semantics.semantics
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
@@ -102,7 +104,21 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
         .format(status.next.at.atZone(ZoneId.systemDefault()))
     val open = Intent(context, MainActivity::class.java)
 
-    Column(modifier = GlanceModifier.fillMaxSize().clickable(actionStartActivity(open))) {
+    val nextLine = context.getString(R.string.widget_next, "${next.flag} ${next.city(locale)}", nextTime)
+    // Read as one sentence by TalkBack instead of piece by piece.
+    val description = listOfNotNull(
+        context.getString(edition.nowInRes),
+        "${current.city(locale)}, ${current.country(locale)}",
+        current.beer?.name,
+        nextLine,
+    ).joinToString(". ")
+
+    Column(
+        modifier = GlanceModifier
+            .fillMaxSize()
+            .clickable(actionStartActivity(open))
+            .semantics { contentDescription = description },
+    ) {
         // Top: cream glass with the saying and the flag.
         Column(
             modifier = GlanceModifier.fillMaxWidth().defaultWeight()
@@ -146,7 +162,7 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
                 maxLines = 1,
             )
             Text(
-                context.getString(R.string.widget_next, "${next.flag} ${next.city(locale)}", nextTime),
+                nextLine,
                 style = TextStyle(color = InkColor, fontSize = 12.sp),
                 maxLines = 1,
             )

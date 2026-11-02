@@ -9,6 +9,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import android.provider.Settings
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -24,7 +27,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.time.LocalTime
@@ -32,19 +34,25 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /**
- * Paints a glass of beer behind the content: cream above [foamAt], a crown of
- * foam bubbles on the line, beer below with slowly rising carbonation.
+ * Paints a glass of beer behind the content: cream above [foamAtPx], a crown of
+ * foam bubbles on the line, beer below with slowly rising carbonation. The
+ * bubbles stand still when the user has switched animations off.
  */
 @Composable
-fun Modifier.beerGlass(foamAt: Dp): Modifier {
-    val rise by rememberInfiniteTransition(label = "bubbles").animateFloat(
+fun Modifier.beerGlass(foamAtPx: Float): Modifier {
+    val context = LocalContext.current
+    val animationsOff = remember {
+        Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+    }
+    val rising by rememberInfiniteTransition(label = "bubbles").animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(tween(durationMillis = 9_000, easing = LinearEasing), RepeatMode.Restart),
         label = "rise",
     )
+    val rise = if (animationsOff) 0.3f else rising
     return drawBehind {
-        val foamY = foamAt.toPx()
+        val foamY = foamAtPx
         drawRect(Cream, size = Size(size.width, foamY))
         drawRect(
             Brush.verticalGradient(listOf(Amber, DarkAmber), startY = foamY, endY = size.height),
