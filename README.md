@@ -12,12 +12,12 @@ Eine nicht ganz ernst gemeinte App für Smartwatch und Handy: Sie zeigt, in welc
 Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. Die englische Ausgabe folgt dem Spruch *„It's five o'clock somewhere“* und rechnet deshalb mit 17 Uhr.
 
 <p align="center">
-  <img src="docs/screenshots/phone.png" width="260" alt="Handy-App: Gerade 16 Uhr in Moskau, Russland, lokales Bier Baltika Nr. 7, nächste Runde Athen und Kairo">
+  <img src="docs/screenshots/phone.png" width="260" alt="Handy-App: Gerade 16 Uhr in Akureyri, Island, Brauerei Einstök Ölgerð, nächste Runde Praia">
   &nbsp;
-  <img src="docs/screenshots/widget.png" width="200" alt="Widget: Gerade 16 Uhr in Moskau, Baltika Nr. 7, um 15:00 Athen">
+  <img src="docs/screenshots/widget.png" width="200" alt="Widget: Gerade 16 Uhr in Akureyri, Einstök Ölgerð, um 18:00 Praia">
 </p>
 <p align="center">
-  <img src="docs/screenshots/watch-app.png" width="200" alt="Uhren-App als volles Glas: It's 4 p.m. in Moscow">
+  <img src="docs/screenshots/watch-app.png" width="200" alt="Uhren-App als volles Glas: It's 4 p.m. in Akureyri">
   <img src="docs/screenshots/watch-face-vier.png" width="200" alt="Zifferblatt Kein Bier vor Vier mit zwölf Vieren">
   <img src="docs/screenshots/watch-face-five.png" width="200" alt="Zifferblatt It's 5 o'clock somewhere mit zwölf Fünfen">
 </p>
