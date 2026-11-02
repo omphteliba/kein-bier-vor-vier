@@ -32,6 +32,7 @@ import de.keinbiervorvier.core.BeerStatus
 import de.keinbiervorvier.core.Edition
 import de.keinbiervorvier.core.GeoPoint
 import de.keinbiervorvier.core.formatDistance
+import de.keinbiervorvier.wear.complication.refreshComplications
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.Instant
@@ -40,6 +41,7 @@ import java.util.Locale
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        refreshComplications()
         setContent {
             MaterialTheme {
                 AppScaffold {
