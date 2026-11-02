@@ -4,5 +4,5 @@
     <string name="coming_up">Als Nächstes</string>
     <string name="add_widget">Widget zum Startbildschirm hinzufügen</string>
     <string name="widget_description">Wo gerade Bierzeit ist</string>
-    <string name="widget_next">Danach: %1$s um %2$s</string>
+    <string name="widget_next">Um %2$s: %1$s</string>
 </resources>

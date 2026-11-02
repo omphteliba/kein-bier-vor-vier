@@ -21,6 +21,9 @@ import androidx.glance.action.clickable
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
+import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxWidth
+import androidx.glance.layout.height
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
@@ -71,35 +74,45 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
         .format(status.next.at.atZone(ZoneId.systemDefault()))
     val open = Intent(context, MainActivity::class.java).putExtra(EXTRA_EDITION, edition.name)
 
-    Column(
-        modifier = GlanceModifier
-            .fillMaxSize()
-            .background(ImageProvider(R.drawable.widget_background))
-            .padding(12.dp)
-            .clickable(actionStartActivity(open)),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            context.getString(edition.nowInRes),
-            style = TextStyle(color = BeerRed, fontSize = 13.sp, fontWeight = FontWeight.Bold),
-        )
-        Text(current.flag, style = TextStyle(fontSize = 34.sp))
-        Text(
-            current.city(locale),
-            style = TextStyle(color = Brown, fontSize = 20.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center),
-            maxLines = 1,
-        )
-        Text(
-            current.beer?.name ?: context.getString(de.keinbiervorvier.common.R.string.no_local_beer),
-            style = TextStyle(color = Brown, fontSize = 13.sp),
-            maxLines = 1,
-        )
-        Text(
-            context.getString(R.string.widget_next, "${next.flag} ${next.city(locale)}", nextTime),
-            style = TextStyle(color = Brown, fontSize = 12.sp),
-            maxLines = 1,
-        )
+    Column(modifier = GlanceModifier.fillMaxSize().clickable(actionStartActivity(open))) {
+        // Top: cream glass with the saying and the flag.
+        Column(
+            modifier = GlanceModifier.fillMaxWidth().defaultWeight()
+                .background(ImageProvider(R.drawable.widget_top)).padding(top = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                context.getString(edition.nowInRes),
+                style = TextStyle(color = BeerRed, fontSize = 13.sp, fontWeight = FontWeight.Bold),
+                maxLines = 1,
+            )
+            Text(current.flag, style = TextStyle(fontSize = 40.sp))
+        }
+        Spacer(GlanceModifier.fillMaxWidth().height(6.dp).background(ImageProvider(R.drawable.widget_foam)))
+        // Bottom: the beer, with the place in it.
+        Column(
+            modifier = GlanceModifier.fillMaxWidth().defaultWeight()
+                .background(ImageProvider(R.drawable.widget_beer)).padding(horizontal = 10.dp, vertical = 6.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                current.city(locale),
+                style = TextStyle(color = Brown, fontSize = 20.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center),
+                maxLines = 1,
+            )
+            Text(
+                current.beer?.name ?: context.getString(de.keinbiervorvier.common.R.string.no_local_beer),
+                style = TextStyle(color = Brown, fontSize = 13.sp),
+                maxLines = 1,
+            )
+            Text(
+                context.getString(R.string.widget_next, "${next.flag} ${next.city(locale)}", nextTime),
+                style = TextStyle(color = Brown, fontSize = 12.sp),
+                maxLines = 1,
+            )
+        }
     }
 }
 
@@ -107,7 +120,7 @@ class BeerWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = BeerWidget()
 }
 
-/** Fired by [WidgetUpdates] when the next round starts. */
+/** Fired by [WidgetUpdates] when the next round starts, and after app updates. */
 class WidgetUpdateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val pending = goAsync()

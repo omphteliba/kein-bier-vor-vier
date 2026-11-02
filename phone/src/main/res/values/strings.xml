@@ -6,5 +6,5 @@
     <string name="coming_up">Coming up</string>
     <string name="add_widget">Add widget to home screen</string>
     <string name="widget_description">Where it\'s beer o\'clock right now</string>
-    <string name="widget_next">Next: %1$s at %2$s</string>
+    <string name="widget_next">At %2$s: %1$s</string>
 </resources>
