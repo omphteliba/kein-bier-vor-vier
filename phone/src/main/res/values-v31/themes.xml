@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Splash screen in the app's cream, so it blends into the first frame. -->
+    <style name="Theme.KeinBier" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/cream</item>
+        <item name="android:windowSplashScreenBackground">@color/cream</item>
+    </style>
+</resources>

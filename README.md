@@ -15,6 +15,7 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. D
   - `five` – „It's 5 O'Clock Somewhere“, zwölfmal die 5
 
   Flagge, Stadt und Countdown kommen aus den Complications der App, die also mit installiert sein muss.
+- `tools/make_logo.py` – erzeugt das Logo (Zifferblatt mit zwölf 4ern bzw. 5ern, unten Bier) als SVG in [`docs/logo/`](docs/logo/) und als App-Icon für Handy und Uhr
 - geplant: später eine watchOS-Version
 
 ## Barrierefreiheit
