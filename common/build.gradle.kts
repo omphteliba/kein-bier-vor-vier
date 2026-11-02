@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-/** Android bits shared by the watch and the phone app: strings, location, formatting. */
+/** Android bits shared by the watch and the phone app: strings, location, formatting, font, the beer glass. */
 android {
     namespace = "de.keinbiervorvier.common"
     compileSdk {
@@ -28,5 +28,6 @@ dependencies {
     api(project(":core"))
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
+    implementation(libs.compose.foundation)
     implementation(libs.androidx.activity.compose)
 }

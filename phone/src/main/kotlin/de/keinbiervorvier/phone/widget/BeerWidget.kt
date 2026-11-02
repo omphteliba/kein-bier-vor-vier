@@ -46,7 +46,7 @@ import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerStatus
 import de.keinbiervorvier.core.Edition
 import de.keinbiervorvier.phone.EditionSetting
-import de.keinbiervorvier.phone.Ink
+import de.keinbiervorvier.common.Ink
 import de.keinbiervorvier.phone.MainActivity
 import de.keinbiervorvier.phone.R
 import kotlinx.coroutines.CoroutineScope

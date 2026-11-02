@@ -76,6 +76,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.keinbiervorvier.common.Aleo
+import de.keinbiervorvier.common.Amber
+import de.keinbiervorvier.common.Cream
+import de.keinbiervorvier.common.DarkAmber
+import de.keinbiervorvier.common.FlagCoaster
+import de.keinbiervorvier.common.Foam
+import de.keinbiervorvier.common.Ink
+import de.keinbiervorvier.common.InkSoft
+import de.keinbiervorvier.common.beerGlass
 import de.keinbiervorvier.common.formatCountdown
 import de.keinbiervorvier.common.nowInRes
 import de.keinbiervorvier.common.rememberUserLocation
@@ -96,16 +104,6 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
 import de.keinbiervorvier.common.R as CommonR
-
-val Cream = Color(0xFFFDF6E3)
-val Amber = Color(0xFFF6B400)
-val DarkAmber = Color(0xFFD98300)
-/** Text: warm grey, 90 % neutral grey with 10 % golden yellow (#FFD700) mixed in. */
-val Ink = Color(0xFF595540)
-/** Secondary text, same mix on a lighter grey: 5.3:1 on cream, 4.6:1 on [Foam] (WCAG AA). */
-val InkSoft = Color(0xFF6B6756)
-val BeerRed = Color(0xFFC62828)
-val Foam = Color(0xFFF3E7C9)
 
 private val BeerColors = lightColorScheme(
     primary = DarkAmber,
@@ -308,21 +306,6 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
                 Pill("📍", distance ?: stringResource(R.string.show_on_map))
             }
         }
-    }
-}
-
-/** The flag on a round white beer mat. */
-@Composable
-private fun FlagCoaster(flag: String) {
-    Box(
-        modifier = Modifier
-            .size(92.dp)
-            .shadow(6.dp, CircleShape)
-            .background(Color.White, CircleShape)
-            .border(3.dp, Foam, CircleShape),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(flag, fontSize = 50.sp)
     }
 }
 
