@@ -26,6 +26,9 @@ jobs:
     runs-on: macos-15
     timeout-minutes: 60
     needs: core
+    defaults:
+      run:
+        shell: bash  # -eo pipefail: a failed xcodebuild fails the step despite `| tail`
     steps:
       - uses: actions/checkout@v4
 
