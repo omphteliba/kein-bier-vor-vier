@@ -2,7 +2,6 @@ package de.keinbiervorvier.phone
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -19,14 +18,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -34,6 +38,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,14 +56,15 @@ import androidx.compose.ui.unit.sp
 import de.keinbiervorvier.common.formatCountdown
 import de.keinbiervorvier.common.nowInRes
 import de.keinbiervorvier.common.rememberUserLocation
-import de.keinbiervorvier.common.requestedEdition
 import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerStatus
 import de.keinbiervorvier.core.Edition
 import de.keinbiervorvier.core.GeoPoint
 import de.keinbiervorvier.core.NextRound
 import de.keinbiervorvier.core.formatDistance
+import de.keinbiervorvier.phone.widget.BeerWidget
 import de.keinbiervorvier.phone.widget.BeerWidgetReceiver
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.Instant
@@ -89,31 +95,26 @@ private val BeerColors = lightColorScheme(
 )
 
 class MainActivity : ComponentActivity() {
-    private var edition by mutableStateOf(Edition.KEIN_BIER_VOR_VIER)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         // Dark status bar icons on the cream background.
         enableEdgeToEdge(statusBarStyle = SystemBarStyle.light(Cream.toArgb(), Brown.toArgb()))
         super.onCreate(savedInstanceState)
-        edition = intent.requestedEdition(resources.configuration.locales[0])
         setContent {
             MaterialTheme(colorScheme = BeerColors) {
-                BeerApp(edition, onEditionChange = { edition = it })
+                BeerApp()
             }
         }
-    }
-
-    // singleTask: a widget tap while the app is open lands here.
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-        edition = intent.requestedEdition(resources.configuration.locales[0])
     }
 }
 
 @Composable
-fun BeerApp(edition: Edition, onEditionChange: (Edition) -> Unit) {
+fun BeerApp() {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val locale = LocalConfiguration.current.locales[0]
+    var choice by remember { mutableStateOf(EditionSetting.get(context)) }
+    val edition = choice ?: Edition.forLocale(locale)
+    var showSettings by remember { mutableStateOf(false) }
     var now by remember { mutableStateOf(Instant.now()) }
     LaunchedEffect(Unit) {
         while (true) {
@@ -129,10 +130,10 @@ fun BeerApp(edition: Edition, onEditionChange: (Edition) -> Unit) {
     Scaffold(containerColor = MaterialTheme.colorScheme.background) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(16.dp),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            item { EditionPicker(edition, onEditionChange) }
+            item { Header(onSettings = { showSettings = true }) }
             item { NowCard(status, edition, userLocation, locale) }
             item { BeerCard(status) }
             item {
@@ -146,22 +147,65 @@ fun BeerApp(edition: Edition, onEditionChange: (Edition) -> Unit) {
             item { AddWidgetButton() }
         }
     }
+
+    if (showSettings) {
+        SettingsDialog(
+            choice = choice,
+            onChoice = {
+                choice = it
+                EditionSetting.set(context, it)
+                scope.launch { BeerWidget.refreshAll(context) }
+            },
+            onDismiss = { showSettings = false },
+        )
+    }
 }
 
 @Composable
-private fun EditionPicker(edition: Edition, onEditionChange: (Edition) -> Unit) {
-    val labels = listOf(R.string.edition_vier, R.string.edition_five)
-    SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-        Edition.entries.forEachIndexed { index, entry ->
-            SegmentedButton(
-                selected = entry == edition,
-                onClick = { onEditionChange(entry) },
-                shape = SegmentedButtonDefaults.itemShape(index, Edition.entries.size),
-            ) {
-                Text(stringResource(labels[index]), maxLines = 1)
-            }
+private fun Header(onSettings: () -> Unit) {
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            stringResource(R.string.app_name),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.weight(1f),
+        )
+        IconButton(onClick = onSettings) {
+            Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.settings))
         }
     }
+}
+
+/** Which saying to follow; tucked away since the language default fits most people. */
+@Composable
+private fun SettingsDialog(choice: Edition?, onChoice: (Edition?) -> Unit, onDismiss: () -> Unit) {
+    val options = listOf(
+        null to R.string.edition_auto,
+        Edition.KEIN_BIER_VOR_VIER to R.string.edition_vier_option,
+        Edition.FIVE_O_CLOCK_SOMEWHERE to R.string.edition_five_option,
+    )
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.which_saying)) },
+        text = {
+            Column {
+                options.forEach { (edition, label) ->
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .selectable(selected = choice == edition, onClick = { onChoice(edition) })
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(selected = choice == edition, onClick = null)
+                        Text(stringResource(label), modifier = Modifier.padding(start = 12.dp))
+                    }
+                }
+            }
+        },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) } },
+        containerColor = Cream,
+    )
 }
 
 /** The big card: flag, city and country on the watch face's cream-and-beer background. */

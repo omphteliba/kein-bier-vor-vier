@@ -16,7 +16,11 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.provideContent
-import androidx.glance.appwidget.updateAll
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.glance.appwidget.state.updateAppWidgetState
+import androidx.glance.currentState
 import androidx.glance.action.clickable
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -31,11 +35,11 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import de.keinbiervorvier.common.EXTRA_EDITION
 import de.keinbiervorvier.common.nowInRes
 import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerStatus
 import de.keinbiervorvier.core.Edition
+import de.keinbiervorvier.phone.EditionSetting
 import de.keinbiervorvier.phone.MainActivity
 import de.keinbiervorvier.phone.R
 import kotlinx.coroutines.CoroutineScope
@@ -53,16 +57,35 @@ private val BeerRed = ColorProvider(Color(0xFFC62828))
 /**
  * Home screen widget: where it is beer o'clock right now and where it's next.
  * It shows the next round as a clock time rather than a countdown, so it only
- * has to change when a round starts; [WidgetUpdates] wakes it exactly then.
+ * has to change when a round starts; [WidgetUpdates] wakes it around then.
+ *
+ * Everything is computed inside the composition and depends on the [TICK]
+ * state, because an update while a Glance session is still alive only
+ * recomposes - it does not run [provideGlance] again.
  */
 class BeerWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        val locale = context.resources.configuration.locales[0]
-        val edition = Edition.forLocale(locale)
-        val status = BeerClock.status(Instant.now(), edition)
-        WidgetUpdates.scheduleAt(context, status.next.at)
-        provideContent { WidgetContent(context, status, edition, locale) }
+        provideContent {
+            currentState<Preferences>()[TICK] // recompose whenever refreshAll() bumps it
+            val locale = context.resources.configuration.locales[0]
+            val edition = EditionSetting.effective(context, locale)
+            val status = BeerClock.status(Instant.now(), edition)
+            WidgetUpdates.scheduleAt(context, status.next.at)
+            WidgetContent(context, status, edition, locale)
+        }
+    }
+
+    companion object {
+        private val TICK = longPreferencesKey("tick")
+
+        /** Recomputes every placed widget, whether or not its session is still alive. */
+        suspend fun refreshAll(context: Context) {
+            GlanceAppWidgetManager(context).getGlanceIds(BeerWidget::class.java).forEach { id ->
+                updateAppWidgetState(context, id) { it[TICK] = System.currentTimeMillis() }
+                BeerWidget().update(context, id)
+            }
+        }
     }
 }
 
@@ -72,7 +95,7 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
     val next = status.next.spots.first()
     val nextTime = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(locale)
         .format(status.next.at.atZone(ZoneId.systemDefault()))
-    val open = Intent(context, MainActivity::class.java).putExtra(EXTRA_EDITION, edition.name)
+    val open = Intent(context, MainActivity::class.java)
 
     Column(modifier = GlanceModifier.fillMaxSize().clickable(actionStartActivity(open))) {
         // Top: cream glass with the saying and the flag.
@@ -126,7 +149,7 @@ class WidgetUpdateReceiver : BroadcastReceiver() {
         val pending = goAsync()
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                BeerWidget().updateAll(context)
+                BeerWidget.refreshAll(context)
             } finally {
                 pending.finish()
             }

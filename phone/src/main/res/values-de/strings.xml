@@ -5,4 +5,10 @@
     <string name="add_widget">Widget zum Startbildschirm hinzufügen</string>
     <string name="widget_description">Wo gerade Bierzeit ist</string>
     <string name="widget_next">Um %2$s: %1$s</string>
+    <string name="settings">Einstellungen</string>
+    <string name="which_saying">Welcher Spruch?</string>
+    <string name="edition_auto">Automatisch (nach Sprache)</string>
+    <string name="edition_vier_option">Kein Bier vor Vier (16 Uhr)</string>
+    <string name="edition_five_option">5 O\'Clock Somewhere (17 Uhr)</string>
+    <string name="close">Schließen</string>
 </resources>
