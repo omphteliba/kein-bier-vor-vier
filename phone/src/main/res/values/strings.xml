@@ -15,9 +15,13 @@
     <string name="tagline_five">It\'s five o\'clock somewhere.</string>
     <string name="drink_responsibly">Please enjoy responsibly 🍻</string>
     <string name="show_on_map">Map</string>
-    <string name="craft">Craft</string>
-    <string name="local_beers">Local beers</string>
-    <string name="beer_count">Beer %1$d of %2$d – swipe for more</string>
-    <string name="brewery_website">Brewery ↗</string>
     <string name="also_now">Also beer o\'clock right now in</string>
+    <string name="breweries_here">Breweries nearby</string>
+    <string name="selection_note">A small selection – no claim to completeness.</string>
+    <string name="brewery_count">%1$d of %2$d – swipe for more</string>
+    <string name="on_untappd">Untappd ↗</string>
+    <string name="brewery_website">Website ↗</string>
+    <string name="on_map">Map ↗</string>
+    <string name="more_nearby">More breweries nearby</string>
+    <string name="more_nearby_text">Google Maps shows you breweries around %1$s.</string>
 </resources>

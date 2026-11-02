@@ -9,44 +9,53 @@ import java.time.Instant
 import java.time.LocalDate
 import java.util.Locale
 
-class BeerOfTheDayTest {
+class BreweryOfTheDayTest {
 
     private val germany = BeerSpots.ALL.single { it.countryCode == "DE" }
     private val day = LocalDate.of(2026, 11, 2)
 
     @Test
-    fun `beers take turns day by day and come round again`() {
-        val beers = (0L until germany.beers.size).map { germany.beerOn(day.plusDays(it)) }
-        assertEquals(germany.beers.toSet(), beers.toSet())
-        assertEquals(germany.beerOn(day), germany.beerOn(day.plusDays(germany.beers.size.toLong())))
-        assertNotEquals(germany.beerOn(day), germany.alsoOn(day))
+    fun `breweries take turns day by day and come round again`() {
+        val breweries = (0L until germany.breweries.size).map { germany.breweryOn(day.plusDays(it)) }
+        assertEquals(germany.breweries.toSet(), breweries.toSet())
+        assertEquals(germany.breweryOn(day), germany.breweryOn(day.plusDays(germany.breweries.size.toLong())))
     }
 
     @Test
-    fun `the place is the town of the day's beer`() {
-        val kirn = germany.beers.indexOfFirst { it.brewery == "Kirner Privatbrauerei" }
-        val kirnDay = (0L until germany.beers.size).map { day.plusDays(it) }
-            .first { germany.beerOn(it) == germany.beers[kirn] }
+    fun `the carousel starts with the brewery of the day and has them all`() {
+        val all = germany.breweriesFrom(day)
+        assertEquals(germany.breweryOn(day), all.first())
+        assertEquals(germany.breweries.toSet(), all.toSet())
+        assertNotEquals(germany.breweriesFrom(day), germany.breweriesFrom(day.plusDays(1)))
+    }
+
+    @Test
+    fun `the place is the town of the day's brewery`() {
+        val kirn = germany.breweries.single { it.name == "Kirner Privatbrauerei" }
+        val kirnDay = (0L until germany.breweries.size).map { day.plusDays(it) }
+            .first { germany.breweryOn(it) == kirn }
         assertEquals("Kirn", germany.place(Locale.GERMANY, kirnDay))
         assertEquals(GeoPoint(49.79, 7.46), germany.locationOn(kirnDay))
 
-        val munichDay = (0L until germany.beers.size).map { day.plusDays(it) }
-            .first { germany.beerOn(it)?.town == "München" }
+        val munichDay = (0L until germany.breweries.size).map { day.plusDays(it) }
+            .first { germany.breweryOn(it)?.town == "München" }
         assertEquals("Munich", germany.place(Locale.US, munichDay))
     }
 
     @Test
-    fun `spots without beer have none and keep their city`() {
+    fun `spots without beer have no brewery and keep their city`() {
         val tehran = BeerSpots.ALL.single { it.zone.id == "Asia/Tehran" }
-        assertNull(tehran.beerOn(day))
+        assertNull(tehran.breweryOn(day))
+        assertTrue(tehran.breweriesFrom(day).isEmpty())
         assertEquals("Teheran", tehran.place(Locale.GERMANY, day))
     }
 
     @Test
-    fun `every beer names its brewery, and a town comes with a location`() {
-        BeerSpots.ALL.flatMap { it.beers }.forEach {
-            assertTrue(it.brewery.isNotBlank(), it.name)
+    fun `every brewery has a name, a town comes with a location, websites are https`() {
+        BeerSpots.ALL.flatMap { it.breweries }.forEach {
+            assertTrue(it.name.isNotBlank())
             assertEquals(it.town == null, it.location == null, "${it.name}: town and location go together")
+            it.website?.let { url -> assertTrue(url.startsWith("https://"), url) }
         }
     }
 

@@ -15,9 +15,13 @@
     <string name="tagline_five">Irgendwo ist immer fünf.</string>
     <string name="drink_responsibly">Bitte verantwortungsvoll genießen 🍻</string>
     <string name="show_on_map">Karte</string>
-    <string name="craft">Craft</string>
-    <string name="local_beers">Lokale Biere</string>
-    <string name="beer_count">Bier %1$d von %2$d – wischen für mehr</string>
-    <string name="brewery_website">Zur Brauerei ↗</string>
     <string name="also_now">Auch gerade Bierzeit in</string>
+    <string name="breweries_here">Brauereien vor Ort</string>
+    <string name="selection_note">Eine kleine Auswahl – ohne Anspruch auf Vollständigkeit.</string>
+    <string name="brewery_count">%1$d von %2$d – wischen für mehr</string>
+    <string name="on_untappd">Untappd ↗</string>
+    <string name="brewery_website">Website ↗</string>
+    <string name="on_map">Karte ↗</string>
+    <string name="more_nearby">Mehr Brauereien in der Nähe</string>
+    <string name="more_nearby_text">Google Maps zeigt dir Brauereien rund um %1$s.</string>
 </resources>

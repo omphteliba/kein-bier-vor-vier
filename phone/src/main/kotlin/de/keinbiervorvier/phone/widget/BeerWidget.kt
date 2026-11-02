@@ -109,7 +109,7 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
     val description = listOfNotNull(
         context.getString(edition.nowInRes),
         "${status.openNow.first().place(locale)}, ${current.country(locale)}",
-        status.openNow.first().beer?.let { "${it.name}, ${it.brewery}" },
+        status.openNow.first().brewery?.name,
         nextLine,
     ).joinToString(". ")
 
@@ -157,7 +157,7 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
                 maxLines = 1,
             )
             Text(
-                status.openNow.first().beer?.name ?: context.getString(de.keinbiervorvier.common.R.string.no_local_beer),
+                status.openNow.first().brewery?.name ?: context.getString(de.keinbiervorvier.common.R.string.no_local_beer),
                 style = TextStyle(color = InkColor, fontSize = 13.sp),
                 maxLines = 1,
             )

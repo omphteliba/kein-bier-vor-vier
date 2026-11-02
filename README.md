@@ -24,18 +24,18 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. D
 
 ## Was drin ist
 
-- **Handy-App:** Bierglas mit Flagge, Stadt, Land und Entfernung zu dir, dazu die anderen Orte mit gleicher Uhrzeit; ein Karussell mit allen Bieren, für die es gerade Bierzeit ist (wischen, Tipp für die Karte, Link zur Brauerei); nächste Runde mit Countdown, die Runden der nächsten 12 Stunden. Tipp auf einen Ort öffnet Google Maps. Der Spruch (16 oder 17 Uhr) folgt der Sprache oder lässt sich in den Einstellungen wählen.
+- **Handy-App:** Bierglas mit Flagge, Stadt, Land und Entfernung zu dir, dazu die anderen Orte mit gleicher Uhrzeit; ein Karussell mit Brauereien der Orte, an denen gerade Bierzeit ist (Untappd, Website, Karte) und am Ende Google Maps für alle Brauereien in der Nähe; nächste Runde mit Countdown, die Runden der nächsten 12 Stunden. Tipp auf einen Ort öffnet Google Maps. Der Spruch (16 oder 17 Uhr) folgt der Sprache oder lässt sich in den Einstellungen wählen.
 - **Homescreen-Widget,** das sich zu jeder neuen Runde aktualisiert.
 - **Wear-OS-App** als „volles Glas“, dazu zwei **Complications** für beliebige Zifferblätter.
 - **Zwei eigene Zifferblätter:** „Kein Bier vor Vier“ (zwölfmal die 4) und „It's 5 O'Clock Somewhere“ (zwölfmal die 5).
 - Deutsch und Englisch, 54 Orte inklusive der Zeitzonen mit halben und Viertelstunden, Sommerzeit inklusive.
-- **Bier des Tages:** pro Ort wechseln sich die Biere täglich ab, mit Brauerei und Brauort – bevorzugt unabhängige Craftbrauereien, in Deutschland auch traditionelle wie die Kirner Privatbrauerei. Deutschland, Frankreich und Belgien teilen sich die 16-Uhr-Runde und wechseln sich ebenfalls ab. Alle Biere mit Quellen: [docs/beer-sources.md](docs/beer-sources.md).
+- **Brauerei des Tages:** pro Ort eine kleine Auswahl großer und kleiner Brauereien – ohne Anspruch auf Vollständigkeit –, die sich täglich abwechseln; aktuelle Biere findest du über den Link zu Untappd. Deutschland, Frankreich und Belgien teilen sich die 16-Uhr-Runde. Quellen: [docs/beer-sources.md](docs/beer-sources.md).
 
 ## Aufbau
 
 | Modul | Inhalt |
 |---|---|
-| `core/` | Reine Kotlin-Logik: Zeitzonen, Sommerzeit, Countdown, beide Editionen, Orte, Biere, Entfernung – mit Tests |
+| `core/` | Reine Kotlin-Logik: Zeitzonen, Sommerzeit, Countdown, beide Editionen, Orte, Brauereien, Entfernung – mit Tests |
 | `common/` | Android-Teile für Uhr und Handy: Texte, Standortabfrage, Farben, das Bierglas, die Schrift [Aleo](common/fonts/README.md) |
 | `phone/` | Handy-App und Widget (Jetpack Compose, Glance) |
 | `wear/` | Wear-OS-App und Complications (Compose for Wear OS) |

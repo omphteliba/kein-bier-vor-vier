@@ -27,8 +27,8 @@ data class OpenSpot(val spot: BeerSpot, val date: LocalDate, val localTime: Loca
     /** Minutes since the beer hour started locally. */
     val minutesIn: Int get() = localTime.hour * 60 + localTime.minute - edition.hour * 60
 
-    /** Today's beer here. */
-    val beer: Beer? get() = spot.beerOn(date)
+    /** Today's brewery here. */
+    val brewery: Brewery? get() = spot.breweryOn(date)
 
     /** Today's place name, see [BeerSpot.place]. */
     fun place(locale: Locale): String = spot.place(locale, date)

@@ -111,7 +111,7 @@ fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?
     val distance = userLocation?.distanceKmTo(current.spot.locationOn(current.date))
         ?.let { formatDistance(it, locale) ?: stringResource(CommonR.string.you_are_there) }
     val next = status.next.spots.first()
-    val beer = current.beer
+    val brewery = current.brewery
     var foamAt by remember { mutableIntStateOf(0) }
     // Small round watches (192 dp) get a smaller flag and type so nothing is cut off.
     val compact = LocalConfiguration.current.screenHeightDp < 210
@@ -170,7 +170,7 @@ fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?
             )
             Spacer(Modifier.height(if (compact) 4.dp else 8.dp))
             Text(
-                listOfNotNull(beer?.name ?: stringResource(CommonR.string.no_local_beer), beer?.brewery).joinToString(" · "),
+                brewery?.name ?: stringResource(CommonR.string.no_local_beer),
                 fontFamily = Aleo,
                 fontWeight = FontWeight.Bold,
                 fontSize = if (compact) 12.sp else 13.sp,
