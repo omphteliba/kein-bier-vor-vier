@@ -1,27 +1,51 @@
+<p align="center">
+  <img src="docs/logo/logo-vier.svg" width="120" alt="Logo: Zifferblatt mit zwölf Vieren, unten Bier">
+</p>
+
 # Kein Bier vor Vier 🍺 · It's 5 O'Clock Somewhere
 
-Eine nicht ganz ernst gemeinte Smartwatch-App: Sie zeigt, in welcher Zeitzone es **gerade 16 Uhr** ist – und wo als Nächstes. Irgendwo auf der Welt ist schließlich immer vier.
+[![Build](https://github.com/omphteliba/kein-bier-vor-vier/actions/workflows/build.yml/badge.svg)](https://github.com/omphteliba/kein-bier-vor-vier/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg)](LICENSE)
+
+Eine nicht ganz ernst gemeinte App für Smartwatch und Handy: Sie zeigt, in welcher Zeitzone es **gerade 16 Uhr** ist – und wo als Nächstes. Irgendwo auf der Welt ist schließlich immer vier.
 
 Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. Die englische Ausgabe folgt dem Spruch *„It's five o'clock somewhere“* und rechnet deshalb mit 17 Uhr.
 
-## Stand
+<p align="center">
+  <img src="docs/screenshots/phone.png" width="260" alt="Handy-App: Gerade 16 Uhr in Moskau, Russland, lokales Bier Baltika Nr. 7, nächste Runde Athen und Kairo">
+  &nbsp;
+  <img src="docs/screenshots/widget.png" width="200" alt="Widget: Gerade 16 Uhr in Moskau, Baltika Nr. 7, um 15:00 Athen">
+</p>
+<p align="center">
+  <img src="docs/screenshots/watch-app.png" width="200" alt="Uhren-App als volles Glas: It's 4 p.m. in Moscow">
+  <img src="docs/screenshots/watch-face-vier.png" width="200" alt="Zifferblatt Kein Bier vor Vier mit zwölf Vieren">
+  <img src="docs/screenshots/watch-face-five.png" width="200" alt="Zifferblatt It's 5 o'clock somewhere mit zwölf Fünfen">
+</p>
 
-- `core/` – reine Kotlin-Logik (Zeitzonen, Sommerzeit, Countdown zur nächsten Runde, beide Editionen, deutsche und englische Namen) mit Tests
-- `common/` – Android-Teile, die Uhr und Handy teilen: Texte (Deutsch/Englisch), Standortabfrage, Formatierung und die Schrift [Aleo](common/fonts/README.md) (SIL Open Font License)
-- `phone/` – Android-App fürs Handy: großer „Jetzt“-Bildschirm im Bier-Design, Tipp auf einen Ort öffnet Google Maps, Spruch-Auswahl in den Einstellungen, die Runden der nächsten 12 Stunden und ein Homescreen-Widget, das sich zu jeder neuen Runde aktualisiert
-- `wear/` – Wear-OS-App (Compose for Wear OS): Stadt, Land, Flagge, lokales Bier und Entfernung zu dir; auf Deutsch 16 Uhr, sonst Englisch und 17 Uhr. Dazu zwei Complications: „Kein Bier vor Vier“ (16 Uhr) und „5 O'Clock Somewhere“ (17 Uhr)
-- `watchface/` – eigenes Zifferblatt im Watch Face Format, in zwei Varianten aus einer Vorlage (`src/main/watchface/watchface.xml`):
-  - `vier` – „Kein Bier vor Vier“, zwölfmal die 4
-  - `five` – „It's 5 O'Clock Somewhere“, zwölfmal die 5
+## Was drin ist
 
-  Flagge, Stadt und Countdown kommen aus den Complications der App, die also mit installiert sein muss.
-- `tools/make_foam.py` – erzeugt die Schaumwelle für Widget und Zifferblatt (die App zeichnet sie selbst)
-- `tools/make_logo.py` – erzeugt das Logo (Zifferblatt mit zwölf 4ern bzw. 5ern, unten Bier) als SVG in [`docs/logo/`](docs/logo/) und als App-Icon für Handy und Uhr
-- geplant: später eine watchOS-Version
+- **Handy-App:** Bierglas mit Flagge, Stadt, Land, Entfernung zu dir und dem lokalen Bier; nächste Runde mit Countdown, die Runden der nächsten 12 Stunden. Tipp auf einen Ort öffnet Google Maps. Der Spruch (16 oder 17 Uhr) folgt der Sprache oder lässt sich in den Einstellungen wählen.
+- **Homescreen-Widget,** das sich zu jeder neuen Runde aktualisiert.
+- **Wear-OS-App** als „volles Glas“, dazu zwei **Complications** für beliebige Zifferblätter.
+- **Zwei eigene Zifferblätter:** „Kein Bier vor Vier“ (zwölfmal die 4) und „It's 5 O'Clock Somewhere“ (zwölfmal die 5).
+- Deutsch und Englisch, 52 Orte inklusive der Zeitzonen mit halben und Viertelstunden, Sommerzeit inklusive.
+
+## Aufbau
+
+| Modul | Inhalt |
+|---|---|
+| `core/` | Reine Kotlin-Logik: Zeitzonen, Sommerzeit, Countdown, beide Editionen, Orte, Biere, Entfernung – mit Tests |
+| `common/` | Android-Teile für Uhr und Handy: Texte, Standortabfrage, Farben, das Bierglas, die Schrift [Aleo](common/fonts/README.md) |
+| `phone/` | Handy-App und Widget (Jetpack Compose, Glance) |
+| `wear/` | Wear-OS-App und Complications (Compose for Wear OS) |
+| `watchface/` | Zifferblätter im Watch Face Format, beide Varianten aus einer Vorlage (`src/main/watchface/watchface.xml`); Flagge, Stadt und Countdown kommen aus den Complications der App |
+| `tools/` | `make_logo.py` erzeugt Logo ([`docs/logo/`](docs/logo/)) und App-Icon, `make_foam.py` die Schaumwelle für Widget und Zifferblatt |
+
+Geplant: später eine watchOS-Version.
 
 ## Barrierefreiheit
 
-- Textfarben erfüllen WCAG AA: `#595540` (7,0 : 1 auf Creme) und `#6B6756` (5,3 : 1 auf Creme, 4,6 : 1 auf den Karten)
+- Textfarben erfüllen WCAG AA: `#595540` (7,0 : 1 auf Creme), `#6B6756` (5,3 : 1 auf Creme, 4,6 : 1 auf den Karten) und `#45412B` für kleine Schrift auf dem Bier (5,6 : 1)
 - TalkBack liest Karten als Einheit vor, Großbuchstaben normal, Deko (Mini-Uhr, Symbole) wird übersprungen; Überschriften sind als solche markiert
 - Tippflächen mindestens 48 dp; Layout wächst mit großer Schrift (getestet mit 200 %)
 - Die Bläschen stehen still, wenn in Android „Animationen entfernen“ aktiv ist
@@ -38,12 +62,18 @@ Voraussetzung: Android Studio (inkl. Android SDK).
 ./gradlew :watchface:assembleDebug    # beide Zifferblätter bauen
 ```
 
+Bei jedem Push laufen Tests und Builds auch auf GitHub; die fertigen Debug-APKs hängen am jeweiligen [Build](https://github.com/omphteliba/kein-bier-vor-vier/actions/workflows/build.yml).
+
 Zum Ausprobieren in Android Studio einen Wear-OS-Emulator anlegen, die Run-Konfiguration `wear` starten und ein Zifferblatt installieren und aktivieren:
 
 ```bash
 adb install -r watchface/build/outputs/apk/vier/debug/watchface-vier-debug.apk
 adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation set-watchface --es watchFaceId de.keinbiervorvier.watchface.vier
 ```
+
+## Lizenz
+
+Der Code steht unter der [MIT-Lizenz](LICENSE). Die Schrift Aleo (`common/src/main/res/font/aleo.ttf`) ist davon ausgenommen und steht unter der [SIL Open Font License 1.1](common/fonts/Aleo-OFL.txt).
 
 ## Mitwirkende
 

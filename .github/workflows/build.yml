@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      # The Gradle daemon runs on JDK 25 (gradle/gradle-daemon-jvm.properties),
+      # the core module compiles against a JDK 17 toolchain.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            17
+            25
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Test and build
+        run: ./gradlew :core:test :phone:assembleDebug :wear:assembleDebug :watchface:assembleDebug
+
+      - name: Upload test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: core/build/reports/tests/
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: apks
+          path: |
+            phone/build/outputs/apk/debug/*.apk
+            wear/build/outputs/apk/debug/*.apk
+            watchface/build/outputs/apk/*/debug/*.apk
