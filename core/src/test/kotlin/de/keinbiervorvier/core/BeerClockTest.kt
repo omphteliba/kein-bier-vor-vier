@@ -19,6 +19,14 @@ class BeerClockTest {
     }
 
     @Test
+    fun `every short name fits a small complication`() {
+        BeerSpots.ALL.forEach {
+            val length = it.shortName.codePointCount(0, it.shortName.length)
+            assertTrue(length <= SHORT_NAME_MAX, "${it.city}: '${it.shortName}' is too long")
+        }
+    }
+
+    @Test
     fun `somewhere it is always beer o'clock`() {
         var t = Instant.parse("2026-01-01T00:00:00Z")
         val end = t.plus(Duration.ofDays(366))

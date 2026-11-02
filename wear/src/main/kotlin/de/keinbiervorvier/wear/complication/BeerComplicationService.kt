@@ -19,6 +19,7 @@ import androidx.wear.watchface.complications.datasource.SuspendingTimelineCompli
 import androidx.wear.watchface.complications.datasource.TimeInterval
 import androidx.wear.watchface.complications.datasource.TimelineEntry
 import de.keinbiervorvier.core.BeerClock
+import de.keinbiervorvier.core.BeerSpot
 import de.keinbiervorvier.wear.MainActivity
 import de.keinbiervorvier.wear.R
 import java.time.Duration
@@ -33,7 +34,12 @@ import java.time.Instant
 class BeerComplicationService : SuspendingTimelineComplicationDataSourceService() {
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
-        build(type, city = "Kathmandu", nextCity = "Mumbai", nextAt = Instant.now().plus(Duration.ofMinutes(15)))
+        build(
+            type,
+            spot = BeerSpot("Kathmandu", "Asia/Kathmandu", "Nepal"),
+            next = BeerSpot("Mumbai", "Asia/Kolkata"),
+            nextAt = Instant.now().plus(Duration.ofMinutes(15)),
+        )
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationDataTimeline? {
         val type = request.complicationType
@@ -41,8 +47,8 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
         val status = BeerClock.status(now)
         val default = build(
             type,
-            city = status.openNow.first().spot.city,
-            nextCity = status.next.spots.first().city,
+            spot = status.openNow.first().spot,
+            next = status.next.spots.first(),
             nextAt = status.next.at,
         ) ?: return null
 
@@ -50,22 +56,22 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
         val entries = rounds.zipWithNext { round, following ->
             TimelineEntry(
                 TimeInterval(round.at, following.at),
-                build(type, round.spots.first().city, following.spots.first().city, following.at)!!,
+                build(type, round.spots.first(), following.spots.first(), following.at)!!,
             )
         }
         return ComplicationDataTimeline(default, entries)
     }
 
-    private fun build(type: ComplicationType, city: String, nextCity: String, nextAt: Instant): ComplicationData? {
-        val description = PlainComplicationText.Builder(getString(R.string.complication_description, city)).build()
+    private fun build(type: ComplicationType, spot: BeerSpot, next: BeerSpot, nextAt: Instant): ComplicationData? {
+        val description = PlainComplicationText.Builder(getString(R.string.complication_description, spot.city)).build()
         return when (type) {
-            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(plain(city), description)
+            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(plain(spot.shortName), description)
                 .setMonochromaticImage(icon())
                 .setTapAction(openApp())
                 .build()
 
-            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain("🍺 $city"), description)
-                .setTitle(countdown(nextCity, nextAt))
+            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain("🍺 ${spot.city}"), description)
+                .setTitle(countdown(next.city, nextAt))
                 .setMonochromaticImage(icon())
                 .setTapAction(openApp())
                 .build()
