@@ -17,6 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -27,11 +29,13 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerStatus
+import de.keinbiervorvier.core.Edition
 import de.keinbiervorvier.core.GeoPoint
 import de.keinbiervorvier.core.formatDistance
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.Instant
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +54,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BeerScreen() {
+    val locale = LocalConfiguration.current.locales[0]
     var now by remember { mutableStateOf(Instant.now()) }
     LaunchedEffect(Unit) {
         while (true) {
@@ -58,11 +63,11 @@ fun BeerScreen() {
             now = Instant.now()
         }
     }
-    BeerStatusView(BeerClock.status(now), rememberUserLocation())
+    BeerStatusView(BeerClock.status(now, Edition.forLocale(locale)), rememberUserLocation(), locale)
 }
 
 @Composable
-fun BeerStatusView(status: BeerStatus, userLocation: GeoPoint?) {
+fun BeerStatusView(status: BeerStatus, userLocation: GeoPoint?, locale: Locale) {
     val current = status.openNow.first()
     val distanceKm = userLocation?.distanceKmTo(current.spot.location)
     Column(
@@ -70,15 +75,15 @@ fun BeerStatusView(status: BeerStatus, userLocation: GeoPoint?) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("🍺 Gerade 16 Uhr in", style = MaterialTheme.typography.labelMedium)
+        Text(stringResource(R.string.now_in), style = MaterialTheme.typography.labelMedium)
         Text(
             buildAnnotatedString {
-                append("${current.spot.flag} ${current.spot.city}")
+                append("${current.spot.flag} ${current.spot.city(locale)}")
                 withStyle(
                     MaterialTheme.typography.bodyMedium.toSpanStyle()
                         .copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
                 ) {
-                    append(", ${current.spot.country}")
+                    append(", ${current.spot.country(locale)}")
                 }
             },
             style = MaterialTheme.typography.titleLarge,
@@ -87,28 +92,28 @@ fun BeerStatusView(status: BeerStatus, userLocation: GeoPoint?) {
         )
         Text(
             listOfNotNull(
-                "seit ${current.minutesIn} min",
-                distanceKm?.let { formatDistance(it) ?: "Du bist da! 🍻" },
+                stringResource(R.string.since_minutes, current.minutesIn),
+                distanceKm?.let { formatDistance(it, locale) ?: stringResource(R.string.you_are_there) },
             ).joinToString(" · "),
             style = MaterialTheme.typography.bodySmall,
         )
         Spacer(Modifier.height(6.dp))
         val beer = current.spot.beer
         Text(
-            beer?.name ?: "Kein lokales Bier",
+            beer?.name ?: stringResource(R.string.no_local_beer),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
         Text(
-            beer?.style ?: "Selbst mitbringen 🎒",
+            beer?.style ?: stringResource(R.string.bring_your_own),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(Modifier.height(10.dp))
-        Text("Nächste Runde", style = MaterialTheme.typography.labelSmall)
+        Text(stringResource(R.string.next_round), style = MaterialTheme.typography.labelSmall)
         val next = status.next.spots.first()
         Text(
-            "${next.flag} ${next.city} in ${formatCountdown(status.next.countdown)}",
+            stringResource(R.string.next_in, "${next.flag} ${next.city(locale)}", formatCountdown(status.next.countdown)),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )

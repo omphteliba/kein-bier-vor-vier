@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
+import java.util.Locale
 
 class BeerClockTest {
 
@@ -20,33 +21,65 @@ class BeerClockTest {
 
     @Test
     fun `flags are built from the country code`() {
-        assertEquals("Deutschland", berlin.country)
+        assertEquals("Deutschland", berlin.country(Locale.GERMANY))
+        assertEquals("Germany", berlin.country(Locale.US))
         assertEquals("🇩🇪", BeerSpot("München", "Europe/Berlin", "DE", GeoPoint(48.14, 11.58), null).flag)
         BeerSpots.ALL.forEach { assertTrue(it.countryCode.matches(Regex("[A-Z]{2}")), it.city) }
     }
 
     @Test
     fun `every short name fits a small complication`() {
-        BeerSpots.ALL.forEach {
-            val length = it.shortName.codePointCount(0, it.shortName.length)
-            assertTrue(length <= SHORT_NAME_MAX, "${it.city}: '${it.shortName}' is too long")
+        for (locale in listOf(Locale.GERMAN, Locale.ENGLISH)) {
+            BeerSpots.ALL.forEach {
+                val name = it.shortName(locale)
+                assertTrue(name.codePointCount(0, name.length) <= SHORT_NAME_MAX, "${it.city}: '$name' is too long")
+            }
         }
     }
 
     @Test
-    fun `somewhere it is always beer o'clock`() {
-        var t = Instant.parse("2026-01-01T00:00:00Z")
-        val end = t.plus(Duration.ofDays(366))
-        while (t < end) {
-            assertTrue(BeerClock.status(t).openNow.isNotEmpty(), "Nobody drinking at $t")
-            t = t.plus(Duration.ofMinutes(7))
+    fun `names follow the language`() {
+        assertEquals("München", berlin.city(Locale.GERMANY))
+        assertEquals("Munich", berlin.city(Locale.UK))
+        assertEquals("Kathmandu", kathmandu.city(Locale.FRENCH))
+        assertTrue(BeerSpots.ENGLISH_NAMES.keys.all { id -> BeerSpots.ALL.any { it.zone.id == id } })
+    }
+
+    @Test
+    fun `somewhere it is always beer o'clock, in both editions`() {
+        for (edition in Edition.entries) {
+            var t = Instant.parse("2026-01-01T00:00:00Z")
+            val end = t.plus(Duration.ofDays(366))
+            while (t < end) {
+                assertTrue(BeerClock.status(t, edition).openNow.isNotEmpty(), "Nobody drinking at $t ($edition)")
+                t = t.plus(Duration.ofMinutes(7))
+            }
         }
+    }
+
+    @Test
+    fun `five o'clock edition starts an hour later`() {
+        // 11:20 UTC = 17:05 Kathmandu
+        val status = BeerClock.status(
+            Instant.parse("2026-11-02T11:20:00Z"),
+            Edition.FIVE_O_CLOCK_SOMEWHERE,
+            listOf(berlin, kathmandu, mumbai),
+        )
+        assertEquals(listOf(kathmandu), status.openNow.map { it.spot })
+        assertEquals(5, status.openNow.single().minutesIn)
+    }
+
+    @Test
+    fun `edition follows the language`() {
+        assertEquals(Edition.KEIN_BIER_VOR_VIER, Edition.forLocale(Locale.GERMANY))
+        assertEquals(Edition.KEIN_BIER_VOR_VIER, Edition.forLocale(Locale.forLanguageTag("de-AT")))
+        assertEquals(Edition.FIVE_O_CLOCK_SOMEWHERE, Edition.forLocale(Locale.US))
     }
 
     @Test
     fun `open spots are those in the 16 o'clock hour, newest first`() {
         // 10:20 UTC = 16:05 Kathmandu (+5:45), 15:50 Mumbai (+5:30)
-        val status = BeerClock.status(Instant.parse("2026-11-02T10:20:00Z"), listOf(berlin, kathmandu, mumbai))
+        val status = BeerClock.status(Instant.parse("2026-11-02T10:20:00Z"), spots = listOf(berlin, kathmandu, mumbai))
         assertEquals(listOf(kathmandu), status.openNow.map { it.spot })
         assertEquals(5, status.openNow.single().minutesIn)
         assertEquals(listOf(mumbai), status.next.spots)
@@ -83,7 +116,7 @@ class BeerClockTest {
     @Test
     fun `spots reaching 16 o'clock at the same moment are grouped`() {
         val lagos = BeerSpot("Lagos", "Africa/Lagos", "NG", GeoPoint(6.52, 3.38), null) // UTC+1, like Berlin in winter
-        val status = BeerClock.status(Instant.parse("2026-12-01T12:00:00Z"), listOf(berlin, lagos, kathmandu))
+        val status = BeerClock.status(Instant.parse("2026-12-01T12:00:00Z"), spots = listOf(berlin, lagos, kathmandu))
         assertEquals(setOf(berlin, lagos), status.next.spots.toSet())
     }
 }

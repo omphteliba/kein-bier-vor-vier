@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Watch Face Format template. Gradle fills in the double-brace placeholders per
+  edition (see watchface/build.gradle.kts), so both variants share one layout.
+  Flag, city and countdown come from the app's complication data source.
+-->
+<WatchFace width="450" height="450">
+    <Metadata key="CLOCK_TYPE" value="ANALOG" />
+    <Metadata key="PREVIEW_TIME" value="10:08:32" />
+
+    <Scene backgroundColor="#FF000000">
+        <!-- Glass: cream dial, beer from the middle down, foam on top. -->
+        <PartDraw x="0" y="0" width="450" height="450">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Ellipse x="0" y="0" width="450" height="450"><Fill color="#FFFDF6E3" /></Ellipse>
+            <Rectangle x="0" y="250" width="450" height="200">
+                <Fill color="#FFF6B400">
+                    <LinearGradient startX="0" startY="250" endX="0" endY="450" colors="#FFF6B400 #FFD98300" positions="0 1" />
+                </Fill>
+            </Rectangle>
+            <Ellipse x="0" y="232" width="40" height="40"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="30" y="226" width="46" height="46"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="70" y="230" width="40" height="40"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="105" y="224" width="48" height="48"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="145" y="229" width="42" height="42"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="182" y="223" width="50" height="50"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="222" y="228" width="44" height="44"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="258" y="224" width="48" height="48"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="298" y="230" width="42" height="42"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="334" y="226" width="46" height="46"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="372" y="231" width="40" height="40"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Ellipse x="405" y="228" width="46" height="46"><Fill color="#FFFFFFFF" /></Ellipse>
+            <Rectangle x="0" y="248" width="450" height="14"><Fill color="#FFFFFFFF" /></Rectangle>
+            <Ellipse x="4" y="4" width="442" height="442"><Stroke color="#FF3B2A1A" thickness="8" /></Ellipse>
+        </PartDraw>
+
+        <!-- Dial: twelve times the same digit. Dark by day, light in ambient mode. -->
+        <PartText x="195" y="11" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="289" y="36" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="358" y="105" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="383" y="199" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="358" y="293" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="289" y="362" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="195" y="387" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="101" y="362" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="32" y="293" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="7" y="199" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="32" y="105" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="101" y="36" width="60" height="52" alpha="255">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="195" y="11" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="289" y="36" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="358" y="105" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="383" y="199" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="358" y="293" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="289" y="362" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="195" y="387" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="101" y="362" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="32" y="293" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="7" y="199" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="32" y="105" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="101" y="36" width="60" height="52" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="42" weight="BOLD" color="#FFBDBDBD"><![CDATA[{{DIGIT}}]]></Font>
+            </Text>
+        </PartText>
+
+        <PartText x="45" y="98" width="360" height="50">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="{{TITLE_SIZE}}" weight="BOLD" color="#FFC62828"><![CDATA[{{TITLE_TOP}}]]></Font>
+            </Text>
+        </PartText>
+        <PartText x="45" y="268" width="360" height="46">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text align="CENTER">
+                <Font family="SYNC_TO_DEVICE" size="{{TITLE_SIZE}}" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{TITLE_BOTTOM}}]]></Font>
+            </Text>
+        </PartText>
+
+        <!-- Flag of the place where it is beer o'clock right now, in colour. -->
+        <ComplicationSlot slotId="0" x="196" y="152" width="58" height="58" supportedTypes="SMALL_IMAGE" isCustomizable="TRUE">
+            <DefaultProviderPolicy defaultSystemProvider="EMPTY" defaultSystemProviderType="SMALL_IMAGE"
+                primaryProvider="{{PROVIDER}}" primaryProviderType="SMALL_IMAGE" />
+            <BoundingOval x="0" y="0" width="58" height="58" />
+            <Complication type="SMALL_IMAGE">
+                <PartImage x="0" y="0" width="58" height="58">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" />
+                </PartImage>
+            </Complication>
+        </ComplicationSlot>
+
+        <!-- City and countdown to the next round. -->
+        <ComplicationSlot slotId="1" x="115" y="316" width="220" height="50" supportedTypes="LONG_TEXT SHORT_TEXT" isCustomizable="TRUE">
+            <DefaultProviderPolicy defaultSystemProvider="EMPTY" defaultSystemProviderType="LONG_TEXT"
+                primaryProvider="{{PROVIDER}}" primaryProviderType="LONG_TEXT" />
+            <BoundingBox x="0" y="0" width="220" height="50" />
+            <Complication type="LONG_TEXT">
+                <PartText x="0" y="0" width="220" height="29">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="SYNC_TO_DEVICE" size="23" weight="BOLD" color="#FF3B2A1A">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <PartText x="0" y="0" width="220" height="29" alpha="0">
+                    <Variant mode="AMBIENT" target="alpha" value="255" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="SYNC_TO_DEVICE" size="23" weight="BOLD" color="#FFBDBDBD">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <PartText x="0" y="29" width="220" height="21">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="SYNC_TO_DEVICE" size="16" color="#FF3B2A1A">
+                            <Template>%s<Parameter expression="[COMPLICATION.TITLE]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <PartText x="0" y="29" width="220" height="21" alpha="0">
+                    <Variant mode="AMBIENT" target="alpha" value="255" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="SYNC_TO_DEVICE" size="16" color="#FFBDBDBD">
+                            <Template>%s<Parameter expression="[COMPLICATION.TITLE]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="SHORT_TEXT">
+                <PartText x="0" y="0" width="220" height="50">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="SYNC_TO_DEVICE" size="24" weight="BOLD" color="#FF3B2A1A">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <PartText x="0" y="0" width="220" height="50" alpha="0">
+                    <Variant mode="AMBIENT" target="alpha" value="255" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="SYNC_TO_DEVICE" size="24" weight="BOLD" color="#FFBDBDBD">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+        </ComplicationSlot>
+
+        <!-- Hands: dark by day, light in ambient mode. -->
+        <AnalogClock x="0" y="0" width="450" height="450">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <HourHand resource="hour_hand" x="218" y="115" width="14" height="130" pivotX="0.5" pivotY="0.846" />
+            <MinuteHand resource="minute_hand" x="220" y="60" width="10" height="190" pivotX="0.5" pivotY="0.868" />
+            <SecondHand resource="second_hand" x="223" y="45" width="4" height="215" pivotX="0.5" pivotY="0.837">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Sweep frequency="15" />
+            </SecondHand>
+        </AnalogClock>
+        <AnalogClock x="0" y="0" width="450" height="450" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="255" />
+            <HourHand resource="hour_hand_ambient" x="218" y="115" width="14" height="130" pivotX="0.5" pivotY="0.846" />
+            <MinuteHand resource="minute_hand_ambient" x="220" y="60" width="10" height="190" pivotX="0.5" pivotY="0.868" />
+        </AnalogClock>
+
+        <PartDraw x="215" y="215" width="20" height="20">
+            <Ellipse x="0" y="0" width="20" height="20"><Fill color="#FF3B2A1A" /></Ellipse>
+        </PartDraw>
+    </Scene>
+</WatchFace>

@@ -1,13 +1,18 @@
-# Kein Bier vor Vier 🍺
+# Kein Bier vor Vier 🍺 · It's 5 O'Clock Somewhere
 
 Eine nicht ganz ernst gemeinte Smartwatch-App: Sie zeigt, in welcher Zeitzone es **gerade 16 Uhr** ist – und wo als Nächstes. Irgendwo auf der Welt ist schließlich immer vier.
 
-Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht.
+Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. Die englische Ausgabe folgt dem Spruch *„It's five o'clock somewhere“* und rechnet deshalb mit 17 Uhr.
 
 ## Stand
 
-- `core/` – reine Kotlin-Logik (Zeitzonen, Sommerzeit, Countdown zur nächsten Runde) mit Tests
-- `wear/` – Wear-OS-App (Compose for Wear OS): Stadt, Land, Flagge, lokales Bier und Entfernung zu dir; dazu die Complication „Bier-Uhr“ fürs Zifferblatt
+- `core/` – reine Kotlin-Logik (Zeitzonen, Sommerzeit, Countdown zur nächsten Runde, beide Editionen, deutsche und englische Namen) mit Tests
+- `wear/` – Wear-OS-App (Compose for Wear OS): Stadt, Land, Flagge, lokales Bier und Entfernung zu dir; auf Deutsch 16 Uhr, sonst Englisch und 17 Uhr. Dazu zwei Complications: „Kein Bier vor Vier“ (16 Uhr) und „5 O'Clock Somewhere“ (17 Uhr)
+- `watchface/` – eigenes Zifferblatt im Watch Face Format, in zwei Varianten aus einer Vorlage (`src/main/watchface/watchface.xml`):
+  - `vier` – „Kein Bier vor Vier“, zwölfmal die 4
+  - `five` – „It's 5 O'Clock Somewhere“, zwölfmal die 5
+
+  Flagge, Stadt und Countdown kommen aus den Complications der App, die also mit installiert sein muss.
 - geplant: später eine watchOS-Version
 
 ## Bauen & testen
@@ -15,11 +20,17 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht.
 Voraussetzung: Android Studio (inkl. Android SDK).
 
 ```bash
-./gradlew :core:test           # Logik testen
-./gradlew :wear:assembleDebug  # APK bauen
+./gradlew :core:test                  # Logik testen
+./gradlew :wear:assembleDebug         # App bauen
+./gradlew :watchface:assembleDebug    # beide Zifferblätter bauen
 ```
 
-Zum Ausprobieren in Android Studio einen Wear-OS-Emulator anlegen und die Run-Konfiguration `wear` starten.
+Zum Ausprobieren in Android Studio einen Wear-OS-Emulator anlegen, die Run-Konfiguration `wear` starten und ein Zifferblatt installieren und aktivieren:
+
+```bash
+adb install -r watchface/build/outputs/apk/vier/debug/watchface-vier-debug.apk
+adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation set-watchface --es watchFaceId de.keinbiervorvier.watchface.vier
+```
 
 ## Mitwirkende
 

@@ -23,32 +23,43 @@ import androidx.wear.watchface.complications.datasource.TimeInterval
 import androidx.wear.watchface.complications.datasource.TimelineEntry
 import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerSpot
-import de.keinbiervorvier.core.GeoPoint
+import de.keinbiervorvier.core.BeerSpots
+import de.keinbiervorvier.core.Edition
 import de.keinbiervorvier.wear.MainActivity
 import de.keinbiervorvier.wear.R
 import java.time.Duration
 import java.time.Instant
+import java.util.Locale
+
+/** "Kein Bier vor Vier": where it is 16:00. */
+class KeinBierVorVierComplicationService : BeerHourComplicationService(Edition.KEIN_BIER_VOR_VIER)
+
+/** "It's five o'clock somewhere": where it is 17:00. */
+class FiveOClockComplicationService : BeerHourComplicationService(Edition.FIVE_O_CLOCK_SOMEWHERE)
 
 /**
- * Shows the city where it most recently turned 16:00. The whole next day is
- * handed to the system as a timeline, so the complication switches cities on
+ * Shows the city where the beer hour most recently started. The whole next day
+ * is handed to the system as a timeline, so the complication switches cities on
  * time without waking this service; the countdown is rendered live by the
- * system as well.
+ * system as well. Texts follow the watch's language, the hour follows [edition].
  */
-class BeerComplicationService : SuspendingTimelineComplicationDataSourceService() {
+abstract class BeerHourComplicationService(private val edition: Edition) :
+    SuspendingTimelineComplicationDataSourceService() {
+
+    private val locale: Locale get() = resources.configuration.locales[0]
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
         build(
             type,
-            spot = BeerSpot("Kathmandu", "Asia/Kathmandu", "NP", GeoPoint(27.72, 85.32), null, shortName = "Nepal"),
-            next = BeerSpot("Mumbai", "Asia/Kolkata", "IN", GeoPoint(19.08, 72.88), null),
+            spot = BeerSpots.ALL.first { it.zone.id == "Asia/Kathmandu" },
+            next = BeerSpots.ALL.first { it.zone.id == "Asia/Kolkata" },
             nextAt = Instant.now().plus(Duration.ofMinutes(15)),
         )
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationDataTimeline? {
         val type = request.complicationType
         val now = Instant.now()
-        val status = BeerClock.status(now)
+        val status = BeerClock.status(now, edition)
         val default = build(
             type,
             spot = status.openNow.first().spot,
@@ -56,7 +67,7 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
             nextAt = status.next.at,
         ) ?: return null
 
-        val rounds = BeerClock.rounds(now, now.plus(TIMELINE_LENGTH))
+        val rounds = BeerClock.rounds(now, now.plus(TIMELINE_LENGTH), edition)
         val entries = rounds.zipWithNext { round, following ->
             TimelineEntry(
                 TimeInterval(round.at, following.at),
@@ -67,7 +78,7 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
     }
 
     private fun build(type: ComplicationType, spot: BeerSpot, next: BeerSpot, nextAt: Instant): ComplicationData? {
-        val description = PlainComplicationText.Builder(getString(R.string.complication_description, spot.city)).build()
+        val description = PlainComplicationText.Builder(getString(R.string.complication_description, spot.city(locale))).build()
         return when (type) {
             ComplicationType.SMALL_IMAGE -> SmallImageComplicationData.Builder(flagImage(spot), description)
                 .setTapAction(openApp())
@@ -75,14 +86,14 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
 
             // Watch faces tint complication text, which turns a flag emoji into a white
             // blob, so text slots get the short name and the flag only as a colour image.
-            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(plain(spot.shortName), description)
+            ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(plain(spot.shortName(locale)), description)
                 .setMonochromaticImage(icon())
                 .setSmallImage(flagImage(spot))
                 .setTapAction(openApp())
                 .build()
 
-            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain(spot.city), description)
-                .setTitle(countdown(next.city, nextAt))
+            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain(spot.city(locale)), description)
+                .setTitle(countdown(next.city(locale), nextAt))
                 .setMonochromaticImage(icon())
                 .setSmallImage(flagImage(spot))
                 .setTapAction(openApp())

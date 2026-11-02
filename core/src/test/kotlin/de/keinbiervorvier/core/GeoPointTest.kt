@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.util.Locale
 
 class GeoPointTest {
 
@@ -37,5 +38,6 @@ class GeoPointTest {
         assertNull(formatDistance(12.0))
         assertEquals("480 km", formatDistance(483.0))
         assertEquals("7.600 km", formatDistance(7_563.0))
+        assertEquals("7,600 km", formatDistance(7_563.0, Locale.US))
     }
 }

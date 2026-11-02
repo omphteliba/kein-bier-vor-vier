@@ -7,10 +7,10 @@ import java.util.Locale
 data class Beer(val name: String, val style: String)
 
 /**
- * A place where it can be 16:00, shown with a human-friendly name.
+ * A place where the beer hour can start, shown with a human-friendly name.
+ * [city] and [shortName] are German; English ones come from [BeerSpots.ENGLISH_NAMES].
  * [countryCode] is ISO 3166-1 alpha-2 and drives the [flag]; [location] is the
- * city centre, roughly. [beer] is null
- * where there is no local beer to speak of.
+ * city centre, roughly. [beer] is null where there is no local beer to speak of.
  * [shortName] fits small watch face slots (at most [SHORT_NAME_MAX] characters).
  */
 data class BeerSpot(
@@ -30,14 +30,28 @@ data class BeerSpot(
         shortName: String = city,
     ) : this(city, ZoneId.of(zoneId), countryCode, location, beer, shortName)
 
-    /** The country's name in German, e.g. "Myanmar". */
-    val country: String
-        get() = Locale.Builder().setRegion(countryCode).build().getDisplayCountry(Locale.GERMAN)
+    /** The city's name in German, or in English for any other language. */
+    fun city(locale: Locale): String =
+        if (locale.isGerman()) city else BeerSpots.ENGLISH_NAMES[zone.id]?.city ?: city
+
+    /** Like [city], but short enough for a small complication. */
+    fun shortName(locale: Locale): String =
+        if (locale.isGerman()) shortName else BeerSpots.ENGLISH_NAMES[zone.id]?.shortName ?: shortName
+
+    /** The country's name in German, or in English for any other language. */
+    fun country(locale: Locale): String =
+        Locale.Builder().setRegion(countryCode).build()
+            .getDisplayCountry(if (locale.isGerman()) Locale.GERMAN else Locale.ENGLISH)
 
     /** The country's flag emoji, built from regional indicator symbols. */
     val flag: String
         get() = countryCode.uppercase().map { Character.toChars(0x1F1E6 + (it - 'A')).concatToString() }.joinToString("")
 }
+
+private fun Locale.isGerman() = language == "de"
+
+/** English names where they differ from the German ones. */
+data class EnglishName(val city: String, val shortName: String = city)
 
 /** Short text complications only have room for about seven characters. */
 const val SHORT_NAME_MAX = 7
@@ -100,5 +114,23 @@ object BeerSpots {
         BeerSpot("Marquesas", "Pacific/Marquesas", "PF", GeoPoint(-8.91, -140.1), Beer("Hinano", "Lager"), shortName = "Marq."),
         BeerSpot("Honolulu", "Pacific/Honolulu", "US", GeoPoint(21.31, -157.86), Beer("Kona Big Wave", "Golden Ale"), shortName = "Hawaii"),
         BeerSpot("Pago Pago", "Pacific/Pago_Pago", "AS", GeoPoint(-14.28, -170.7), null, shortName = "Samoa"),
+    )
+
+    /** Keyed by zone id. */
+    val ENGLISH_NAMES: Map<String, EnglishName> = mapOf(
+        "Pacific/Chatham" to EnglishName("Chatham Islands", "Chatham"),
+        "Asia/Tokyo" to EnglishName("Tokyo"),
+        "Asia/Shanghai" to EnglishName("Shanghai", "Beijing"),
+        "Asia/Karachi" to EnglishName("Karachi", "Lahore"),
+        "Europe/Moscow" to EnglishName("Moscow"),
+        "Europe/Athens" to EnglishName("Athens"),
+        "Africa/Cairo" to EnglishName("Cairo"),
+        "Europe/Berlin" to EnglishName("Munich"),
+        "Europe/Lisbon" to EnglishName("Lisbon"),
+        "Atlantic/Reykjavik" to EnglishName("Reykjavík", "Iceland"),
+        "Atlantic/Azores" to EnglishName("Azores"),
+        "Atlantic/South_Georgia" to EnglishName("South Georgia", "S.Georg"),
+        "America/Mexico_City" to EnglishName("Mexico City", "Mexico"),
+        "Pacific/Gambier" to EnglishName("Gambier Islands", "Gambier"),
     )
 }
