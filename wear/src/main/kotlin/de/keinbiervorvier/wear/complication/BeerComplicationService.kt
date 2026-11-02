@@ -36,8 +36,8 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
         build(
             type,
-            spot = BeerSpot("Kathmandu", "Asia/Kathmandu", "Nepal"),
-            next = BeerSpot("Mumbai", "Asia/Kolkata"),
+            spot = BeerSpot("Kathmandu", "Asia/Kathmandu", "NP", null, shortName = "Nepal"),
+            next = BeerSpot("Mumbai", "Asia/Kolkata", "IN", null),
             nextAt = Instant.now().plus(Duration.ofMinutes(15)),
         )
 
@@ -66,11 +66,12 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
         val description = PlainComplicationText.Builder(getString(R.string.complication_description, spot.city)).build()
         return when (type) {
             ComplicationType.SHORT_TEXT -> ShortTextComplicationData.Builder(plain(spot.shortName), description)
+                .setTitle(plain(spot.flag))
                 .setMonochromaticImage(icon())
                 .setTapAction(openApp())
                 .build()
 
-            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain("🍺 ${spot.city}"), description)
+            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain("${spot.flag} ${spot.city}"), description)
                 .setTitle(countdown(next.city, nextAt))
                 .setMonochromaticImage(icon())
                 .setTapAction(openApp())

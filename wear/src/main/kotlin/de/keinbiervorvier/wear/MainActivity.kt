@@ -67,7 +67,7 @@ fun BeerStatusView(status: BeerStatus) {
     ) {
         Text("🍺 Gerade 16 Uhr in", style = MaterialTheme.typography.labelMedium)
         Text(
-            current.spot.city,
+            "${current.spot.flag} ${current.spot.city}",
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
@@ -76,10 +76,23 @@ fun BeerStatusView(status: BeerStatus) {
             "seit ${current.minutesIn} min",
             style = MaterialTheme.typography.bodySmall,
         )
-        Spacer(Modifier.height(12.dp))
-        Text("Nächste Runde", style = MaterialTheme.typography.labelSmall)
+        Spacer(Modifier.height(6.dp))
+        val beer = current.spot.beer
         Text(
-            "${status.next.spots.first().city} in ${formatCountdown(status.next.countdown)}",
+            beer?.name ?: "Kein lokales Bier",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            beer?.style ?: "Selbst mitbringen 🎒",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.height(10.dp))
+        Text("Nächste Runde", style = MaterialTheme.typography.labelSmall)
+        val next = status.next.spots.first()
+        Text(
+            "${next.flag} ${next.city} in ${formatCountdown(status.next.countdown)}",
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
