@@ -187,7 +187,6 @@ object BeerSpots {
                 Beer("Vertigo IPA", "IPA", "Schwarze Rose", "Mainz", GeoPoint(50.00, 8.26), craft = true, website = "https://sr-cb.de"),
                 Beer("High Five", "Pale Ale", "Fuerst Wiacek", "Berlin", GeoPoint(52.54, 13.27), craft = true, website = "https://fuerstwiacek.com"),
                 Beer("Boat Snack", "NEIPA", "Yankee & Kraut", "Ingolstadt", GeoPoint(48.77, 11.43), craft = true, website = "https://www.yankeeundkraut.de"),
-                Beer("Marlene", "Berliner Weisse", "Schneeeule", "Berlin", GeoPoint(52.57, 13.34), craft = true),
                 Beer("Spree Coast IPA", "West Coast IPA", "Brauerei Lemke", "Berlin", GeoPoint(52.52, 13.40), craft = true, website = "https://www.lemke.berlin"),
                 Beer("Foggy Illusion", "Hazy IPA", "Still Brewing Society", "Mannheim", GeoPoint(49.49, 8.47), craft = true),
                 Beer("Untergiesinger Erhellung", "Helles", "Giesinger Bräu", "München", GeoPoint(48.11, 11.58), craft = true),

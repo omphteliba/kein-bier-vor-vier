@@ -16,7 +16,6 @@ Die Daten stehen in [`core/.../BeerSpots.kt`](../core/src/main/kotlin/de/keinbie
 | Vertigo IPA | Schwarze Rose, Mainz (gebraut bei Kuehn Kunz Rosen) | ✓ | [Untappd](https://untappd.com/SchwarzeRoseCraftBeer), [Feinkosten](https://www.feinkosten.de/marken/schwarze-rose) |
 | High Five (Pale Ale) | Fuerst Wiacek, Berlin | ✓ | [fuerstwiacek.com](https://fuerstwiacek.com/brewery/) |
 | Boat Snack (NEIPA) | Yankee & Kraut, Ingolstadt | ✓ | [craftbeer-shop.com](https://www.craftbeer-shop.com/yankee-und-kraut) |
-| Marlene (Berliner Weisse) | Schneeeule, Berlin | ✓ | [Weddingweiser](https://weddingweiser.de/brauerei-schneeeule-berliner-weisse/) |
 | Spree Coast IPA | Brauerei Lemke, Berlin | ✓ | [Craft Beer Nomads](https://craftbeernomads.com/craft-beer-in-berlin-brauerei-lemke/) |
 | Foggy Illusion (Hazy IPA) | Still Brewing Society, Mannheim (Andi Dietrich, ehem. Brauquadrat; gebraut u. a. bei CraftCell Heidelberg) | ✓ | [Bingen Bier Festival](https://bingenbierfestival.de/still-brewing-society/), [Untappd](https://untappd.com/StillBrewingSociety), [Brauquadrat](https://untappd.com/BRAUQUADRAT) |
 | Untergiesinger Erhellung | Giesinger Bräu, München | ✓ | [Bierentdecker](https://www.bierentdecker.com/magazin/artikel/die-brauerei-hinter-der-erhellung) |
@@ -60,6 +59,8 @@ Die Daten stehen in [`core/.../BeerSpots.kt`](../core/src/main/kotlin/de/keinbie
 | Honolulu | Hop Island IPA | Honolulu Beerworks | [Untappd](https://untappd.com/HNLBeerworks) |
 
 ## Geprüft und geändert
+
+- **Schneeeule** (Berlin) vorerst herausgenommen: Ob sie noch selbst braut, ist unklar.
 
 - **NT Draught** (Darwin) wird seit 2015 nicht mehr gebraut ([ABC News](https://www.abc.net.au/news/2015-05-29/darwin-stubby-wake-held-as-carlton-united-stops-production/6508116)).
 - **Goose Island, Golden Road, Kona, Four Peaks** gehören zu AB InBev und sind nicht mehr dabei.
