@@ -20,6 +20,7 @@ import androidx.wear.watchface.complications.datasource.TimeInterval
 import androidx.wear.watchface.complications.datasource.TimelineEntry
 import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerSpot
+import de.keinbiervorvier.core.GeoPoint
 import de.keinbiervorvier.wear.MainActivity
 import de.keinbiervorvier.wear.R
 import java.time.Duration
@@ -36,8 +37,8 @@ class BeerComplicationService : SuspendingTimelineComplicationDataSourceService(
     override fun getPreviewData(type: ComplicationType): ComplicationData? =
         build(
             type,
-            spot = BeerSpot("Kathmandu", "Asia/Kathmandu", "NP", null, shortName = "Nepal"),
-            next = BeerSpot("Mumbai", "Asia/Kolkata", "IN", null),
+            spot = BeerSpot("Kathmandu", "Asia/Kathmandu", "NP", GeoPoint(27.72, 85.32), null, shortName = "Nepal"),
+            next = BeerSpot("Mumbai", "Asia/Kolkata", "IN", GeoPoint(19.08, 72.88), null),
             nextAt = Instant.now().plus(Duration.ofMinutes(15)),
         )
 

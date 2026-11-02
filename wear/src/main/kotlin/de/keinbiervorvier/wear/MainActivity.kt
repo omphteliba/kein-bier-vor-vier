@@ -17,7 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.MaterialTheme
@@ -25,6 +27,8 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerStatus
+import de.keinbiervorvier.core.GeoPoint
+import de.keinbiervorvier.core.formatDistance
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.Instant
@@ -54,12 +58,13 @@ fun BeerScreen() {
             now = Instant.now()
         }
     }
-    BeerStatusView(BeerClock.status(now))
+    BeerStatusView(BeerClock.status(now), rememberUserLocation())
 }
 
 @Composable
-fun BeerStatusView(status: BeerStatus) {
+fun BeerStatusView(status: BeerStatus, userLocation: GeoPoint?) {
     val current = status.openNow.first()
+    val distanceKm = userLocation?.distanceKmTo(current.spot.location)
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Center,
@@ -67,13 +72,24 @@ fun BeerStatusView(status: BeerStatus) {
     ) {
         Text("🍺 Gerade 16 Uhr in", style = MaterialTheme.typography.labelMedium)
         Text(
-            "${current.spot.flag} ${current.spot.city}",
+            buildAnnotatedString {
+                append("${current.spot.flag} ${current.spot.city}")
+                withStyle(
+                    MaterialTheme.typography.bodyMedium.toSpanStyle()
+                        .copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                ) {
+                    append(", ${current.spot.country}")
+                }
+            },
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
         )
         Text(
-            "seit ${current.minutesIn} min",
+            listOfNotNull(
+                "seit ${current.minutesIn} min",
+                distanceKm?.let { formatDistance(it) ?: "Du bist da! 🍻" },
+            ).joinToString(" · "),
             style = MaterialTheme.typography.bodySmall,
         )
         Spacer(Modifier.height(6.dp))
