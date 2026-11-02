@@ -5,8 +5,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,9 +45,8 @@ import de.keinbiervorvier.core.formatDistance
 import de.keinbiervorvier.common.Aleo
 import de.keinbiervorvier.common.FlagCoaster
 import de.keinbiervorvier.common.Ink
-import de.keinbiervorvier.common.InkLight
-import de.keinbiervorvier.common.InkLightSoft
-import de.keinbiervorvier.common.Night
+import de.keinbiervorvier.common.FoamWhite
+import de.keinbiervorvier.common.InkDeep
 import de.keinbiervorvier.common.R as CommonR
 import de.keinbiervorvier.common.beerGlass
 import de.keinbiervorvier.common.formatCountdown
@@ -99,8 +100,9 @@ fun BeerScreen(edition: Edition) {
 }
 
 /**
- * The glass, watch edition: a dark top (kind to OLED) with the saying, the flag
- * on its beer mat and the place; foam; then the local beer, in the beer.
+ * The glass, watch edition: looking into a full glass. Foam across the top
+ * (where the time sits) with the saying, then beer with the flag on its mat,
+ * the place, the local beer and the next round.
  */
 @Composable
 fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?, locale: Locale) {
@@ -115,41 +117,42 @@ fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?
     val compact = LocalConfiguration.current.screenHeightDp < 210
 
     Column(
-        modifier = Modifier.fillMaxSize().beerGlass(foamAtPx = foamAt.toFloat(), top = Night, bubbleScale = 0.55f),
+        modifier = Modifier.fillMaxSize().beerGlass(foamAtPx = foamAt.toFloat(), top = FoamWhite, foamScale = 1.3f),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.64f)
-                .onSizeChanged { foamAt = it.height }
-                .padding(start = 24.dp, end = 24.dp, bottom = 10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom,
+        // The foam: room for the system clock, then the saying.
+        Box(
+            modifier = Modifier.fillMaxWidth().fillMaxHeight(0.27f).onSizeChanged { foamAt = it.height },
+            contentAlignment = Alignment.BottomCenter,
         ) {
             val saying = stringResource(edition.nowInRes)
             Text(
                 saying.uppercase(locale),
-                modifier = Modifier.semantics { contentDescription = saying },
+                modifier = Modifier.padding(bottom = 6.dp).semantics { contentDescription = saying },
                 fontFamily = Aleo,
                 fontWeight = FontWeight.Bold,
                 fontSize = if (compact) 10.sp else 11.sp,
                 letterSpacing = 1.sp,
-                color = InkLightSoft,
+                color = Ink,
                 maxLines = 1,
             )
-            Spacer(Modifier.height(4.dp))
+        }
+        // The beer.
+        Column(
+            modifier = Modifier.fillMaxWidth().weight(1f).padding(start = 28.dp, end = 28.dp, top = 14.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
             if (compact) {
                 FlagCoaster(current.spot.flag, size = 30.dp, flagSize = 16.sp)
             } else {
-                FlagCoaster(current.spot.flag, size = 36.dp, flagSize = 20.sp)
+                FlagCoaster(current.spot.flag, size = 38.dp, flagSize = 21.sp)
             }
             Text(
                 current.spot.city(locale),
                 fontFamily = Aleo,
                 fontWeight = FontWeight.Black,
-                fontSize = if (compact) 18.sp else 21.sp,
-                color = InkLight,
+                fontSize = if (compact) 19.sp else 22.sp,
+                color = InkDeep,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -160,32 +163,21 @@ fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?
                     distance,
                 ).joinToString(" · "),
                 fontSize = 10.sp,
-                color = InkLightSoft,
+                color = InkDeep,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-        }
-        Column(
-            modifier = Modifier.fillMaxWidth().weight(0.36f).padding(start = 36.dp, end = 36.dp, top = 12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
+            Spacer(Modifier.height(if (compact) 4.dp else 8.dp))
             Text(
-                beer?.name ?: stringResource(CommonR.string.no_local_beer),
+                listOfNotNull(beer?.name ?: stringResource(CommonR.string.no_local_beer), beer?.style).joinToString(" · "),
                 fontFamily = Aleo,
                 fontWeight = FontWeight.Bold,
-                fontSize = if (compact) 13.sp else 15.sp,
-                color = Ink,
+                fontSize = if (compact) 12.sp else 13.sp,
+                color = InkDeep,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            Text(
-                beer?.style ?: stringResource(CommonR.string.bring_your_own),
-                fontSize = 10.sp,
-                color = Ink,
-                maxLines = 1,
-            )
-            Spacer(Modifier.height(2.dp))
             val nextLine = stringResource(
                 CommonR.string.next_in,
                 "${next.flag} ${next.city(locale)}",
@@ -194,11 +186,11 @@ fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?
             Text(
                 "→ $nextLine",
                 // The arrow stands in for "next round", which TalkBack still says.
-                modifier = Modifier.semantics {
+                modifier = Modifier.padding(horizontal = 8.dp).semantics {
                     contentDescription = "${context.getString(CommonR.string.next_round)}: $nextLine"
                 },
                 fontSize = 10.sp,
-                color = Ink,
+                color = InkDeep,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

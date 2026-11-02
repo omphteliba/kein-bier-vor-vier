@@ -31,16 +31,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Path
+import kotlin.math.PI
 import kotlin.math.sin
 
 /**
  * Paints a glass of beer behind the content: [top] above [foamAtPx] (cream on
- * the phone, dark on the watch), a crown of foam bubbles on the line, beer below
- * with slowly rising carbonation. [bubbleScale] shrinks the foam for small
- * screens. The bubbles stand still when the user has switched animations off.
+ * the phone, foam on the watch's full glass), a soft wavy band of foam on the
+ * line, beer below with slowly rising carbonation. [foamScale] makes the foam
+ * thinner or thicker. The bubbles stand still when animations are switched off.
  */
 @Composable
-fun Modifier.beerGlass(foamAtPx: Float, top: Color = Cream, bubbleScale: Float = 1f): Modifier {
+fun Modifier.beerGlass(foamAtPx: Float, top: Color = Cream, foamScale: Float = 1f): Modifier {
     val context = LocalContext.current
     val animationsOff = remember {
         Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
@@ -61,22 +63,41 @@ fun Modifier.beerGlass(foamAtPx: Float, top: Color = Cream, bubbleScale: Float =
             size = Size(size.width, size.height - foamY),
         )
         drawCarbonation(foamY, rise)
-        drawFoam(foamY, bubbleScale)
+        drawFoam(foamY, foamScale)
     }
 }
 
-/** A row of overlapping white bubbles along [y], like the watch face's foam. */
+/** A soft band of foam along [y]: gently wavy on top and bottom, with a few pores. */
 private fun DrawScope.drawFoam(y: Float, scale: Float) {
-    val radii = listOf(16f, 21f, 14f, 23f, 17f, 19f, 13f, 22f).map { it.dp.toPx() * scale }
-    var x = -8.dp.toPx()
-    var i = 0
-    while (x < size.width + 24.dp.toPx()) {
-        val r = radii[i % radii.size]
-        drawCircle(Color.White, radius = r, center = Offset(x, y + r * 0.15f))
-        x += r * 1.45f
-        i++
+    val thickness = 18.dp.toPx() * scale
+    val amplitude = 4.dp.toPx() * scale
+    val wavelength = 120.dp.toPx() * scale
+    val step = 3.dp.toPx()
+
+    // Top and bottom edges run slightly out of phase, so the band breathes.
+    fun edge(x: Float, side: Float, phase: Float) =
+        y + side * thickness / 2 + amplitude * sin(x / wavelength * 2 * PI.toFloat() + phase)
+
+    val foam = Path().apply {
+        moveTo(0f, edge(0f, -1f, 0f))
+        var x = 0f
+        while (x < size.width) {
+            x = (x + step).coerceAtMost(size.width)
+            lineTo(x, edge(x, -1f, 0f))
+        }
+        while (x > 0f) {
+            lineTo(x, edge(x, 1f, 2.2f))
+            x = (x - step).coerceAtLeast(0f)
+        }
+        lineTo(0f, edge(0f, 1f, 2.2f))
+        close()
     }
-    drawRect(Color.White, topLeft = Offset(0f, y), size = Size(size.width, 10.dp.toPx() * scale))
+    drawPath(foam, FoamWhite)
+    listOf(0.10f to 0.15f, 0.27f to -0.2f, 0.46f to 0.25f, 0.64f to -0.1f, 0.83f to 0.2f, 0.95f to -0.15f)
+        .forEach { (fx, fy) ->
+            val x = fx * size.width
+            drawCircle(Foam, radius = 1.6.dp.toPx() * scale, center = Offset(x, y + fy * thickness + amplitude * sin(x / wavelength * 2 * PI.toFloat() + 1.1f)))
+        }
 }
 
 /** Small bubbles drifting up through the beer; [phase] runs 0..1 and loops. */

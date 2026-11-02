@@ -82,6 +82,7 @@ import de.keinbiervorvier.common.DarkAmber
 import de.keinbiervorvier.common.FlagCoaster
 import de.keinbiervorvier.common.Foam
 import de.keinbiervorvier.common.Ink
+import de.keinbiervorvier.common.InkDeep
 import de.keinbiervorvier.common.InkSoft
 import de.keinbiervorvier.common.beerGlass
 import de.keinbiervorvier.common.formatCountdown
@@ -295,7 +296,7 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
                 modifier = Modifier.semantics { contentDescription = country },
                 style = MaterialTheme.typography.labelLarge,
                 letterSpacing = 2.sp,
-                color = Ink, // the lighter grey is too faint on the beer
+                color = InkDeep, // small text on the beer needs the darker grey
             )
             Spacer(Modifier.height(14.dp))
             FlowRow(

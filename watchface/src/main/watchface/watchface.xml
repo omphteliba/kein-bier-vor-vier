@@ -9,7 +9,7 @@
     <Metadata key="PREVIEW_TIME" value="10:08:32" />
 
     <Scene backgroundColor="#FF000000">
-        <!-- Glass: cream dial, beer from the middle down, foam on top. -->
+        <!-- Glass: cream dial, beer from the middle down. -->
         <PartDraw x="0" y="0" width="450" height="450">
             <Variant mode="AMBIENT" target="alpha" value="0" />
             <Ellipse x="0" y="0" width="450" height="450"><Fill color="#FFFDF6E3" /></Ellipse>
@@ -18,19 +18,14 @@
                     <LinearGradient startX="0" startY="250" endX="0" endY="450" colors="#FFF6B400 #FFD98300" positions="0 1" />
                 </Fill>
             </Rectangle>
-            <Ellipse x="0" y="232" width="40" height="40"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="30" y="226" width="46" height="46"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="70" y="230" width="40" height="40"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="105" y="224" width="48" height="48"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="145" y="229" width="42" height="42"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="182" y="223" width="50" height="50"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="222" y="228" width="44" height="44"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="258" y="224" width="48" height="48"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="298" y="230" width="42" height="42"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="334" y="226" width="46" height="46"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="372" y="231" width="40" height="40"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Ellipse x="405" y="228" width="46" height="46"><Fill color="#FFFFFFFF" /></Ellipse>
-            <Rectangle x="0" y="248" width="450" height="14"><Fill color="#FFFFFFFF" /></Rectangle>
+        </PartDraw>
+        <!-- Soft wavy foam on the beer (tools/make_foam.py), then the rim on top. -->
+        <PartImage x="0" y="228" width="450" height="44">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Image resource="foam" />
+        </PartImage>
+        <PartDraw x="0" y="0" width="450" height="450">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
             <Ellipse x="4" y="4" width="442" height="442"><Stroke color="#FF3B2A1A" thickness="8" /></Ellipse>
         </PartDraw>
 
