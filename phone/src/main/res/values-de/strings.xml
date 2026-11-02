@@ -13,9 +13,11 @@
     <string name="close">Schließen</string>
     <string name="tagline_vier">Irgendwo ist immer vier.</string>
     <string name="tagline_five">Irgendwo ist immer fünf.</string>
-    <string name="local_beer">Lokales Bier</string>
     <string name="drink_responsibly">Bitte verantwortungsvoll genießen 🍻</string>
     <string name="show_on_map">Karte</string>
     <string name="craft">Craft</string>
-    <string name="also_here">Außerdem von hier: %1$s</string>
+    <string name="local_beers">Lokale Biere</string>
+    <string name="beer_count">Bier %1$d von %2$d – wischen für mehr</string>
+    <string name="brewery_website">Zur Brauerei ↗</string>
+    <string name="also_now">Auch gerade Bierzeit in</string>
 </resources>

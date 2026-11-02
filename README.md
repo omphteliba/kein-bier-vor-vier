@@ -24,7 +24,7 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. D
 
 ## Was drin ist
 
-- **Handy-App:** Bierglas mit Flagge, Stadt, Land, Entfernung zu dir und dem lokalen Bier; nächste Runde mit Countdown, die Runden der nächsten 12 Stunden. Tipp auf einen Ort öffnet Google Maps. Der Spruch (16 oder 17 Uhr) folgt der Sprache oder lässt sich in den Einstellungen wählen.
+- **Handy-App:** Bierglas mit Flagge, Stadt, Land und Entfernung zu dir, dazu die anderen Orte mit gleicher Uhrzeit; ein Karussell mit allen Bieren, für die es gerade Bierzeit ist (wischen, Tipp für die Karte, Link zur Brauerei); nächste Runde mit Countdown, die Runden der nächsten 12 Stunden. Tipp auf einen Ort öffnet Google Maps. Der Spruch (16 oder 17 Uhr) folgt der Sprache oder lässt sich in den Einstellungen wählen.
 - **Homescreen-Widget,** das sich zu jeder neuen Runde aktualisiert.
 - **Wear-OS-App** als „volles Glas“, dazu zwei **Complications** für beliebige Zifferblätter.
 - **Zwei eigene Zifferblätter:** „Kein Bier vor Vier“ (zwölfmal die 4) und „It's 5 O'Clock Somewhere“ (zwölfmal die 5).

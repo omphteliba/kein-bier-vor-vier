@@ -27,6 +27,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,6 +51,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -88,7 +91,10 @@ import de.keinbiervorvier.common.beerGlass
 import de.keinbiervorvier.common.formatCountdown
 import de.keinbiervorvier.common.nowInRes
 import de.keinbiervorvier.common.rememberUserLocation
+import de.keinbiervorvier.core.Beer
 import de.keinbiervorvier.core.BeerClock
+import de.keinbiervorvier.core.BeerSpot
+import de.keinbiervorvier.core.BeerSpots
 import de.keinbiervorvier.core.BeerStatus
 import de.keinbiervorvier.core.Edition
 import de.keinbiervorvier.core.GeoPoint
@@ -100,6 +106,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -177,7 +184,8 @@ fun BeerApp() {
             item { Header(edition, now, onSettings = { showSettings = true }) }
             item { GlassCard(status, edition, userLocation, locale) }
             item { NextRoundCard(status, locale) }
-            item { BeerCard(status, locale) }
+            item { SectionTitle(stringResource(R.string.local_beers)) }
+            item { BeerCarousel(status, locale) }
             item { SectionTitle(stringResource(R.string.coming_up)) }
             // The very next round already has its own card.
             items(upcoming.drop(1), key = { it.at }) { round -> UpcomingRow(round, locale) }
@@ -306,6 +314,31 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
                 Pill("⏱", stringResource(CommonR.string.since_minutes, current.minutesIn))
                 Pill("📍", distance ?: stringResource(R.string.show_on_map))
             }
+            val alsoNow = status.openNow.drop(1).filter { it.localTime == current.localTime }
+            if (alsoNow.isNotEmpty()) {
+                Spacer(Modifier.height(12.dp))
+                Text(stringResource(R.string.also_now), style = MaterialTheme.typography.labelMedium, color = InkDeep)
+                Spacer(Modifier.height(6.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    alsoNow.forEach { other ->
+                        Surface(
+                            onClick = { context.openInMaps(other.spot, other.date) },
+                            shape = CircleShape,
+                            color = Color.White.copy(alpha = 0.4f),
+                            contentColor = Ink,
+                        ) {
+                            Text(
+                                "${other.spot.flag} ${other.place(locale)}",
+                                style = MaterialTheme.typography.labelLarge,
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -375,61 +408,114 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
     }
 }
 
+/** One page of the carousel: a beer and the spot it belongs to. */
+private data class BeerPage(val spot: BeerSpot, val date: LocalDate, val beer: Beer)
+
+/**
+ * Every beer for which it is beer o'clock right now: today's beer here first,
+ * then the others from here, then those from places on the same clock.
+ */
+private fun beerPages(status: BeerStatus): List<BeerPage> {
+    val first = status.openNow.first()
+    return status.openNow.filter { it.localTime == first.localTime }.flatMap { open ->
+        val today = open.beer ?: return@flatMap emptyList()
+        val beers = open.spot.beers
+        val start = beers.indexOf(today)
+        beers.indices.map { BeerPage(open.spot, open.date, beers[(start + it) % beers.size]) }
+    }
+}
+
+/** Swipe through the local beers; tap for the map, or visit the brewery's website. */
 @Composable
-private fun BeerCard(status: BeerStatus, locale: Locale) {
-    val current = status.openNow.first()
-    val beer = current.beer
-    val also = current.spot.alsoOn(current.date)
+private fun BeerCarousel(status: BeerStatus, locale: Locale) {
+    val pages = beerPages(status)
+    if (pages.isEmpty()) {
+        NoBeerCard()
+        return
+    }
+    // A new round brings new beers: start again at today's first.
+    val pagerState = key(pages) { rememberPagerState(pageCount = { pages.size }) }
+    Column {
+        HorizontalPager(
+            state = pagerState,
+            pageSpacing = 12.dp,
+            modifier = Modifier.fillMaxWidth(),
+        ) { index ->
+            BeerPageCard(pages[index], locale)
+        }
+        if (pages.size > 1) {
+            Text(
+                stringResource(R.string.beer_count, pagerState.currentPage + 1, pages.size),
+                style = MaterialTheme.typography.labelMedium,
+                color = InkSoft,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun BeerPageCard(page: BeerPage, locale: Locale) {
+    val context = LocalContext.current
+    val beer = page.beer
     Surface(
+        onClick = { context.openInMaps(page.spot, beer) },
         shape = CardShape,
         color = Foam,
         contentColor = Ink,
-        modifier = Modifier.fillMaxWidth().semantics(mergeDescendants = true) {},
+        modifier = Modifier.fillMaxWidth(),
     ) {
-        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier
-                    .size(56.dp)
-                    .clearAndSetSemantics {} // decoration
-                    .clip(RoundedCornerShape(18.dp))
-                    .background(Brush.verticalGradient(listOf(Amber, DarkAmber))),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(if (beer != null) "🍺" else "🎒", fontSize = 28.sp)
-            }
-            Column(Modifier.padding(start = 16.dp)) {
-                val label = stringResource(R.string.local_beer)
-                Text(
-                    label.uppercase(),
-                    modifier = Modifier.semantics { contentDescription = label },
-                    style = MaterialTheme.typography.labelMedium,
-                    letterSpacing = 1.5.sp,
-                    color = InkSoft,
-                )
-                Text(
-                    beer?.name ?: stringResource(CommonR.string.no_local_beer),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                )
-                if (beer != null) {
-                    Text(
-                        listOfNotNull(beer.brewery, beer.town?.let { current.place(locale) }).joinToString(", "),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
+        Column(Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(56.dp)
+                        .clearAndSetSemantics {} // decoration
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(Brush.verticalGradient(listOf(Amber, DarkAmber))),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("🍺", fontSize = 28.sp)
                 }
-                Spacer(Modifier.height(4.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Label(beer?.style ?: stringResource(CommonR.string.bring_your_own))
-                    if (beer?.craft == true) Label(stringResource(R.string.craft))
-                }
-                if (also != null) {
-                    Spacer(Modifier.height(6.dp))
+                Column(Modifier.padding(start = 16.dp).weight(1f)) {
+                    val town = beer.town?.let { if (locale.language == "de") it else BeerSpots.ENGLISH_TOWNS[it] ?: it }
+                        ?: page.spot.city(locale)
                     Text(
-                        stringResource(R.string.also_here, "${also.name} (${also.brewery})"),
-                        style = MaterialTheme.typography.bodySmall,
+                        "${page.spot.flag} ${town.uppercase(locale)}",
+                        modifier = Modifier.semantics { contentDescription = town },
+                        style = MaterialTheme.typography.labelMedium,
+                        letterSpacing = 1.5.sp,
                         color = InkSoft,
                     )
+                    Text(beer.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    Text(beer.brewery, style = MaterialTheme.typography.bodyMedium)
                 }
+            }
+            Spacer(Modifier.height(10.dp))
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Label(beer.style)
+                if (beer.craft) Label(stringResource(R.string.craft))
+                Spacer(Modifier.weight(1f))
+                beer.website?.let { url ->
+                    TextButton(onClick = { context.openWebsite(url) }) {
+                        Text(stringResource(R.string.brewery_website), fontWeight = FontWeight.Bold)
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** For places without a local beer. */
+@Composable
+private fun NoBeerCard() {
+    Surface(shape = CardShape, color = Foam, contentColor = Ink, modifier = Modifier.fillMaxWidth()) {
+        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text("🎒", fontSize = 28.sp, modifier = Modifier.clearAndSetSemantics {})
+            Column(Modifier.padding(start = 16.dp)) {
+                Text(stringResource(CommonR.string.no_local_beer), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text(stringResource(CommonR.string.bring_your_own), style = MaterialTheme.typography.bodyMedium, color = InkSoft)
             }
         }
     }

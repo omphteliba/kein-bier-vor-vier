@@ -13,9 +13,11 @@
     <string name="close">Close</string>
     <string name="tagline_vier">Somewhere it\'s always four.</string>
     <string name="tagline_five">It\'s five o\'clock somewhere.</string>
-    <string name="local_beer">Local beer</string>
     <string name="drink_responsibly">Please enjoy responsibly 🍻</string>
     <string name="show_on_map">Map</string>
     <string name="craft">Craft</string>
-    <string name="also_here">Also brewed here: %1$s</string>
+    <string name="local_beers">Local beers</string>
+    <string name="beer_count">Beer %1$d of %2$d – swipe for more</string>
+    <string name="brewery_website">Brewery ↗</string>
+    <string name="also_now">Also beer o\'clock right now in</string>
 </resources>

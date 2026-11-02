@@ -8,7 +8,8 @@ import java.util.Locale
 /**
  * A beer, by name only (no logos). [town] and [location] say where it is
  * brewed when that isn't the spot's own city; [craft] marks independent craft
- * breweries. Sources for every entry: docs/beer-sources.md.
+ * breweries; [website] is the brewery's, where known. Sources for every entry:
+ * docs/beer-sources.md.
  */
 data class Beer(
     val name: String,
@@ -17,6 +18,7 @@ data class Beer(
     val town: String? = null,
     val location: GeoPoint? = null,
     val craft: Boolean = false,
+    val website: String? = null,
 )
 
 /**
@@ -108,7 +110,7 @@ object BeerSpots {
         BeerSpot(
             "Auckland", "Pacific/Auckland", "NZ", GeoPoint(-36.85, 174.76),
             listOf(
-                Beer("Pernicious Weed", "Double IPA", "Garage Project", "Wellington", GeoPoint(-41.29, 174.77), craft = true),
+                Beer("Pernicious Weed", "Double IPA", "Garage Project", "Wellington", GeoPoint(-41.29, 174.77), craft = true, website = "https://www.garageproject.co.nz"),
                 Beer("Steinlager Classic", "Lager", "Lion"),
             ),
             shortName = "Auckld",
@@ -119,13 +121,13 @@ object BeerSpots {
         BeerSpot(
             "Sydney", "Australia/Sydney", "AU", GeoPoint(-33.87, 151.21),
             listOf(
-                Beer("Natural Lager", "Lager", "Young Henrys", "Newtown", GeoPoint(-33.90, 151.18), craft = true),
+                Beer("Natural Lager", "Lager", "Young Henrys", "Newtown", GeoPoint(-33.90, 151.18), craft = true, website = "https://www.younghenrys.com"),
                 Beer("Tooheys New", "Lager", "Tooheys"),
             ),
         ),
         BeerSpot("Brisbane", "Australia/Brisbane", "AU", GeoPoint(-27.47, 153.03), listOf(Beer("XXXX Gold", "Lager", "Castlemaine Perkins")), shortName = "Brisb."),
         BeerSpot("Adelaide", "Australia/Adelaide", "AU", GeoPoint(-34.93, 138.6), listOf(Beer("Coopers Pale Ale", "Pale Ale", "Coopers")), shortName = "Adel."),
-        BeerSpot("Darwin", "Australia/Darwin", "AU", GeoPoint(-12.46, 130.84), listOf(Beer("Vom Fass", "Craftbier", "One Mile Brewery", "Winnellie", GeoPoint(-12.43, 130.88), craft = true))),
+        BeerSpot("Darwin", "Australia/Darwin", "AU", GeoPoint(-12.46, 130.84), listOf(Beer("Vom Fass", "Craftbier", "One Mile Brewery", "Winnellie", GeoPoint(-12.43, 130.88), craft = true, website = "https://www.onemilebrewery.com.au"))),
         BeerSpot(
             "Tokio", "Asia/Tokyo", "JP", GeoPoint(35.68, 139.69),
             listOf(
@@ -147,7 +149,7 @@ object BeerSpots {
         BeerSpot(
             "Kathmandu", "Asia/Kathmandu", "NP", GeoPoint(27.72, 85.32),
             listOf(
-                Beer("Khumbu Kölsch", "Kölsch", "Sherpa Brewery", "Chitwan", GeoPoint(27.68, 84.43), craft = true),
+                Beer("Khumbu Kölsch", "Kölsch", "Sherpa Brewery", "Chitwan", GeoPoint(27.68, 84.43), craft = true, website = "https://sherpabrewery.com.np"),
                 Beer("Everest", "Lager", "Mount Everest Brewery"),
             ),
             shortName = "Nepal",
@@ -176,35 +178,35 @@ object BeerSpots {
         BeerSpot(
             "München", "Europe/Berlin", "DE", GeoPoint(48.14, 11.58),
             listOf(
-                Beer("Kirner Pils", "Pils", "Kirner Privatbrauerei", "Kirn", GeoPoint(49.79, 7.46)),
-                Beer("Mainzer Pils", "Pils", "Kuehn Kunz Rosen", "Mainz", GeoPoint(49.99, 8.27), craft = true),
-                Beer("Slapshot", "American Pale Ale", "Sudden Death Brewing", "Lübeck", GeoPoint(53.87, 10.69), craft = true),
+                Beer("Kirner Pils", "Pils", "Kirner Privatbrauerei", "Kirn", GeoPoint(49.79, 7.46), website = "https://www.kirner-bier.de"),
+                Beer("Mainzer Pils", "Pils", "Kuehn Kunz Rosen", "Mainz", GeoPoint(49.99, 8.27), craft = true, website = "https://kuehnkunzrosen.de"),
+                Beer("Slapshot", "American Pale Ale", "Sudden Death Brewing", "Lübeck", GeoPoint(53.87, 10.69), craft = true, website = "https://suddendeathbrewing.de"),
                 Beer("Wanderlust", "American Pale Ale", "Orca Brau", "Nürnberg", GeoPoint(49.45, 11.04), craft = true),
-                Beer("Pils No. 1", "Bio-Pils", "Privatbrauerei Sander", "Worms", GeoPoint(49.63, 8.36), craft = true),
-                Beer("Helles", "Helles", "Wormser Hagenbräu", "Worms", GeoPoint(49.63, 8.37)),
-                Beer("Vertigo IPA", "IPA", "Schwarze Rose", "Mainz", GeoPoint(50.00, 8.26), craft = true),
-                Beer("High Five", "Pale Ale", "Fuerst Wiacek", "Berlin", GeoPoint(52.54, 13.27), craft = true),
-                Beer("Boat Snack", "NEIPA", "Yankee & Kraut", "Ingolstadt", GeoPoint(48.77, 11.43), craft = true),
+                Beer("Pils No. 1", "Bio-Pils", "Privatbrauerei Sander", "Worms", GeoPoint(49.63, 8.36), craft = true, website = "https://brauerei-sander.de"),
+                Beer("Helles", "Helles", "Wormser Hagenbräu", "Worms", GeoPoint(49.63, 8.37), website = "https://www.hagenbraeu.de"),
+                Beer("Vertigo IPA", "IPA", "Schwarze Rose", "Mainz", GeoPoint(50.00, 8.26), craft = true, website = "https://sr-cb.de"),
+                Beer("High Five", "Pale Ale", "Fuerst Wiacek", "Berlin", GeoPoint(52.54, 13.27), craft = true, website = "https://fuerstwiacek.com"),
+                Beer("Boat Snack", "NEIPA", "Yankee & Kraut", "Ingolstadt", GeoPoint(48.77, 11.43), craft = true, website = "https://www.yankeeundkraut.de"),
                 Beer("Marlene", "Berliner Weisse", "Schneeeule", "Berlin", GeoPoint(52.57, 13.34), craft = true),
-                Beer("Spree Coast IPA", "West Coast IPA", "Brauerei Lemke", "Berlin", GeoPoint(52.52, 13.40), craft = true),
+                Beer("Spree Coast IPA", "West Coast IPA", "Brauerei Lemke", "Berlin", GeoPoint(52.52, 13.40), craft = true, website = "https://www.lemke.berlin"),
                 Beer("Foggy Illusion", "Hazy IPA", "Still Brewing Society", "Mannheim", GeoPoint(49.49, 8.47), craft = true),
                 Beer("Untergiesinger Erhellung", "Helles", "Giesinger Bräu", "München", GeoPoint(48.11, 11.58), craft = true),
-                Beer("Augustiner Lagerbier Hell", "Helles", "Augustiner-Bräu", "München", GeoPoint(48.14, 11.55)),
+                Beer("Augustiner Lagerbier Hell", "Helles", "Augustiner-Bräu", "München", GeoPoint(48.14, 11.55), website = "https://www.augustiner-braeu.de"),
             ),
         ),
         BeerSpot(
             "Paris", "Europe/Paris", "FR", GeoPoint(48.86, 2.35),
             listOf(
-                Beer("L'Œil de Biche", "American Pale Ale", "Paname Brewing Company", "Paris", GeoPoint(48.89, 2.38), craft = true),
+                Beer("L'Œil de Biche", "American Pale Ale", "Paname Brewing Company", "Paris", GeoPoint(48.89, 2.38), craft = true, website = "https://www.panamebrewingcompany.com"),
                 Beer("Soft Power", "NEIPA", "Brasserie Sainte Cru", "Colmar", GeoPoint(48.10, 7.36), craft = true),
                 Beer("Gangsta Legend", "West Coast IPA", "Les Intenables", "Rosheim", GeoPoint(48.50, 7.47), craft = true),
-                Beer("Galibot IPL", "India Pale Lager", "Brasserie Galibot", "Forbach", GeoPoint(49.19, 6.90), craft = true),
-                Beer("Brassin éphémère", "jedes Mal anders", "Mogwaï Beer Company", "Mundolsheim", GeoPoint(48.64, 7.71), craft = true),
+                Beer("Galibot IPL", "India Pale Lager", "Brasserie Galibot", "Forbach", GeoPoint(49.19, 6.90), craft = true, website = "https://brasserie-galibot.com"),
+                Beer("Brassin éphémère", "jedes Mal anders", "Mogwaï Beer Company", "Mundolsheim", GeoPoint(48.64, 7.71), craft = true, website = "https://www.mogwaibeercompany.fr"),
             ),
         ),
         BeerSpot(
             "Brüssel", "Europe/Brussels", "BE", GeoPoint(50.85, 4.35),
-            listOf(Beer("Gueuze 100% Lambic Bio", "Gueuze", "Brasserie Cantillon", craft = true)),
+            listOf(Beer("Gueuze 100% Lambic Bio", "Gueuze", "Brasserie Cantillon", craft = true, website = "https://www.cantillon.be")),
         ),
         BeerSpot("Lagos", "Africa/Lagos", "NG", GeoPoint(6.52, 3.38), listOf(Beer("Star Lager", "Lager", "Nigerian Breweries"))),
         BeerSpot(
@@ -217,20 +219,20 @@ object BeerSpots {
         BeerSpot(
             "Lissabon", "Europe/Lisbon", "PT", GeoPoint(38.72, -9.14),
             listOf(
-                Beer("Metropolitan", "Pale Ale", "Dois Corvos", craft = true),
+                Beer("Metropolitan", "Pale Ale", "Dois Corvos", craft = true, website = "https://www.doiscorvos.pt"),
                 Beer("Super Bock", "Lager", "Super Bock Group", "Leça do Balio", GeoPoint(41.21, -8.63)),
             ),
             shortName = "Lisboa",
         ),
-        BeerSpot("Reykjavík", "Atlantic/Reykjavik", "IS", GeoPoint(64.15, -21.94), listOf(Beer("Einstök White Ale", "Witbier", "Einstök Ölgerð", "Akureyri", GeoPoint(65.68, -18.09))), shortName = "Island"),
-        BeerSpot("Azoren", "Atlantic/Azores", "PT", GeoPoint(37.74, -25.67), listOf(Beer("Especial", "Lager", "Melo Abreu", "Ponta Delgada", GeoPoint(37.74, -25.67)))),
+        BeerSpot("Reykjavík", "Atlantic/Reykjavik", "IS", GeoPoint(64.15, -21.94), listOf(Beer("Einstök White Ale", "Witbier", "Einstök Ölgerð", "Akureyri", GeoPoint(65.68, -18.09), website = "https://einstokbeer.com")), shortName = "Island"),
+        BeerSpot("Azoren", "Atlantic/Azores", "PT", GeoPoint(37.74, -25.67), listOf(Beer("Especial", "Lager", "Melo Abreu", "Ponta Delgada", GeoPoint(37.74, -25.67), website = "https://www.meloabreu.pt"))),
         BeerSpot("Praia", "Atlantic/Cape_Verde", "CV", GeoPoint(14.93, -23.51), listOf(Beer("Strela", "Lager", "Sociedade Cabo-verdiana de Cerveja"))),
         BeerSpot("Südgeorgien", "Atlantic/South_Georgia", "GS", GeoPoint(-54.28, -36.51), emptyList(), shortName = "Südgeo."),
         BeerSpot("Fernando de Noronha", "America/Noronha", "BR", GeoPoint(-3.85, -32.42), listOf(Beer("Brahma Chopp", "Lager", "Ambev")), shortName = "Noronha"),
         BeerSpot(
             "São Paulo", "America/Sao_Paulo", "BR", GeoPoint(-23.55, -46.63),
             listOf(
-                Beer("Rizoma", "Double IPA", "Cervejaria Dogma", craft = true),
+                Beer("Rizoma", "Double IPA", "Cervejaria Dogma", craft = true, website = "https://cervejariadogma.com.br"),
                 Beer("Antarctica Original", "Pilsner", "Ambev"),
             ),
             shortName = "Rio",
@@ -240,7 +242,7 @@ object BeerSpots {
         BeerSpot(
             "Halifax", "America/Halifax", "CA", GeoPoint(44.65, -63.57),
             listOf(
-                Beer("Tall Ship East Coast Ale", "Amber Ale", "Garrison Brewing", craft = true),
+                Beer("Tall Ship East Coast Ale", "Amber Ale", "Garrison Brewing", craft = true, website = "https://www.garrisonbrewing.com"),
                 Beer("Alexander Keith's", "India Pale Ale", "Labatt"),
             ),
         ),
@@ -248,26 +250,26 @@ object BeerSpots {
         BeerSpot(
             "New York", "America/New_York", "US", GeoPoint(40.71, -74.01),
             listOf(
-                Beer("Green Diamonds", "Imperial IPA", "Other Half Brewing", "Brooklyn", GeoPoint(40.68, -74.00), craft = true),
+                Beer("Green Diamonds", "Imperial IPA", "Other Half Brewing", "Brooklyn", GeoPoint(40.68, -74.00), craft = true, website = "https://otherhalfbrewing.com"),
                 Beer("Brooklyn Lager", "Amber Lager", "Brooklyn Brewery", "Brooklyn", GeoPoint(40.72, -73.96)),
             ),
             shortName = "NYC",
         ),
-        BeerSpot("Chicago", "America/Chicago", "US", GeoPoint(41.88, -87.63), listOf(Beer("Daisy Cutter", "Pale Ale", "Half Acre", craft = true))),
+        BeerSpot("Chicago", "America/Chicago", "US", GeoPoint(41.88, -87.63), listOf(Beer("Daisy Cutter", "Pale Ale", "Half Acre", craft = true, website = "https://halfacrebeer.com"))),
         BeerSpot("Mexiko-Stadt", "America/Mexico_City", "MX", GeoPoint(19.43, -99.13), listOf(Beer("Victoria", "Vienna Lager", "Grupo Modelo")), shortName = "Mexiko"),
         BeerSpot(
             "Denver", "America/Denver", "US", GeoPoint(39.74, -104.99),
             listOf(
-                Beer("Yeti", "Imperial Stout", "Great Divide", craft = true),
+                Beer("Yeti", "Imperial Stout", "Great Divide", craft = true, website = "https://greatdivide.com"),
                 Beer("Coors Banquet", "Lager", "Coors", "Golden", GeoPoint(39.76, -105.22)),
             ),
         ),
         BeerSpot("Phoenix", "America/Phoenix", "US", GeoPoint(33.45, -112.07), listOf(Beer("Refuge IPA", "IPA", "Arizona Wilderness", craft = true))),
-        BeerSpot("Los Angeles", "America/Los_Angeles", "US", GeoPoint(34.05, -118.24), listOf(Beer("Timbo Pils", "West Coast Pilsner", "Highland Park Brewery", craft = true)), shortName = "L.A."),
-        BeerSpot("Anchorage", "America/Anchorage", "US", GeoPoint(61.22, -149.9), listOf(Beer("Alaskan Amber", "Altbier", "Alaskan Brewing", "Juneau", GeoPoint(58.36, -134.58), craft = true)), shortName = "Alaska"),
+        BeerSpot("Los Angeles", "America/Los_Angeles", "US", GeoPoint(34.05, -118.24), listOf(Beer("Timbo Pils", "West Coast Pilsner", "Highland Park Brewery", craft = true, website = "https://hpb.la")), shortName = "L.A."),
+        BeerSpot("Anchorage", "America/Anchorage", "US", GeoPoint(61.22, -149.9), listOf(Beer("Alaskan Amber", "Altbier", "Alaskan Brewing", "Juneau", GeoPoint(58.36, -134.58), craft = true, website = "https://www.alaskanbeer.com")), shortName = "Alaska"),
         BeerSpot("Gambierinseln", "Pacific/Gambier", "PF", GeoPoint(-23.12, -134.97), listOf(Beer("Hinano", "Lager", "Brasserie de Tahiti", "Papeete", GeoPoint(-17.54, -149.57))), shortName = "Gambier"),
         BeerSpot("Marquesas", "Pacific/Marquesas", "PF", GeoPoint(-8.91, -140.1), listOf(Beer("Hinano", "Lager", "Brasserie de Tahiti", "Papeete", GeoPoint(-17.54, -149.57))), shortName = "Marq."),
-        BeerSpot("Honolulu", "Pacific/Honolulu", "US", GeoPoint(21.31, -157.86), listOf(Beer("Hop Island IPA", "IPA", "Honolulu Beerworks", craft = true)), shortName = "Hawaii"),
+        BeerSpot("Honolulu", "Pacific/Honolulu", "US", GeoPoint(21.31, -157.86), listOf(Beer("Hop Island IPA", "IPA", "Honolulu Beerworks", craft = true, website = "https://www.honolulubeerworks.com")), shortName = "Hawaii"),
         BeerSpot("Pago Pago", "Pacific/Pago_Pago", "AS", GeoPoint(-14.28, -170.7), emptyList(), shortName = "Samoa"),
     )
 
