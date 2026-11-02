@@ -16,4 +16,6 @@
     <string name="local_beer">Local beer</string>
     <string name="drink_responsibly">Please enjoy responsibly 🍻</string>
     <string name="show_on_map">Map</string>
+    <string name="craft">Craft</string>
+    <string name="also_here">Also brewed here: %1$s</string>
 </resources>

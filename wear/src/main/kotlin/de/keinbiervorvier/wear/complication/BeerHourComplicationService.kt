@@ -30,6 +30,7 @@ import de.keinbiervorvier.wear.MainActivity
 import de.keinbiervorvier.wear.R
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
 import java.util.Locale
 
 /** "Kein Bier vor Vier": where it is 16:00. */
@@ -53,6 +54,7 @@ abstract class BeerHourComplicationService(private val edition: Edition) :
         build(
             type,
             spot = BeerSpots.ALL.first { it.zone.id == "Asia/Kathmandu" },
+            date = LocalDate.now(),
             next = BeerSpots.ALL.first { it.zone.id == "Asia/Kolkata" },
             nextAt = Instant.now().plus(Duration.ofMinutes(15)),
         )
@@ -64,6 +66,7 @@ abstract class BeerHourComplicationService(private val edition: Edition) :
         val default = build(
             type,
             spot = status.openNow.first().spot,
+            date = status.openNow.first().date,
             next = status.next.spots.first(),
             nextAt = status.next.at,
         ) ?: return null
@@ -72,14 +75,16 @@ abstract class BeerHourComplicationService(private val edition: Edition) :
         val entries = rounds.zipWithNext { round, following ->
             TimelineEntry(
                 TimeInterval(round.at, following.at),
-                build(type, round.spots.first(), following.spots.first(), following.at)!!,
+                build(type, round.spots.first(), round.spots.first().dateAt(round.at), following.spots.first(), following.at)!!,
             )
         }
         return ComplicationDataTimeline(default, entries)
     }
 
-    private fun build(type: ComplicationType, spot: BeerSpot, next: BeerSpot, nextAt: Instant): ComplicationData? {
-        val description = PlainComplicationText.Builder(getString(R.string.complication_description, spot.city(locale))).build()
+    /** [date] is the local date of [spot]'s round, which picks its beer and place of the day. */
+    private fun build(type: ComplicationType, spot: BeerSpot, date: LocalDate, next: BeerSpot, nextAt: Instant): ComplicationData? {
+        val place = spot.place(locale, date)
+        val description = PlainComplicationText.Builder(getString(R.string.complication_description, place)).build()
         return when (type) {
             ComplicationType.SMALL_IMAGE -> SmallImageComplicationData.Builder(flagImage(spot), description)
                 .setTapAction(openApp())
@@ -93,8 +98,8 @@ abstract class BeerHourComplicationService(private val edition: Edition) :
                 .setTapAction(openApp())
                 .build()
 
-            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain(spot.city(locale)), description)
-                .setTitle(countdown(next.city(locale), nextAt))
+            ComplicationType.LONG_TEXT -> LongTextComplicationData.Builder(plain(place), description)
+                .setTitle(countdown(next.place(locale, next.dateAt(nextAt)), nextAt))
                 .setMonochromaticImage(icon())
                 .setSmallImage(flagImage(spot))
                 .setTapAction(openApp())

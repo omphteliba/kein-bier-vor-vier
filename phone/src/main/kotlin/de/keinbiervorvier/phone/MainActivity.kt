@@ -177,7 +177,7 @@ fun BeerApp() {
             item { Header(edition, now, onSettings = { showSettings = true }) }
             item { GlassCard(status, edition, userLocation, locale) }
             item { NextRoundCard(status, locale) }
-            item { BeerCard(status) }
+            item { BeerCard(status, locale) }
             item { SectionTitle(stringResource(R.string.coming_up)) }
             // The very next round already has its own card.
             items(upcoming.drop(1), key = { it.at }) { round -> UpcomingRow(round, locale) }
@@ -241,7 +241,7 @@ private fun Header(edition: Edition, now: Instant, onSettings: () -> Unit) {
 private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoint?, locale: Locale) {
     val context = LocalContext.current
     val current = status.openNow.first()
-    val distance = userLocation?.distanceKmTo(current.spot.location)
+    val distance = userLocation?.distanceKmTo(current.spot.locationOn(current.date))
         ?.let { formatDistance(it, locale) ?: stringResource(CommonR.string.you_are_there) }
     // The foam sits wherever the top part ends, so it moves down with large font sizes.
     var foamAt by remember { mutableIntStateOf(0) }
@@ -253,7 +253,7 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
             .clip(CardShape)
             .beerGlass(foamAtPx = foamAt.toFloat())
             // One unit for TalkBack: "It's 4 p.m. in, flag: Iran, Teheran, Iran, ..."
-            .clickable(onClickLabel = stringResource(R.string.show_on_map)) { context.openInMaps(current.spot) },
+            .clickable(onClickLabel = stringResource(R.string.show_on_map)) { context.openInMaps(current.spot, current.date) },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(
@@ -282,7 +282,7 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                current.spot.city(locale),
+                current.place(locale),
                 fontFamily = Aleo,
                 fontSize = 40.sp,
                 lineHeight = 44.sp,
@@ -329,7 +329,7 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
     val progress = sinceStart.toSeconds().toFloat() / (sinceStart + next.countdown).toSeconds().coerceAtLeast(1)
     val context = LocalContext.current
     Surface(
-        onClick = { context.openInMaps(next.spots.first()) },
+        onClick = { next.spots.first().let { context.openInMaps(it, it.dateAt(next.at)) } },
         shape = CardShape,
         color = Foam,
         contentColor = Ink,
@@ -347,7 +347,7 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
                         color = InkSoft,
                     )
                     Text(
-                        next.spots.joinToString(", ") { "${it.flag} ${it.city(locale)}" },
+                        next.spots.joinToString(", ") { "${it.flag} ${it.place(locale, it.dateAt(next.at))}" },
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
@@ -376,8 +376,10 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
 }
 
 @Composable
-private fun BeerCard(status: BeerStatus) {
-    val beer = status.openNow.first().spot.beer
+private fun BeerCard(status: BeerStatus, locale: Locale) {
+    val current = status.openNow.first()
+    val beer = current.beer
+    val also = current.spot.alsoOn(current.date)
     Surface(
         shape = CardShape,
         color = Foam,
@@ -409,17 +411,40 @@ private fun BeerCard(status: BeerStatus) {
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                 )
-                Spacer(Modifier.height(4.dp))
-                Surface(shape = CircleShape, color = Color.White) {
+                if (beer != null) {
                     Text(
-                        beer?.style ?: stringResource(CommonR.string.bring_your_own),
-                        style = MaterialTheme.typography.labelMedium,
+                        listOfNotNull(beer.brewery, beer.town?.let { current.place(locale) }).joinToString(", "),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                Spacer(Modifier.height(4.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Label(beer?.style ?: stringResource(CommonR.string.bring_your_own))
+                    if (beer?.craft == true) Label(stringResource(R.string.craft))
+                }
+                if (also != null) {
+                    Spacer(Modifier.height(6.dp))
+                    Text(
+                        stringResource(R.string.also_here, "${also.name} (${also.brewery})"),
+                        style = MaterialTheme.typography.bodySmall,
                         color = InkSoft,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp),
                     )
                 }
             }
         }
+    }
+}
+
+/** A small white tag, like a label on a bottle. */
+@Composable
+private fun Label(text: String) {
+    Surface(shape = CircleShape, color = Color.White) {
+        Text(
+            text,
+            style = MaterialTheme.typography.labelMedium,
+            color = InkSoft,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp),
+        )
     }
 }
 
@@ -444,7 +469,7 @@ private fun UpcomingRow(round: NextRound, locale: Locale) {
             .fillMaxWidth()
             .heightIn(min = 48.dp) // touch target
             .clip(CircleShape)
-            .clickable(onClickLabel = stringResource(R.string.show_on_map)) { context.openInMaps(round.spots.first()) },
+            .clickable(onClickLabel = stringResource(R.string.show_on_map)) { round.spots.first().let { context.openInMaps(it, it.dateAt(round.at)) } },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Surface(shape = CircleShape, color = Foam, modifier = Modifier.widthIn(min = 72.dp)) {
@@ -457,7 +482,7 @@ private fun UpcomingRow(round: NextRound, locale: Locale) {
             )
         }
         Text(
-            round.spots.joinToString(", ") { "${it.flag} ${it.city(locale)}" },
+            round.spots.joinToString(", ") { "${it.flag} ${it.place(locale, it.dateAt(round.at))}" },
             style = MaterialTheme.typography.bodyLarge,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

@@ -5,15 +5,18 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import de.keinbiervorvier.core.BeerSpot
+import java.time.LocalDate
 import java.util.Locale
 
 /**
- * Shows [spot] in Google Maps – the app if installed, the website otherwise.
- * Searches for the place by its English name and country, which lands on the
- * city itself (with photos and info) rather than a bare pin on some street.
+ * Shows the place of [spot] on [date] in Google Maps - the app if installed,
+ * the website otherwise. With a beer of the day it searches for its brewery
+ * (handy for a visit), else for the city. English names find the most.
  */
-fun Context.openInMaps(spot: BeerSpot) {
-    val query = "${spot.city(Locale.ENGLISH)}, ${spot.country(Locale.ENGLISH)}"
+fun Context.openInMaps(spot: BeerSpot, date: LocalDate) {
+    val beer = spot.beerOn(date)
+    val query = listOfNotNull(beer?.brewery, spot.place(Locale.ENGLISH, date), spot.country(Locale.ENGLISH))
+        .joinToString(", ")
     val uri = Uri.parse("https://www.google.com/maps/search/?api=1&query=" + Uri.encode(query))
     try {
         startActivity(Intent(Intent.ACTION_VIEW, uri))

@@ -104,12 +104,12 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
         .format(status.next.at.atZone(ZoneId.systemDefault()))
     val open = Intent(context, MainActivity::class.java)
 
-    val nextLine = context.getString(R.string.widget_next, "${next.flag} ${next.city(locale)}", nextTime)
+    val nextLine = context.getString(R.string.widget_next, "${next.flag} ${next.place(locale, next.dateAt(status.next.at))}", nextTime)
     // Read as one sentence by TalkBack instead of piece by piece.
     val description = listOfNotNull(
         context.getString(edition.nowInRes),
-        "${current.city(locale)}, ${current.country(locale)}",
-        current.beer?.name,
+        "${status.openNow.first().place(locale)}, ${current.country(locale)}",
+        status.openNow.first().beer?.let { "${it.name}, ${it.brewery}" },
         nextLine,
     ).joinToString(". ")
 
@@ -152,12 +152,12 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                current.city(locale),
+                status.openNow.first().place(locale),
                 style = TextStyle(color = InkColor, fontSize = 22.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center),
                 maxLines = 1,
             )
             Text(
-                current.beer?.name ?: context.getString(de.keinbiervorvier.common.R.string.no_local_beer),
+                status.openNow.first().beer?.name ?: context.getString(de.keinbiervorvier.common.R.string.no_local_beer),
                 style = TextStyle(color = InkColor, fontSize = 13.sp),
                 maxLines = 1,
             )

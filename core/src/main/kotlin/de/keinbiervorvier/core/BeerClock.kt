@@ -2,6 +2,7 @@ package de.keinbiervorvier.core
 
 import java.time.Duration
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.util.Locale
@@ -21,10 +22,16 @@ enum class Edition(val hour: Int) {
     }
 }
 
-/** A spot where the beer hour is currently running. */
-data class OpenSpot(val spot: BeerSpot, val localTime: LocalTime, val edition: Edition) {
+/** A spot where the beer hour is currently running, on its local [date]. */
+data class OpenSpot(val spot: BeerSpot, val date: LocalDate, val localTime: LocalTime, val edition: Edition) {
     /** Minutes since the beer hour started locally. */
     val minutesIn: Int get() = localTime.hour * 60 + localTime.minute - edition.hour * 60
+
+    /** Today's beer here. */
+    val beer: Beer? get() = spot.beerOn(date)
+
+    /** Today's place name, see [BeerSpot.place]. */
+    fun place(locale: Locale): String = spot.place(locale, date)
 }
 
 /** The next moment some spots reach the beer hour, and which ones. */
@@ -46,13 +53,19 @@ object BeerClock {
         require(spots.isNotEmpty()) { "Need at least one spot" }
 
         val openNow = spots
-            .map { OpenSpot(it, now.atZone(it.zone).toLocalTime(), edition) }
+            .map { now.atZone(it.zone).let { local -> OpenSpot(it, local.toLocalDate(), local.toLocalTime(), edition) } }
             .filter { it.localTime.hour == edition.hour }
-            .sortedBy { it.localTime }
+            .groupBy { it.localTime }
+            .toSortedMap()
+            .values
+            .flatMap { sameTime -> sameTime.takingTurns(sameTime.first().date) }
 
         val byNextStart = spots.groupBy { nextBeerHourStart(now, it, edition) }
         val nextAt = byNextStart.keys.min()
-        val next = NextRound(nextAt, Duration.between(now, nextAt), byNextStart.getValue(nextAt))
+        val nextSpots = byNextStart.getValue(nextAt).let { sameTime ->
+            sameTime.takingTurns(nextAt.atZone(sameTime.first().zone).toLocalDate())
+        }
+        val next = NextRound(nextAt, Duration.between(now, nextAt), nextSpots)
 
         return BeerStatus(openNow, next)
     }
@@ -73,6 +86,13 @@ object BeerClock {
             t = next.at
         }
     }
+
+    /**
+     * Spots whose beer hour starts at the same moment (Germany, France and
+     * Belgium, say) take turns being first, one day each.
+     */
+    private fun <T> List<T>.takingTurns(date: LocalDate): List<T> =
+        indices.map { this[Math.floorMod(it + date.toEpochDay(), size.toLong()).toInt()] }
 
     /** The first start of the beer hour in [spot]'s zone strictly after [now]. */
     fun nextBeerHourStart(now: Instant, spot: BeerSpot, edition: Edition = Edition.KEIN_BIER_VOR_VIER): Instant {

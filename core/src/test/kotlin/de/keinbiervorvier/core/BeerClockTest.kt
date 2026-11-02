@@ -10,9 +10,9 @@ import java.util.Locale
 
 class BeerClockTest {
 
-    private val berlin = BeerSpot("München", "Europe/Berlin", "DE", GeoPoint(48.14, 11.58), null)
-    private val kathmandu = BeerSpot("Kathmandu", "Asia/Kathmandu", "NP", GeoPoint(27.72, 85.32), null)
-    private val mumbai = BeerSpot("Mumbai", "Asia/Kolkata", "IN", GeoPoint(19.08, 72.88), null)
+    private val berlin = BeerSpot("München", "Europe/Berlin", "DE", GeoPoint(48.14, 11.58), emptyList())
+    private val kathmandu = BeerSpot("Kathmandu", "Asia/Kathmandu", "NP", GeoPoint(27.72, 85.32), emptyList())
+    private val mumbai = BeerSpot("Mumbai", "Asia/Kolkata", "IN", GeoPoint(19.08, 72.88), emptyList())
 
     @Test
     fun `every zone id in the list exists`() {
@@ -23,7 +23,7 @@ class BeerClockTest {
     fun `flags are built from the country code`() {
         assertEquals("Deutschland", berlin.country(Locale.GERMANY))
         assertEquals("Germany", berlin.country(Locale.US))
-        assertEquals("🇩🇪", BeerSpot("München", "Europe/Berlin", "DE", GeoPoint(48.14, 11.58), null).flag)
+        assertEquals("🇩🇪", BeerSpot("München", "Europe/Berlin", "DE", GeoPoint(48.14, 11.58), emptyList()).flag)
         BeerSpots.ALL.forEach { assertTrue(it.countryCode.matches(Regex("[A-Z]{2}")), it.city) }
     }
 
@@ -115,7 +115,7 @@ class BeerClockTest {
 
     @Test
     fun `spots reaching 16 o'clock at the same moment are grouped`() {
-        val lagos = BeerSpot("Lagos", "Africa/Lagos", "NG", GeoPoint(6.52, 3.38), null) // UTC+1, like Berlin in winter
+        val lagos = BeerSpot("Lagos", "Africa/Lagos", "NG", GeoPoint(6.52, 3.38), emptyList()) // UTC+1, like Berlin in winter
         val status = BeerClock.status(Instant.parse("2026-12-01T12:00:00Z"), spots = listOf(berlin, lagos, kathmandu))
         assertEquals(setOf(berlin, lagos), status.next.spots.toSet())
     }

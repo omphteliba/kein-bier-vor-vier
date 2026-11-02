@@ -28,7 +28,8 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. D
 - **Homescreen-Widget,** das sich zu jeder neuen Runde aktualisiert.
 - **Wear-OS-App** als „volles Glas“, dazu zwei **Complications** für beliebige Zifferblätter.
 - **Zwei eigene Zifferblätter:** „Kein Bier vor Vier“ (zwölfmal die 4) und „It's 5 O'Clock Somewhere“ (zwölfmal die 5).
-- Deutsch und Englisch, 52 Orte inklusive der Zeitzonen mit halben und Viertelstunden, Sommerzeit inklusive.
+- Deutsch und Englisch, 54 Orte inklusive der Zeitzonen mit halben und Viertelstunden, Sommerzeit inklusive.
+- **Bier des Tages:** pro Ort wechseln sich die Biere täglich ab, mit Brauerei und Brauort – bevorzugt unabhängige Craftbrauereien, in Deutschland auch traditionelle wie die Kirner Privatbrauerei. Deutschland, Frankreich und Belgien teilen sich die 16-Uhr-Runde und wechseln sich ebenfalls ab. Alle Biere mit Quellen: [docs/beer-sources.md](docs/beer-sources.md).
 
 ## Aufbau
 

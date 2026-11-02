@@ -108,10 +108,10 @@ fun BeerScreen(edition: Edition) {
 fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?, locale: Locale) {
     val context = LocalContext.current
     val current = status.openNow.first()
-    val distance = userLocation?.distanceKmTo(current.spot.location)
+    val distance = userLocation?.distanceKmTo(current.spot.locationOn(current.date))
         ?.let { formatDistance(it, locale) ?: stringResource(CommonR.string.you_are_there) }
     val next = status.next.spots.first()
-    val beer = current.spot.beer
+    val beer = current.beer
     var foamAt by remember { mutableIntStateOf(0) }
     // Small round watches (192 dp) get a smaller flag and type so nothing is cut off.
     val compact = LocalConfiguration.current.screenHeightDp < 210
@@ -148,7 +148,7 @@ fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?
                 FlagCoaster(current.spot.flag, size = 38.dp, flagSize = 21.sp)
             }
             Text(
-                current.spot.city(locale),
+                current.place(locale),
                 fontFamily = Aleo,
                 fontWeight = FontWeight.Black,
                 fontSize = if (compact) 19.sp else 22.sp,
@@ -170,7 +170,7 @@ fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?
             )
             Spacer(Modifier.height(if (compact) 4.dp else 8.dp))
             Text(
-                listOfNotNull(beer?.name ?: stringResource(CommonR.string.no_local_beer), beer?.style).joinToString(" · "),
+                listOfNotNull(beer?.name ?: stringResource(CommonR.string.no_local_beer), beer?.brewery).joinToString(" · "),
                 fontFamily = Aleo,
                 fontWeight = FontWeight.Bold,
                 fontSize = if (compact) 12.sp else 13.sp,
@@ -180,7 +180,7 @@ fun BeerStatusView(status: BeerStatus, edition: Edition, userLocation: GeoPoint?
             )
             val nextLine = stringResource(
                 CommonR.string.next_in,
-                "${next.flag} ${next.city(locale)}",
+                "${next.flag} ${next.place(locale, next.dateAt(status.next.at))}",
                 formatCountdown(status.next.countdown),
             )
             Text(
