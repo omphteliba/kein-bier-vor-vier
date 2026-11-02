@@ -32,4 +32,5 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.wear.compose.material3)
     implementation(libs.wear.compose.foundation)
+    implementation(libs.watchface.complications.data.source.ktx)
 }

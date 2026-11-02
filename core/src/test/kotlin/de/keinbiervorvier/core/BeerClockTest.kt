@@ -53,6 +53,19 @@ class BeerClockTest {
     }
 
     @Test
+    fun `rounds lists every start in order and matches the open spot`() {
+        val from = Instant.parse("2026-11-02T00:00:00Z")
+        val rounds = BeerClock.rounds(from, from.plus(Duration.ofDays(1)))
+        assertTrue(rounds.size > 24)
+        assertEquals(rounds.sortedBy { it.at }, rounds)
+        rounds.forEach { round ->
+            val open = BeerClock.status(round.at).openNow.first()
+            assertEquals(0, open.minutesIn)
+            assertTrue(open.spot in round.spots)
+        }
+    }
+
+    @Test
     fun `spots reaching 16 o'clock at the same moment are grouped`() {
         val lagos = BeerSpot("Lagos", "Africa/Lagos") // UTC+1, like Berlin in winter
         val status = BeerClock.status(Instant.parse("2026-12-01T12:00:00Z"), listOf(berlin, lagos, kathmandu))

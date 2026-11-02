@@ -7,8 +7,8 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht.
 ## Stand
 
 - `core/` – reine Kotlin-Logik (Zeitzonen, Sommerzeit, Countdown zur nächsten Runde) mit Tests
-- `wear/` – Wear-OS-App (Compose for Wear OS)
-- geplant: Complication fürs Zifferblatt, später eine watchOS-Version
+- `wear/` – Wear-OS-App (Compose for Wear OS) und Complication „Bier-Uhr“ fürs Zifferblatt
+- geplant: später eine watchOS-Version
 
 ## Bauen & testen
 

@@ -39,6 +39,18 @@ object BeerClock {
         return BeerStatus(openNow, next)
     }
 
+    /** All rounds starting after [from] up to and including [until], in order. */
+    fun rounds(from: Instant, until: Instant, spots: List<BeerSpot> = BeerSpots.ALL): List<NextRound> {
+        val result = mutableListOf<NextRound>()
+        var t = from
+        while (true) {
+            val next = status(t, spots).next
+            if (next.at > until) return result
+            result += next.copy(countdown = Duration.between(from, next.at))
+            t = next.at
+        }
+    }
+
     /** The first 16:00 in [spot]'s zone strictly after [now]. */
     fun nextBeerHourStart(now: Instant, spot: BeerSpot): Instant {
         val local = now.atZone(spot.zone)
