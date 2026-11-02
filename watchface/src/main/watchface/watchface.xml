@@ -180,17 +180,20 @@
             </Text>
         </PartText>
 
+        <!-- Titles open the app too, so tapping anywhere along the middle works. -->
         <PartText x="45" y="98" width="360" height="50">
             <Variant mode="AMBIENT" target="alpha" value="0" />
             <Text align="CENTER">
                 <Font family="SYNC_TO_DEVICE" size="{{TITLE_SIZE}}" weight="BOLD" color="#FFC62828"><![CDATA[{{TITLE_TOP}}]]></Font>
             </Text>
+            <Launch target="de.keinbiervorvier.wear/de.keinbiervorvier.wear.MainActivity" />
         </PartText>
         <PartText x="45" y="268" width="360" height="46">
             <Variant mode="AMBIENT" target="alpha" value="0" />
             <Text align="CENTER">
                 <Font family="SYNC_TO_DEVICE" size="{{TITLE_SIZE}}" weight="BOLD" color="#FF3B2A1A"><![CDATA[{{TITLE_BOTTOM}}]]></Font>
             </Text>
+            <Launch target="de.keinbiervorvier.wear/de.keinbiervorvier.wear.MainActivity" />
         </PartText>
 
         <!-- Flag of the place where it is beer o'clock right now, in colour. -->
