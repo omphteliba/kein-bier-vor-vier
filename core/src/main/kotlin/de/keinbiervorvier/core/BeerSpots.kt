@@ -187,6 +187,7 @@ object BeerSpots {
                 Beer("Boat Snack", "NEIPA", "Yankee & Kraut", "Ingolstadt", GeoPoint(48.77, 11.43), craft = true),
                 Beer("Marlene", "Berliner Weisse", "Schneeeule", "Berlin", GeoPoint(52.57, 13.34), craft = true),
                 Beer("Spree Coast IPA", "West Coast IPA", "Brauerei Lemke", "Berlin", GeoPoint(52.52, 13.40), craft = true),
+                Beer("Foggy Illusion", "Hazy IPA", "Still Brewing Society", "Mannheim", GeoPoint(49.49, 8.47), craft = true),
                 Beer("Untergiesinger Erhellung", "Helles", "Giesinger Bräu", "München", GeoPoint(48.11, 11.58), craft = true),
                 Beer("Augustiner Lagerbier Hell", "Helles", "Augustiner-Bräu", "München", GeoPoint(48.14, 11.55)),
             ),

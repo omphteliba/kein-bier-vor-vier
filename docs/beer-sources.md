@@ -18,10 +18,10 @@ Die Daten stehen in [`core/.../BeerSpots.kt`](../core/src/main/kotlin/de/keinbie
 | Boat Snack (NEIPA) | Yankee & Kraut, Ingolstadt | ✓ | [craftbeer-shop.com](https://www.craftbeer-shop.com/yankee-und-kraut) |
 | Marlene (Berliner Weisse) | Schneeeule, Berlin | ✓ | [Weddingweiser](https://weddingweiser.de/brauerei-schneeeule-berliner-weisse/) |
 | Spree Coast IPA | Brauerei Lemke, Berlin | ✓ | [Craft Beer Nomads](https://craftbeernomads.com/craft-beer-in-berlin-brauerei-lemke/) |
+| Foggy Illusion (Hazy IPA) | Still Brewing Society, Mannheim (Andi Dietrich, ehem. Brauquadrat; gebraut u. a. bei CraftCell Heidelberg) | ✓ | [Bingen Bier Festival](https://bingenbierfestival.de/still-brewing-society/), [Untappd](https://untappd.com/StillBrewingSociety), [Brauquadrat](https://untappd.com/BRAUQUADRAT) |
 | Untergiesinger Erhellung | Giesinger Bräu, München | ✓ | [Bierentdecker](https://www.bierentdecker.com/magazin/artikel/die-brauerei-hinter-der-erhellung) |
 | Augustiner Lagerbier Hell | Augustiner-Bräu, München | – | [Wikipedia](https://en.wikipedia.org/wiki/Augustiner-Br%C3%A4u) |
 
-Offen: „Still Brewing“ – gefunden wurde nur die Nanobrauerei *Still Brewing Society* ([Untappd](https://untappd.com/StillBrewingSociety)), Standort unklar (evtl. Mannheim).
 
 ## Frankreich und Belgien
 
