@@ -44,6 +44,7 @@ import de.keinbiervorvier.core.BeerClock
 import de.keinbiervorvier.core.BeerStatus
 import de.keinbiervorvier.core.Edition
 import de.keinbiervorvier.phone.EditionSetting
+import de.keinbiervorvier.phone.Ink
 import de.keinbiervorvier.phone.MainActivity
 import de.keinbiervorvier.phone.R
 import kotlinx.coroutines.CoroutineScope
@@ -55,8 +56,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
 
-private val Brown = ColorProvider(Color(0xFF3B2A1A))
-private val BeerRed = ColorProvider(Color(0xFFC62828))
+/** Same warm grey as in the app. */
+private val InkColor = ColorProvider(Ink)
 
 /**
  * Home screen widget: where it is beer o'clock right now and where it's next.
@@ -111,7 +112,7 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
         ) {
             Text(
                 context.getString(edition.nowInRes).uppercase(locale),
-                style = TextStyle(color = BeerRed, fontSize = 12.sp, fontWeight = FontWeight.Bold),
+                style = TextStyle(color = InkColor, fontSize = 12.sp, fontWeight = FontWeight.Bold),
                 maxLines = 1,
             )
             Box(
@@ -136,17 +137,17 @@ private fun WidgetContent(context: Context, status: BeerStatus, edition: Edition
         ) {
             Text(
                 current.city(locale),
-                style = TextStyle(color = Brown, fontSize = 22.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center),
+                style = TextStyle(color = InkColor, fontSize = 22.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center),
                 maxLines = 1,
             )
             Text(
                 current.beer?.name ?: context.getString(de.keinbiervorvier.common.R.string.no_local_beer),
-                style = TextStyle(color = Brown, fontSize = 13.sp),
+                style = TextStyle(color = InkColor, fontSize = 13.sp),
                 maxLines = 1,
             )
             Text(
                 context.getString(R.string.widget_next, "${next.flag} ${next.city(locale)}", nextTime),
-                style = TextStyle(color = Brown, fontSize = 12.sp),
+                style = TextStyle(color = InkColor, fontSize = 12.sp),
                 maxLines = 1,
             )
         }

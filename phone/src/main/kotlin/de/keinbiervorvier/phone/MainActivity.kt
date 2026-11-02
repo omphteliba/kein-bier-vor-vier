@@ -91,8 +91,10 @@ import de.keinbiervorvier.common.R as CommonR
 val Cream = Color(0xFFFDF6E3)
 val Amber = Color(0xFFF6B400)
 val DarkAmber = Color(0xFFD98300)
-val Brown = Color(0xFF3B2A1A)
-val SoftBrown = Color(0xFF7A6650)
+/** Text: warm grey, 90 % neutral grey with 10 % golden yellow (#FFD700) mixed in. */
+val Ink = Color(0xFF595540)
+/** Secondary text, same mix on a lighter grey; still readable on cream. */
+val InkSoft = Color(0xFF7D7963)
 val BeerRed = Color(0xFFC62828)
 val Foam = Color(0xFFF3E7C9)
 
@@ -100,13 +102,13 @@ private val BeerColors = lightColorScheme(
     primary = DarkAmber,
     onPrimary = Color.White,
     secondaryContainer = Amber,
-    onSecondaryContainer = Brown,
+    onSecondaryContainer = Ink,
     background = Cream,
-    onBackground = Brown,
+    onBackground = Ink,
     surface = Cream,
-    onSurface = Brown,
+    onSurface = Ink,
     surfaceVariant = Foam,
-    onSurfaceVariant = SoftBrown,
+    onSurfaceVariant = InkSoft,
 )
 
 private val CardShape = RoundedCornerShape(28.dp)
@@ -128,7 +130,7 @@ private val BeerTypography = Typography().run {
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Dark status bar icons on the cream background.
-        enableEdgeToEdge(statusBarStyle = SystemBarStyle.light(Cream.toArgb(), Brown.toArgb()))
+        enableEdgeToEdge(statusBarStyle = SystemBarStyle.light(Cream.toArgb(), Ink.toArgb()))
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme(colorScheme = BeerColors, typography = BeerTypography) {
@@ -176,7 +178,7 @@ fun BeerApp() {
                 Text(
                     stringResource(R.string.drink_responsibly),
                     style = MaterialTheme.typography.bodySmall,
-                    color = SoftBrown,
+                    color = InkSoft,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -215,11 +217,11 @@ private fun Header(edition: Edition, now: Instant, onSettings: () -> Unit) {
             Text(
                 stringResource(if (edition == Edition.KEIN_BIER_VOR_VIER) R.string.tagline_vier else R.string.tagline_five),
                 style = MaterialTheme.typography.bodyMedium,
-                color = SoftBrown,
+                color = InkSoft,
             )
         }
         IconButton(onClick = onSettings) {
-            Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.settings), tint = SoftBrown)
+            Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.settings), tint = InkSoft)
         }
     }
 }
@@ -245,7 +247,7 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
         ) {
             Text(
                 stringResource(edition.nowInRes).uppercase(locale),
-                color = BeerRed,
+                color = Ink,
                 fontFamily = Aleo,
                 fontWeight = FontWeight.Black,
                 letterSpacing = 1.5.sp,
@@ -267,14 +269,14 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
                 fontSize = 40.sp,
                 lineHeight = 44.sp,
                 fontWeight = FontWeight.Black,
-                color = Brown,
+                color = Ink,
                 textAlign = TextAlign.Center,
             )
             Text(
                 current.spot.country(locale).uppercase(locale),
                 style = MaterialTheme.typography.labelLarge,
                 letterSpacing = 2.sp,
-                color = Brown.copy(alpha = 0.75f),
+                color = Ink, // the lighter grey is too faint on the beer
             )
             Spacer(Modifier.height(14.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -302,7 +304,7 @@ private fun FlagCoaster(flag: String) {
 
 @Composable
 private fun Pill(text: String) {
-    Surface(shape = CircleShape, color = Color.White.copy(alpha = 0.4f), contentColor = Brown) {
+    Surface(shape = CircleShape, color = Color.White.copy(alpha = 0.4f), contentColor = Ink) {
         Text(
             text,
             style = MaterialTheme.typography.labelLarge,
@@ -322,17 +324,17 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
         onClick = { context.openInMaps(next.spots.first()) },
         shape = CardShape,
         color = Foam,
-        contentColor = Brown,
+        contentColor = Ink,
         modifier = Modifier.fillMaxWidth(),
     ) {
         Column(Modifier.padding(20.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f)) {
+                Column(Modifier.weight(1f).padding(end = 12.dp)) {
                     Text(
                         stringResource(CommonR.string.next_round).uppercase(locale),
                         style = MaterialTheme.typography.labelMedium,
                         letterSpacing = 1.5.sp,
-                        color = SoftBrown,
+                        color = InkSoft,
                     )
                     Text(
                         next.spots.joinToString(", ") { "${it.flag} ${it.city(locale)}" },
@@ -347,7 +349,7 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
                     fontFamily = Aleo,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Black,
-                    color = DarkAmber,
+                    color = Ink,
                 )
             }
             Spacer(Modifier.height(14.dp))
@@ -366,7 +368,7 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
 @Composable
 private fun BeerCard(status: BeerStatus) {
     val beer = status.openNow.first().spot.beer
-    Surface(shape = CardShape, color = Foam, contentColor = Brown, modifier = Modifier.fillMaxWidth()) {
+    Surface(shape = CardShape, color = Foam, contentColor = Ink, modifier = Modifier.fillMaxWidth()) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
@@ -382,7 +384,7 @@ private fun BeerCard(status: BeerStatus) {
                     stringResource(R.string.local_beer).uppercase(),
                     style = MaterialTheme.typography.labelMedium,
                     letterSpacing = 1.5.sp,
-                    color = SoftBrown,
+                    color = InkSoft,
                 )
                 Text(
                     beer?.name ?: stringResource(CommonR.string.no_local_beer),
@@ -394,7 +396,7 @@ private fun BeerCard(status: BeerStatus) {
                     Text(
                         beer?.style ?: stringResource(CommonR.string.bring_your_own),
                         style = MaterialTheme.typography.labelMedium,
-                        color = SoftBrown,
+                        color = InkSoft,
                         modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp),
                     )
                 }
@@ -452,7 +454,7 @@ private fun AddWidgetButton() {
     if (!manager.isRequestPinAppWidgetSupported) return
     FilledTonalButton(
         onClick = { manager.requestPinAppWidget(ComponentName(context, BeerWidgetReceiver::class.java), null, null) },
-        colors = ButtonDefaults.filledTonalButtonColors(containerColor = Amber, contentColor = Brown),
+        colors = ButtonDefaults.filledTonalButtonColors(containerColor = Amber, contentColor = Ink),
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp).height(52.dp),
     ) {
         Text("＋  " + stringResource(R.string.add_widget), fontWeight = FontWeight.Bold)

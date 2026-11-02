@@ -92,7 +92,7 @@ private fun DrawScope.drawCarbonation(foamY: Float, phase: Float) {
 @Composable
 fun MiniDial(digit: Int, time: LocalTime, modifier: Modifier = Modifier) {
     val measurer = rememberTextMeasurer()
-    val digitStyle = TextStyle(color = Brown, fontSize = 8.sp, fontWeight = FontWeight.Bold)
+    val digitStyle = TextStyle(color = Ink, fontSize = 8.sp, fontWeight = FontWeight.Bold)
     Canvas(modifier) {
         val radius = size.minDimension / 2
         val center = Offset(size.width / 2, size.height / 2)
@@ -104,7 +104,7 @@ fun MiniDial(digit: Int, time: LocalTime, modifier: Modifier = Modifier) {
         clipRect(top = center.y - 1.5.dp.toPx(), bottom = center.y + 1.5.dp.toPx()) {
             drawCircle(Color.White, radius, center)
         }
-        drawCircle(Brown, radius - 1.dp.toPx(), center, style = Stroke(2.dp.toPx()))
+        drawCircle(Ink, radius - 1.dp.toPx(), center, style = Stroke(2.dp.toPx()))
 
         val text = measurer.measure(digit.toString(), digitStyle)
         repeat(12) { i ->
@@ -119,10 +119,10 @@ fun MiniDial(digit: Int, time: LocalTime, modifier: Modifier = Modifier) {
         val minutes = time.minute + time.second / 60f
         val hours = (time.hour % 12) + minutes / 60f
         rotate(hours * 30f, center) {
-            drawLine(Brown, center, Offset(center.x, center.y - radius * 0.42f), 2.5.dp.toPx(), StrokeCap.Round)
+            drawLine(Ink, center, Offset(center.x, center.y - radius * 0.42f), 2.5.dp.toPx(), StrokeCap.Round)
         }
         rotate(minutes * 6f, center) {
-            drawLine(Brown, center, Offset(center.x, center.y - radius * 0.62f), 1.8.dp.toPx(), StrokeCap.Round)
+            drawLine(Ink, center, Offset(center.x, center.y - radius * 0.62f), 1.8.dp.toPx(), StrokeCap.Round)
         }
         drawCircle(BeerRed, 2.dp.toPx(), center)
     }
