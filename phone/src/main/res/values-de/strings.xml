@@ -15,4 +15,5 @@
     <string name="tagline_five">Irgendwo ist immer fünf.</string>
     <string name="local_beer">Lokales Bier</string>
     <string name="drink_responsibly">Bitte verantwortungsvoll genießen 🍻</string>
+    <string name="show_on_map">Karte</string>
 </resources>

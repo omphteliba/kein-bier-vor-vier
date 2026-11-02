@@ -15,4 +15,5 @@
     <string name="tagline_five">It\'s five o\'clock somewhere.</string>
     <string name="local_beer">Local beer</string>
     <string name="drink_responsibly">Please enjoy responsibly 🍻</string>
+    <string name="show_on_map">Map</string>
 </resources>

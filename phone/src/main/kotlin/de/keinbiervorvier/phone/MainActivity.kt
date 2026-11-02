@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.Typography
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -64,6 +66,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.keinbiervorvier.common.Aleo
 import de.keinbiervorvier.common.formatCountdown
 import de.keinbiervorvier.common.nowInRes
 import de.keinbiervorvier.common.rememberUserLocation
@@ -108,13 +111,27 @@ private val BeerColors = lightColorScheme(
 
 private val CardShape = RoundedCornerShape(28.dp)
 
+/** Aleo for everything big; body text and small labels stay in the system font. */
+private val BeerTypography = Typography().run {
+    copy(
+        displayLarge = displayLarge.copy(fontFamily = Aleo),
+        displayMedium = displayMedium.copy(fontFamily = Aleo),
+        displaySmall = displaySmall.copy(fontFamily = Aleo),
+        headlineLarge = headlineLarge.copy(fontFamily = Aleo),
+        headlineMedium = headlineMedium.copy(fontFamily = Aleo),
+        headlineSmall = headlineSmall.copy(fontFamily = Aleo),
+        titleLarge = titleLarge.copy(fontFamily = Aleo),
+        titleMedium = titleMedium.copy(fontFamily = Aleo),
+    )
+}
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Dark status bar icons on the cream background.
         enableEdgeToEdge(statusBarStyle = SystemBarStyle.light(Cream.toArgb(), Brown.toArgb()))
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme(colorScheme = BeerColors) {
+            MaterialTheme(colorScheme = BeerColors, typography = BeerTypography) {
                 BeerApp()
             }
         }
@@ -210,6 +227,7 @@ private fun Header(edition: Edition, now: Instant, onSettings: () -> Unit) {
 /** The hero: a glass of beer with the flag above the foam and the place in the beer. */
 @Composable
 private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoint?, locale: Locale) {
+    val context = LocalContext.current
     val current = status.openNow.first()
     val distance = userLocation?.distanceKmTo(current.spot.location)
         ?.let { formatDistance(it, locale) ?: stringResource(CommonR.string.you_are_there) }
@@ -228,6 +246,7 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
             Text(
                 stringResource(edition.nowInRes).uppercase(locale),
                 color = BeerRed,
+                fontFamily = Aleo,
                 fontWeight = FontWeight.Black,
                 letterSpacing = 1.5.sp,
                 style = MaterialTheme.typography.labelLarge,
@@ -236,11 +255,15 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
             FlagCoaster(current.spot.flag)
         }
         Column(
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 22.dp, bottom = 24.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClickLabel = stringResource(R.string.show_on_map)) { context.openInMaps(current.spot) }
+                .padding(start = 20.dp, end = 20.dp, top = 22.dp, bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 current.spot.city(locale),
+                fontFamily = Aleo,
                 fontSize = 40.sp,
                 lineHeight = 44.sp,
                 fontWeight = FontWeight.Black,
@@ -256,7 +279,7 @@ private fun GlassCard(status: BeerStatus, edition: Edition, userLocation: GeoPoi
             Spacer(Modifier.height(14.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Pill("⏱ " + stringResource(CommonR.string.since_minutes, current.minutesIn))
-                distance?.let { Pill("📍 $it") }
+                Pill("📍 " + (distance ?: stringResource(R.string.show_on_map)))
             }
         }
     }
@@ -294,7 +317,14 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
     val next = status.next
     val sinceStart = Duration.ofMinutes(status.openNow.first().minutesIn.toLong())
     val progress = sinceStart.toSeconds().toFloat() / (sinceStart + next.countdown).toSeconds().coerceAtLeast(1)
-    Surface(shape = CardShape, color = Foam, contentColor = Brown, modifier = Modifier.fillMaxWidth()) {
+    val context = LocalContext.current
+    Surface(
+        onClick = { context.openInMaps(next.spots.first()) },
+        shape = CardShape,
+        color = Foam,
+        contentColor = Brown,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
         Column(Modifier.padding(20.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
@@ -314,6 +344,7 @@ private fun NextRoundCard(status: BeerStatus, locale: Locale) {
                 }
                 Text(
                     formatCountdown(next.countdown),
+                    fontFamily = Aleo,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Black,
                     color = DarkAmber,
@@ -387,7 +418,14 @@ private fun SectionTitle(text: String) {
 private fun UpcomingRow(round: NextRound, locale: Locale) {
     val time = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(locale)
         .format(round.at.atZone(ZoneId.systemDefault()))
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+    val context = LocalContext.current
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(CircleShape)
+            .clickable(onClickLabel = stringResource(R.string.show_on_map)) { context.openInMaps(round.spots.first()) },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Surface(shape = CircleShape, color = Foam, modifier = Modifier.width(72.dp)) {
             Text(
                 time,

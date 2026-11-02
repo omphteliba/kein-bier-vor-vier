@@ -7,8 +7,8 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. D
 ## Stand
 
 - `core/` – reine Kotlin-Logik (Zeitzonen, Sommerzeit, Countdown zur nächsten Runde, beide Editionen, deutsche und englische Namen) mit Tests
-- `common/` – Android-Teile, die Uhr und Handy teilen: Texte (Deutsch/Englisch), Standortabfrage, Formatierung
-- `phone/` – Android-App fürs Handy: großer „Jetzt“-Bildschirm im Bier-Design, Umschalter 4 / 5, die Runden der nächsten 12 Stunden und ein Homescreen-Widget, das sich zu jeder neuen Runde aktualisiert
+- `common/` – Android-Teile, die Uhr und Handy teilen: Texte (Deutsch/Englisch), Standortabfrage, Formatierung und die Schrift [Aleo](common/fonts/README.md) (SIL Open Font License)
+- `phone/` – Android-App fürs Handy: großer „Jetzt“-Bildschirm im Bier-Design, Tipp auf einen Ort öffnet Google Maps, Spruch-Auswahl in den Einstellungen, die Runden der nächsten 12 Stunden und ein Homescreen-Widget, das sich zu jeder neuen Runde aktualisiert
 - `wear/` – Wear-OS-App (Compose for Wear OS): Stadt, Land, Flagge, lokales Bier und Entfernung zu dir; auf Deutsch 16 Uhr, sonst Englisch und 17 Uhr. Dazu zwei Complications: „Kein Bier vor Vier“ (16 Uhr) und „5 O'Clock Somewhere“ (17 Uhr)
 - `watchface/` – eigenes Zifferblatt im Watch Face Format, in zwei Varianten aus einer Vorlage (`src/main/watchface/watchface.xml`):
   - `vier` – „Kein Bier vor Vier“, zwölfmal die 4
