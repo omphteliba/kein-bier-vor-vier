@@ -11,7 +11,7 @@ Stand: November 2026
 
 ### Verantwortlich
 Oliver Hörold
-Kontakt: [E-Mail-Adresse eintragen] oder über die [Issues dieses Projekts](https://github.com/omphteliba/kein-bier-vor-vier/issues)
+Kontakt: omphteliba@gmail.com oder über die [Issues dieses Projekts](https://github.com/omphteliba/kein-bier-vor-vier/issues)
 
 ### Standort
 Wenn du es erlaubst, fragt die App den **ungefähren Standort** deines Geräts ab („Standort bei Nutzung der App“), um die Entfernung zum Ort anzuzeigen, an dem gerade Bierzeit ist.
@@ -37,7 +37,7 @@ Da wir keine personenbezogenen Daten verarbeiten, gibt es nichts, worüber wir A
 
 ### Controller
 Oliver Hörold
-Contact: [add e-mail address] or via the [issues of this project](https://github.com/omphteliba/kein-bier-vor-vier/issues)
+Contact: omphteliba@gmail.com or via the [issues of this project](https://github.com/omphteliba/kein-bier-vor-vier/issues)
 
 ### Location
 If you allow it, the app reads your device's **approximate location** ("while using the app") to show the distance to the place where it is beer o'clock right now.
