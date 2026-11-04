@@ -83,7 +83,8 @@ A fun project for everyone who enjoys a beer. Please drink responsibly – and o
 | App-Symbol | [icon-512.png](icon-512.png) | 512 × 512 PNG |
 | Vorschaugrafik DE | [feature-graphic-de.png](feature-graphic-de.png) | 1024 × 500 |
 | Feature graphic EN | [feature-graphic-en.png](feature-graphic-en.png) | 1024 × 500 |
-| Screenshots Handy / Uhr | folgen (`screenshots/`) | Handy 9:16, Uhr 1:1 |
+| Screenshots Handy | [phone-1](screenshots/phone-1.png), [phone-2](screenshots/phone-2.png), [phone-3](screenshots/phone-3.png) | 1080 × 2160 (2:1) |
+| Screenshot Uhr (Wear OS) | [wear-1](screenshots/wear-1.png) | 454 × 454 |
 
 Neu erzeugen: `python tools/make_store_graphics.py`
 

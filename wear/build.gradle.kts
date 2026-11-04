@@ -42,6 +42,11 @@ android {
     }
 
     buildTypes {
+        // In development phone and watch apps get separate packages, so running
+        // the watch app on a phone by mistake can't replace the phone app there.
+        debug {
+            applicationIdSuffix = ".wear"
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true

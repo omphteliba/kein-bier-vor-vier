@@ -75,7 +75,9 @@ androidComponents {
         val edition = variant.flavorName!!
         val task = tasks.register<GenerateWatchFace>("generate${variant.name.replaceFirstChar { it.uppercase() }}WatchFace") {
             template.set(layout.projectDirectory.file("src/main/watchface/watchface.xml"))
-            values.set(editions.getValue(edition))
+            // Debug watch apps carry a ".wear" suffix (see wear/build.gradle.kts).
+            val watchApp = if (variant.buildType == "debug") "de.irgendwoistimmervier.wear" else "de.irgendwoistimmervier"
+            values.set(editions.getValue(edition).mapValues { it.value.replace("de.irgendwoistimmervier/", "$watchApp/") })
         }
         variant.sources.res?.addGeneratedSourceDirectory(task, GenerateWatchFace::outputDir)
     }

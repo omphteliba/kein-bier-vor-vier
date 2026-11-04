@@ -61,6 +61,10 @@ Für Wear OS braucht der Eintrag mindestens einen Uhren-Screenshot (quadratisch)
 5. Zur Überprüfung einreichen. Nach der Freigabe den **Opt-in-Link** an die Tester schicken: Beitreten, dann App aus dem Play Store installieren.
 6. **14 Tage am Stück** mit mindestens 12 Testern – danach kannst du unter **Dashboard** den Zugang zur Produktion beantragen.
 
+## Hinweis zum Testen in Android Studio
+
+Handy- und Uhren-App haben im Store denselben Paketnamen. In **Debug-Builds** heißt die Uhren-App deshalb `de.irgendwoistimmervier.wear` – so kann ein versehentlicher Start auf dem Handy die Handy-App nicht überschreiben. Trotzdem: oben **Gerät und Konfiguration passend wählen** (Nokia + `phone`, Wear-Emulator + `wear`).
+
 ## Neue Version hochladen
 
 `versionCode` in `phone/build.gradle.kts` und `wear/build.gradle.kts` erhöhen (Handy und Uhr müssen sich unterscheiden: Handy ungerade, Uhr gerade hat sich bewährt), dann wie in Schritt 1 bauen und im jeweiligen Track ein neues Release anlegen.
