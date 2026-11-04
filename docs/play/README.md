@@ -10,25 +10,25 @@ Damit signierst du jede Version, die du hochlädst. **Gut aufheben, nie ins Repo
 
 **PowerShell**
 ```powershell
-& "C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkeypair -v -keystore "$env:USERPROFILE\irgendwo-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
+& "C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkeypair -v -keystore "$env:USERPROFILE\vieruhr-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
 ```
 
 **Eingabeaufforderung (cmd)**
 ```bat
-"C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkeypair -v -keystore "%USERPROFILE%\irgendwo-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
+"C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkeypair -v -keystore "%USERPROFILE%\vieruhr-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
 ```
 
 **Git Bash**
 ```bash
-"/c/Program Files/Android/Android Studio/jbr/bin/keytool.exe" -genkeypair -v -keystore "$USERPROFILE\\irgendwo-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
+"/c/Program Files/Android/Android Studio/jbr/bin/keytool.exe" -genkeypair -v -keystore "$USERPROFILE\\vieruhr-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
 ```
 
-Die Datei landet so in deinem Benutzerordner (`C:\Users\<du>\irgendwo-upload.jks`), nicht im Projekt. `keytool` fragt nach einem Passwort (selbst ausdenken, notieren) und ein paar Angaben zu dir – die sieht niemand außer Google. Am Ende mit `ja`/`yes` bestätigen. **Zusätzlich sichern**, z. B. auf einem USB-Stick.
+Die Datei landet so in deinem Benutzerordner (`C:\Users\<du>\vieruhr-upload.jks`), nicht im Projekt. `keytool` fragt nach einem Passwort (selbst ausdenken, notieren) und ein paar Angaben zu dir – die sieht niemand außer Google. Am Ende mit `ja`/`yes` bestätigen. **Zusätzlich sichern**, z. B. auf einem USB-Stick.
 
 Dann im Projektordner die Datei `keystore.properties` anlegen (ist per `.gitignore` vom Repo ausgeschlossen):
 
 ```properties
-storeFile=C:/Users/DEIN_NAME/irgendwo-upload.jks
+storeFile=C:/Users/DEIN_NAME/vieruhr-upload.jks
 storePassword=dein-passwort
 keyAlias=upload
 keyPassword=dein-passwort
