@@ -6,11 +6,24 @@ Für Handy- und Uhren-App unter **einem** Eintrag (`de.irgendwoistimmervier`). D
 
 Damit signierst du jede Version, die du hochlädst. **Gut aufheben, nie ins Repo!** (Verlierst du ihn, kann Google ihn zurücksetzen – das dauert aber.)
 
+`keytool` liegt bei Android Studio dabei. Den Befehl in **einer** dieser Shells eingeben – der Pfad zur Schlüsseldatei wird je Shell anders geschrieben:
+
+**PowerShell**
 ```powershell
-& "C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkeypair -v -keystore "$HOME\irgendwo-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
+& "C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkeypair -v -keystore "$env:USERPROFILE\irgendwo-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
 ```
 
-Es fragt nach einem Passwort (selbst ausdenken, notieren) und ein paar Angaben zu dir – die sieht niemand außer Google.
+**Eingabeaufforderung (cmd)**
+```bat
+"C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -genkeypair -v -keystore "%USERPROFILE%\irgendwo-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
+```
+
+**Git Bash**
+```bash
+"/c/Program Files/Android/Android Studio/jbr/bin/keytool.exe" -genkeypair -v -keystore "$USERPROFILE\\irgendwo-upload.jks" -alias upload -keyalg RSA -keysize 4096 -validity 36500
+```
+
+Die Datei landet so in deinem Benutzerordner (`C:\Users\<du>\irgendwo-upload.jks`), nicht im Projekt. `keytool` fragt nach einem Passwort (selbst ausdenken, notieren) und ein paar Angaben zu dir – die sieht niemand außer Google. Am Ende mit `ja`/`yes` bestätigen. **Zusätzlich sichern**, z. B. auf einem USB-Stick.
 
 Dann im Projektordner die Datei `keystore.properties` anlegen (ist per `.gitignore` vom Repo ausgeschlossen):
 
