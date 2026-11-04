@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kein Bier vor Vier</string>
+    <string name="app_name">Irgendwo ist immer Vier</string>
     <string name="coming_up">Als Nächstes</string>
     <string name="add_widget">Widget zum Startbildschirm hinzufügen</string>
     <string name="widget_description">Wo gerade Bierzeit ist</string>
@@ -11,7 +11,7 @@
     <string name="edition_vier_option">Kein Bier vor Vier (16 Uhr)</string>
     <string name="edition_five_option">5 O\'Clock Somewhere (17 Uhr)</string>
     <string name="close">Schließen</string>
-    <string name="tagline_vier">Irgendwo ist immer vier.</string>
+    <string name="tagline_vier">Frei nach dem Spruch „Kein Bier vor Vier“.</string>
     <string name="tagline_five">Irgendwo ist immer fünf.</string>
     <string name="drink_responsibly">Bitte verantwortungsvoll genießen 🍻</string>
     <string name="show_on_map">Karte</string>

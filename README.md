@@ -78,8 +78,13 @@ Zum Ausprobieren in Android Studio einen Wear-OS-Emulator anlegen, die Run-Konfi
 
 ```bash
 adb install -r watchface/build/outputs/apk/vier/debug/watchface-vier-debug.apk
-adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation set-watchface --es watchFaceId de.keinbiervorvier.watchface.vier
+adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es operation set-watchface --es watchFaceId de.irgendwoistimmervier.watchface.vier
 ```
+
+## Veröffentlichung
+
+- Google Play: Schritt-für-Schritt-Anleitung, Store-Texte und Grafiken in [docs/play/](docs/play/README.md)
+- [Datenschutzerklärung](docs/privacy.md)
 
 ## Lizenz
 

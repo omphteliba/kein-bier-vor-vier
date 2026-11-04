@@ -10,3 +10,8 @@ ios/*.xcodeproj/
 ios/build/
 ios/screenshots/
 ios/BeerCore/.build/
+
+# Release signing: your upload key stays on your machine.
+keystore.properties
+*.jks
+*.keystore

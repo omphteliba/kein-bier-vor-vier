@@ -3,7 +3,7 @@
     <string name="app_name">5 O\'Clock Somewhere</string>
 
     <!-- The sayings are names, so they stay as they are in every language. -->
-    <string name="complication_label_vier" translatable="false">Kein Bier vor Vier</string>
+    <string name="complication_label_vier" translatable="false">Irgendwo ist immer Vier</string>
     <string name="complication_label_five" translatable="false">5 O\'Clock Somewhere</string>
     <string name="complication_description">It\'s beer o\'clock in %1$s</string>
     <!-- ^1 is replaced by the live countdown -->

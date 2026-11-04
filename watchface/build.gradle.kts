@@ -9,16 +9,16 @@ val editions = mapOf(
         "TITLE_TOP" to "KEIN BIER",
         "TITLE_BOTTOM" to "VOR VIER",
         "TITLE_SIZE" to "40",
-        "PROVIDER" to "de.keinbiervorvier.wear/de.keinbiervorvier.wear.complication.KeinBierVorVierComplicationService",
-        "LAUNCH" to "de.keinbiervorvier.wear/de.keinbiervorvier.wear.VierActivity",
+        "PROVIDER" to "de.irgendwoistimmervier/de.keinbiervorvier.wear.complication.KeinBierVorVierComplicationService",
+        "LAUNCH" to "de.irgendwoistimmervier/de.keinbiervorvier.wear.VierActivity",
     ),
     "five" to mapOf(
         "DIGIT" to "5",
         "TITLE_TOP" to "IT'S 5 O'CLOCK",
         "TITLE_BOTTOM" to "SOMEWHERE",
         "TITLE_SIZE" to "34",
-        "PROVIDER" to "de.keinbiervorvier.wear/de.keinbiervorvier.wear.complication.FiveOClockComplicationService",
-        "LAUNCH" to "de.keinbiervorvier.wear/de.keinbiervorvier.wear.FiveActivity",
+        "PROVIDER" to "de.irgendwoistimmervier/de.keinbiervorvier.wear.complication.FiveOClockComplicationService",
+        "LAUNCH" to "de.irgendwoistimmervier/de.keinbiervorvier.wear.FiveActivity",
     ),
 )
 
@@ -40,11 +40,11 @@ android {
     productFlavors {
         create("vier") {
             dimension = "edition"
-            applicationId = "de.keinbiervorvier.watchface.vier"
+            applicationId = "de.irgendwoistimmervier.watchface.vier"
         }
         create("five") {
             dimension = "edition"
-            applicationId = "de.keinbiervorvier.watchface.five"
+            applicationId = "de.irgendwoistimmervier.watchface.five"
         }
     }
 }
