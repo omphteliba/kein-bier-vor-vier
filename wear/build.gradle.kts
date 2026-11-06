@@ -26,8 +26,8 @@ android {
         applicationId = "de.irgendwoistimmervier"
         minSdk = 30
         targetSdk = 36
-        versionCode = 2
-        versionName = "0.1.0"
+        versionCode = 4
+        versionName = "0.1.1"
     }
 
     signingConfigs {
@@ -53,6 +53,12 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.findByName("upload") ?: signingConfigs.getByName("debug")
         }
+    }
+
+    bundle {
+        // Ship German and English to everyone. With language splits, Play installs only
+        // the device language, and switching it later left the app in the old language.
+        language { enableSplit = false }
     }
 
     compileOptions {
