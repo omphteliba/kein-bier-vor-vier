@@ -1,6 +1,6 @@
 # Datenschutzerklärung · Privacy policy
 
-**Irgendwo ist immer Vier / 5 O'Clock Somewhere** – App für Android, Wear OS, iPhone und Apple Watch, samt Widget, Complications und Zifferblättern, und als Web-App unter https://omphteliba.github.io/kein-bier-vor-vier/
+**Irgendwo ist immer Vier / 5 O'Clock Somewhere** – App für Android, Wear OS, iPhone und Apple Watch, samt Widget, Complications und Zifferblättern, und als Web-App unter https://bierzeit.hoerold.de/
 Stand: November 2026
 
 [English below](#english)

@@ -10,7 +10,7 @@
 
 Eine nicht ganz ernst gemeinte App für Smartwatch und Handy – für Android und Wear OS, iPhone und Apple Watch: Sie zeigt, in welcher Zeitzone es **gerade 16 Uhr** ist – und wo als Nächstes. Irgendwo auf der Welt ist schließlich immer vier.
 
-**Gleich im Browser ausprobieren:** [omphteliba.github.io/kein-bier-vor-vier](https://omphteliba.github.io/kein-bier-vor-vier/) – läuft auf jedem Handy und Rechner, lässt sich zum Startbildschirm hinzufügen und funktioniert dann auch offline.
+**Gleich im Browser ausprobieren:** [bierzeit.hoerold.de](https://bierzeit.hoerold.de/) – läuft auf jedem Handy und Rechner, lässt sich zum Startbildschirm hinzufügen und funktioniert dann auch offline.
 
 Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. Die englische Ausgabe folgt dem Spruch *„It's five o'clock somewhere“* und rechnet deshalb mit 17 Uhr.
 
@@ -88,7 +88,7 @@ adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es ope
 
 ## Veröffentlichung
 
-- Web: [omphteliba.github.io/kein-bier-vor-vier](https://omphteliba.github.io/kein-bier-vor-vier/) über GitHub Pages
+- Web: [bierzeit.hoerold.de](https://bierzeit.hoerold.de/) über GitHub Pages
 - Google Play: Schritt-für-Schritt-Anleitung, Store-Texte und Grafiken in [docs/play/](docs/play/README.md)
 - [Datenschutzerklärung](docs/privacy.md)
 

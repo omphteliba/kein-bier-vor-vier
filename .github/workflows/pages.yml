@@ -1,7 +1,7 @@
 name: Web
 
 # Tests the web app and publishes web/ on GitHub Pages:
-# https://omphteliba.github.io/kein-bier-vor-vier/
+# https://bierzeit.hoerold.de/
 
 on:
   push:
