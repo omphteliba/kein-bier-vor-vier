@@ -13,6 +13,8 @@ SOURCE = Path('data/spots.json')
 TARGET = Path('core/src/main/kotlin/de/keinbiervorvier/core/BeerSpotsData.kt')
 # SwiftPM only bundles resources from inside the package, so it gets a copy.
 SWIFT_COPY = Path('ios/BeerCore/Sources/BeerCore/Resources/spots.json')
+# The web app is served as static files, so it gets a copy too.
+WEB_COPY = Path('web/spots.json')
 
 
 def q(text):
@@ -79,11 +81,12 @@ if __name__ == '__main__':
     code = generate()
     data = SOURCE.read_text(encoding='utf-8')
     if '--check' in sys.argv:
-        for path, content in [(TARGET, code), (SWIFT_COPY, data)]:
+        for path, content in [(TARGET, code), (SWIFT_COPY, data), (WEB_COPY, data)]:
             if not path.exists() or path.read_text(encoding='utf-8') != content:
                 sys.exit(f'{path} is out of date - run: python tools/make_spots.py')
         print('ok, up to date')
     else:
         TARGET.write_text(code, encoding='utf-8', newline='\n')
         SWIFT_COPY.write_text(data, encoding='utf-8', newline='\n')
-        print('wrote', TARGET, 'and', SWIFT_COPY)
+        WEB_COPY.write_text(data, encoding='utf-8', newline='\n')
+        print('wrote', TARGET, SWIFT_COPY, 'and', WEB_COPY)

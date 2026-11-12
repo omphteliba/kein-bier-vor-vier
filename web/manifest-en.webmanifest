@@ -1,0 +1,15 @@
+{
+  "name": "5 O'Clock Somewhere",
+  "short_name": "5 O'Clock",
+  "description": "Where in the world it's beer o'clock right now",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FDF6E3",
+  "theme_color": "#FDF6E3",
+  "icons": [
+    { "src": "icons/five-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/five-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

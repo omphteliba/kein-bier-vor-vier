@@ -10,6 +10,8 @@
 
 Eine nicht ganz ernst gemeinte App für Smartwatch und Handy – für Android und Wear OS, iPhone und Apple Watch: Sie zeigt, in welcher Zeitzone es **gerade 16 Uhr** ist – und wo als Nächstes. Irgendwo auf der Welt ist schließlich immer vier.
 
+**Gleich im Browser ausprobieren:** [omphteliba.github.io/kein-bier-vor-vier](https://omphteliba.github.io/kein-bier-vor-vier/) – läuft auf jedem Handy und Rechner, lässt sich zum Startbildschirm hinzufügen und funktioniert dann auch offline.
+
 Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. Die englische Ausgabe folgt dem Spruch *„It's five o'clock somewhere“* und rechnet deshalb mit 17 Uhr.
 
 <p align="center">
@@ -47,7 +49,8 @@ Inspiriert von den Wanduhren, auf denen statt 1–12 überall nur die 4 steht. D
 | `wear/` | Wear-OS-App und Complications (Compose for Wear OS) |
 | `watchface/` | Zifferblätter im Watch Face Format, beide Varianten aus einer Vorlage (`src/main/watchface/watchface.xml`); Flagge, Stadt und Countdown kommen aus den Complications der App |
 | `ios/` | iPhone-App, Widget, Apple-Watch-App und Komplikationen (SwiftUI, WidgetKit); Projekt per [XcodeGen](https://github.com/yonaskolb/XcodeGen) aus `ios/project.yml`, Logik im Swift-Paket `ios/BeerCore` |
-| `data/spots.json` | Orte und Brauereien für beide Plattformen; `tools/make_spots.py` erzeugt daraus die Kotlin-Liste |
+| `web/` | Web-App ohne Framework: `js/clock.js` ist die Logik aus `core/` in JavaScript (mit Tests in `web/test/`), `js/app.js` die Seite; wird per GitHub Pages veröffentlicht |
+| `data/spots.json` | Orte und Brauereien für alle Plattformen; `tools/make_spots.py` erzeugt daraus die Kotlin-Liste und kopiert sie für iOS und Web |
 | `tools/` | `make_logo.py` erzeugt Logo ([`docs/logo/`](docs/logo/)) und App-Icon, `make_foam.py` die Schaumwelle für Widget und Zifferblatt |
 
 
@@ -70,6 +73,8 @@ Voraussetzung: Android Studio (inkl. Android SDK).
 ./gradlew :watchface:assembleDebug    # beide Zifferblätter bauen
 ```
 
+**Web-App:** `node --test` im Ordner `web/` testet die Logik; zum Ansehen `python -m http.server 8765 --directory web` und http://localhost:8765 öffnen. Jeder Push auf `main` veröffentlicht sie neu ([Pages-Workflow](https://github.com/omphteliba/kein-bier-vor-vier/actions/workflows/pages.yml)).
+
 **iPhone und Apple Watch** werden ohne eigenen Mac auf GitHubs macOS-Servern gebaut und getestet ([iOS-Workflow](https://github.com/omphteliba/kein-bier-vor-vier/actions/workflows/ios.yml)); die Simulator-Screenshots hängen am jeweiligen Lauf. Mit einem Mac: `brew install xcodegen`, dann `cd ios && xcodegen` und `KeinBierVorVier.xcodeproj` öffnen.
 
 Bei jedem Push laufen Tests und Builds auch auf GitHub; die fertigen Debug-APKs hängen am jeweiligen [Build](https://github.com/omphteliba/kein-bier-vor-vier/actions/workflows/build.yml).
@@ -83,12 +88,13 @@ adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es ope
 
 ## Veröffentlichung
 
+- Web: [omphteliba.github.io/kein-bier-vor-vier](https://omphteliba.github.io/kein-bier-vor-vier/) über GitHub Pages
 - Google Play: Schritt-für-Schritt-Anleitung, Store-Texte und Grafiken in [docs/play/](docs/play/README.md)
 - [Datenschutzerklärung](docs/privacy.md)
 
 ## Lizenz
 
-Der Code steht unter der [MIT-Lizenz](LICENSE). Die Schrift Aleo (`common/src/main/res/font/aleo.ttf`) ist davon ausgenommen und steht unter der [SIL Open Font License 1.1](common/fonts/Aleo-OFL.txt).
+Der Code steht unter der [MIT-Lizenz](LICENSE). Die Schrift Aleo (`common/src/main/res/font/aleo.ttf`) ist davon ausgenommen und steht unter der [SIL Open Font License 1.1](common/fonts/Aleo-OFL.txt). Die Flaggen der Web-App (`web/flags/`) stammen aus [flag-icons](https://github.com/lipis/flag-icons) (MIT, [Lizenz](web/flags/LICENSE)).
 
 ## Mitwirkende
 

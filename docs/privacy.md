@@ -1,6 +1,6 @@
 # Datenschutzerklärung · Privacy policy
 
-**Irgendwo ist immer Vier / 5 O'Clock Somewhere** – App für Android, Wear OS, iPhone und Apple Watch, samt Widget, Complications und Zifferblättern.
+**Irgendwo ist immer Vier / 5 O'Clock Somewhere** – App für Android, Wear OS, iPhone und Apple Watch, samt Widget, Complications und Zifferblättern, und als Web-App unter https://omphteliba.github.io/kein-bier-vor-vier/
 Stand: November 2026
 
 [English below](#english)
@@ -21,6 +21,13 @@ Wenn du es erlaubst, fragt die App den **ungefähren Standort** deines Geräts a
 
 ### Einstellungen
 Die gewählte Spruch-Variante (16 oder 17 Uhr) wird lokal auf dem Gerät gespeichert und verlässt es nicht.
+
+### Web-App
+Die Web-App wird über **GitHub Pages** ausgeliefert. Beim Aufruf verarbeitet GitHub technisch notwendige Daten wie deine IP-Adresse, z. B. für die Sicherheit des Dienstes; dafür gilt die [Datenschutzerklärung von GitHub](https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement). Wir selbst bekommen davon nichts zu sehen.
+- Keine Cookies, keine Analyse, keine eingebundenen Dienste Dritter: Schrift, Flaggen und Daten liegen auf derselben Seite.
+- Deine Einstellungen (Spruch, Sprache) speichert dein Browser lokal („localStorage“); sie werden nicht übertragen.
+- Den Standort fragt die Seite nur ab, wenn du auf „Wie weit?“ tippst und es im Browser erlaubst. Er wird nur im Browser für die Entfernung verwendet, nicht gespeichert und nicht übertragen.
+- Für den Offline-Betrieb legt der Browser eine Kopie der Seite in seinem Zwischenspeicher ab.
 
 ### Links zu anderen Diensten
 Die App enthält Links zu Google Maps bzw. Apple Karten, zu Untappd und zu Websites von Brauereien. Erst wenn du einen Link antippst, öffnet sich die jeweilige App oder Website; dort gelten deren Datenschutzbestimmungen. Die App selbst übermittelt dabei nur die Suchanfrage (Brauerei- bzw. Ortsname), nicht deinen Standort.
@@ -47,6 +54,13 @@ If you allow it, the app reads your device's **approximate location** ("while us
 
 ### Settings
 Your choice of saying (4 or 5 p.m.) is stored locally on the device and never leaves it.
+
+### Web app
+The web app is served via **GitHub Pages**. When you open it, GitHub processes technically necessary data such as your IP address, e.g. for the security of the service; [GitHub's privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement) applies. We don't get to see any of it.
+- No cookies, no analytics, no embedded third-party services: font, flags and data are served from the same site.
+- Your settings (saying, language) are stored locally by your browser ("localStorage") and never transmitted.
+- The page only asks for your location when you tap "How far?" and allow it in the browser. It is only used in the browser for the distance, neither stored nor transmitted.
+- For offline use, the browser keeps a copy of the page in its cache.
 
 ### Links to other services
 The app links to Google Maps or Apple Maps, to Untappd and to brewery websites. Only when you tap a link does the respective app or website open; their privacy policies apply there. The app only passes on the search (brewery or place name), not your location.
