@@ -4,7 +4,7 @@
   "description": "Wo auf der Welt gerade Bierzeit ist",
   "lang": "de",
   "id": "./?app=1",
-  "start_url": "./",
+  "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
   "background_color": "#FDF6E3",

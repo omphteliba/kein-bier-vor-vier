@@ -4,7 +4,7 @@
   "description": "Where in the world it's beer o'clock right now",
   "lang": "en",
   "id": "./?app=1",
-  "start_url": "./",
+  "start_url": "./?app=1",
   "scope": "./",
   "display": "standalone",
   "background_color": "#FDF6E3",
