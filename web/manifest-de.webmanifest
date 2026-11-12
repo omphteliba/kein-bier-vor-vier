@@ -3,6 +3,7 @@
   "short_name": "Immer Vier",
   "description": "Wo auf der Welt gerade Bierzeit ist",
   "lang": "de",
+  "id": "./?app=1",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

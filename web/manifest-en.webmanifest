@@ -3,6 +3,7 @@
   "short_name": "5 O'Clock",
   "description": "Where in the world it's beer o'clock right now",
   "lang": "en",
+  "id": "./?app=1",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

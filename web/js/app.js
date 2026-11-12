@@ -31,6 +31,8 @@ const TEXT = {
     bringYourOwn: 'Selbst mitbringen 🎒',
     comingUp: 'Als Nächstes',
     install: '＋  Zum Startbildschirm hinzufügen',
+    installIos: 'Tippe in Safari unten auf Teilen (□↑) und dann auf „Zum Home-Bildschirm“.',
+    installOther: 'Öffne das Menü deines Browsers (⋮ oder ≡) und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Fehlt der Eintrag, klappt es mit Chrome, Edge oder Samsung Internet.',
     responsibly: 'Bitte verantwortungsvoll genießen 🍻',
     privacy: 'Datenschutz',
     settings: 'Einstellungen',
@@ -68,6 +70,8 @@ const TEXT = {
     bringYourOwn: 'Bring your own 🎒',
     comingUp: 'Coming up',
     install: '＋  Add to home screen',
+    installIos: 'In Safari, tap Share (□↑) at the bottom, then “Add to Home Screen”.',
+    installOther: 'Open your browser’s menu (⋮ or ≡) and choose “Install app” or “Add to home screen”. If it isn’t there, Chrome, Edge or Samsung Internet can do it.',
     responsibly: 'Please enjoy responsibly 🍻',
     privacy: 'Privacy',
     settings: 'Settings',
@@ -92,6 +96,12 @@ const store = {
 const browserLang = () => ((navigator.language || 'en').slice(0, 2) === 'de' ? 'de' : 'en');
 const lang = () => { const l = store.get('lang'); return l === 'de' || l === 'en' ? l : browserLang(); };
 const edition = () => EDITIONS[store.get('edition')] ?? editionForLanguage(lang());
+
+// ---- Installing ----
+// iPads report themselves as Macs, but Macs have no touch screen.
+const isIos = () => /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+  (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+const isInstalled = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 
 // ---- Links, the same as in the apps ----
 const mapsSearch = (terms) => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(terms.join(', '));
@@ -147,6 +157,7 @@ function render() {
   renderUpcoming(now, ed, L, T);
 
   $('install').textContent = T.install;
+  $('install-hint').textContent = isIos() ? T.installIos : T.installOther;
   $('responsibly').textContent = T.responsibly;
   $('privacy-link').textContent = T.privacy;
 }
@@ -427,17 +438,26 @@ async function start() {
   locateIfAllowed();
   document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
 
+  // Chrome, Edge and Samsung Internet offer their own install dialog; Safari,
+  // Firefox and in-app browsers don't, so the button explains the way there.
+  $('install').hidden = isInstalled();
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     installPrompt = e;
-    $('install').hidden = false;
+  });
+  window.addEventListener('appinstalled', () => {
+    $('install').hidden = true;
+    $('install-hint').hidden = true;
   });
   $('install').addEventListener('click', async () => {
-    if (!installPrompt) return;
+    if (!installPrompt) {
+      $('install-hint').hidden = false;
+      return;
+    }
     installPrompt.prompt();
-    await installPrompt.userChoice;
+    const { outcome } = await installPrompt.userChoice;
     installPrompt = null;
-    $('install').hidden = true;
+    if (outcome === 'accepted') $('install').hidden = true;
   });
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     navigator.serviceWorker.register('sw.js').catch(() => {});
