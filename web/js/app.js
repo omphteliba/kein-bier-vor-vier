@@ -31,7 +31,7 @@ const TEXT = {
     bringYourOwn: 'Selbst mitbringen 🎒',
     comingUp: 'Als Nächstes',
     install: '＋  Zum Startbildschirm hinzufügen',
-    installIos: 'Tippe in Safari unten auf Teilen (□↑) und dann auf „Zum Home-Bildschirm“.',
+    installIos: 'So geht’s auf dem iPhone: Tippe auf Teilen (□↑) – in Safari steckt es oft hinter „…“ – und dann auf „Zum Home-Bildschirm“. Falls der Eintrag fehlt, in der Liste ganz nach unten scrollen.',
     installOther: 'Öffne das Menü deines Browsers (⋮ oder ≡) und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Fehlt der Eintrag, klappt es mit Chrome, Edge oder Samsung Internet.',
     responsibly: 'Bitte verantwortungsvoll genießen 🍻',
     privacy: 'Datenschutz',
@@ -70,7 +70,7 @@ const TEXT = {
     bringYourOwn: 'Bring your own 🎒',
     comingUp: 'Coming up',
     install: '＋  Add to home screen',
-    installIos: 'In Safari, tap Share (□↑) at the bottom, then “Add to Home Screen”.',
+    installIos: 'On iPhone: tap Share (□↑) – in Safari it often hides behind “…” – then “Add to Home Screen”. If it isn’t there, scroll down the list.',
     installOther: 'Open your browser’s menu (⋮ or ≡) and choose “Install app” or “Add to home screen”. If it isn’t there, Chrome, Edge or Samsung Internet can do it.',
     responsibly: 'Please enjoy responsibly 🍻',
     privacy: 'Privacy',
@@ -451,7 +451,9 @@ async function start() {
   });
   $('install').addEventListener('click', async () => {
     if (!installPrompt) {
-      $('install-hint').hidden = false;
+      const hint = $('install-hint');
+      hint.hidden = false;
+      hint.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
     installPrompt.prompt();
