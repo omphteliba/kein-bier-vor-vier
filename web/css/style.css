@@ -244,3 +244,15 @@ input[type=radio] { width: 20px; height: 20px; accent-color: var(--dark-amber); 
 .dialog-actions button:hover { background: var(--foam); }
 
 .noscript { padding: 24px; text-align: center; }
+
+/* ---- Impressum and privacy policy ---- */
+.legal { gap: 0; line-height: 1.55; }
+.legal h1 { font-family: var(--serif); font-weight: 900; font-size: 1.8rem; line-height: 1.15; margin: 16px 0 8px; }
+.legal h2 { font-family: var(--serif); font-weight: 900; font-size: 1.4rem; margin: 32px 0 4px; padding-top: 16px; border-top: 2px solid var(--foam); }
+.legal h3 { font-family: var(--serif); font-weight: 700; font-size: 1.1rem; margin: 22px 0 4px; }
+.legal p, .legal ul { margin: 6px 0; }
+.legal ul { padding-left: 1.3em; }
+.legal li { margin: 4px 0; }
+.legal a { color: var(--link); overflow-wrap: anywhere; }
+.legal .back { font-weight: 700; text-decoration: none; }
+.legal footer { margin-top: 32px; }

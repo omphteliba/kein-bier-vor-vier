@@ -34,6 +34,7 @@ const TEXT = {
     installIos: 'So geht’s auf dem iPhone: Tippe auf Teilen (□↑) – in Safari steckt es oft hinter „…“ – und dann auf „Zum Home-Bildschirm“. Falls der Eintrag fehlt, in der Liste ganz nach unten scrollen.',
     installOther: 'Öffne das Menü deines Browsers (⋮ oder ≡) und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Fehlt der Eintrag, klappt es mit Chrome, Edge oder Samsung Internet.',
     responsibly: 'Bitte verantwortungsvoll genießen 🍻',
+    imprint: 'Impressum',
     privacy: 'Datenschutz',
     settings: 'Einstellungen',
     whichSaying: 'Welcher Spruch?',
@@ -73,6 +74,7 @@ const TEXT = {
     installIos: 'On iPhone: tap Share (□↑) – in Safari it often hides behind “…” – then “Add to Home Screen”. If it isn’t there, scroll down the list.',
     installOther: 'Open your browser’s menu (⋮ or ≡) and choose “Install app” or “Add to home screen”. If it isn’t there, Chrome, Edge or Samsung Internet can do it.',
     responsibly: 'Please enjoy responsibly 🍻',
+    imprint: 'Legal notice',
     privacy: 'Privacy',
     settings: 'Settings',
     whichSaying: 'Which saying?',
@@ -159,6 +161,7 @@ function render() {
   $('install').textContent = T.install;
   $('install-hint').textContent = isIos() ? T.installIos : T.installOther;
   $('responsibly').textContent = T.responsibly;
+  $('imprint-link').textContent = T.imprint;
   $('privacy-link').textContent = T.privacy;
 }
 

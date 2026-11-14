@@ -27,6 +27,8 @@ jobs:
           node-version: 22
       - name: Generated data is up to date
         run: python3 tools/make_spots.py --check
+      - name: Legal pages are up to date
+        run: python3 tools/make_legal.py --check
       - name: Test the clock logic
         working-directory: web
         run: node --test

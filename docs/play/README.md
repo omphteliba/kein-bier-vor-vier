@@ -52,7 +52,7 @@ Danach baut `./gradlew :phone:bundleRelease :wear:bundleRelease` die zwei Dateie
 
 | Abschnitt | Antwort |
 |---|---|
-| Datenschutzerklärung | `https://github.com/omphteliba/kein-bier-vor-vier/blob/main/docs/privacy.md` (vorher deine Kontakt-E-Mail eintragen) |
+| Datenschutzerklärung | `https://bierzeit.hoerold.de/datenschutz.html` |
 | App-Zugriff | Alle Funktionen ohne besonderen Zugriff verfügbar |
 | Werbung | Nein |
 | Einstufung des Inhalts | Kategorie „Dienstprogramm/Produktivität/Sonstiges“; Fragen zu Alkohol: **ja, Bezüge auf Alkohol** (Bier, Brauereien); keine Gewalt, kein Glücksspiel, keine Nutzerinteraktion, kein Teilen des Standorts mit anderen Nutzern |

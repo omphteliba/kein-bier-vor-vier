@@ -90,7 +90,7 @@ adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es ope
 
 - Web: [bierzeit.hoerold.de](https://bierzeit.hoerold.de/) über GitHub Pages
 - Google Play: Schritt-für-Schritt-Anleitung, Store-Texte und Grafiken in [docs/play/](docs/play/README.md)
-- [Datenschutzerklärung](docs/privacy.md)
+- [Datenschutzerklärung](docs/privacy.md) und [Impressum](docs/impressum.md), auch als [Webseiten](https://bierzeit.hoerold.de/impressum.html); nach Änderungen `python tools/make_legal.py` ausführen
 
 ## Lizenz
 

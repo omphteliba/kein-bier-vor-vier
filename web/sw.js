@@ -1,6 +1,6 @@
 // Offline support: always try the network first (so updates show up at once),
 // fall back to the last copy when offline. Only files of this site are cached.
-const CACHE = 'irgendwo-v4';
+const CACHE = 'irgendwo-v5';
 const SHELL = [
   './', 'index.html', 'css/style.css', 'js/app.js', 'js/clock.js', 'spots.json', 'fonts/aleo.ttf',
   'manifest-de.webmanifest', 'manifest-en.webmanifest',
