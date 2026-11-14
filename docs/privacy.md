@@ -15,7 +15,7 @@ c/o Autorenglück #72873\
 Albert-Einstein-Straße 47\
 02977 Hoyerswerda\
 Deutschland\
-E-Mail: [hallo@420now.app](mailto:hallo@420now.app)
+E-Mail: [info@hero-brau.de](mailto:info@hero-brau.de)
 
 ### 2. Aufruf der Web-App (Hosting)
 Die Web-App wird über **GitHub Pages** der GitHub, Inc. (USA) ausgeliefert. Beim Aufruf verarbeitet GitHub technisch notwendige Daten – deine IP-Adresse, Zeitpunkt, aufgerufene Datei und Browserangaben –, um die Seite auszuliefern und den Dienst abzusichern. Wir selbst haben keinen Zugriff auf diese Daten.
@@ -71,7 +71,7 @@ c/o Autorenglück #72873\
 Albert-Einstein-Straße 47\
 02977 Hoyerswerda\
 Germany\
-Email: [hallo@420now.app](mailto:hallo@420now.app)
+Email: [info@hero-brau.de](mailto:info@hero-brau.de)
 
 ### 2. Loading the web app (hosting)
 The web app is served by **GitHub Pages** of GitHub, Inc. (USA). When you open it, GitHub processes technically necessary data – your IP address, time, requested file and browser details – to deliver the page and keep the service secure. We have no access to this data.

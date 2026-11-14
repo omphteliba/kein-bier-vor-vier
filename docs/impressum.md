@@ -12,7 +12,7 @@ Albert-Einstein-Straße 47\
 Deutschland
 
 ### Kontakt
-E-Mail: [hallo@420now.app](mailto:hallo@420now.app)
+E-Mail: [info@hero-brau.de](mailto:info@hero-brau.de)
 
 ### Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV
 Oliver Hörold, Anschrift wie oben
@@ -32,7 +32,7 @@ Albert-Einstein-Straße 47\
 Germany
 
 ### Contact
-Email: [hallo@420now.app](mailto:hallo@420now.app)
+Email: [info@hero-brau.de](mailto:info@hero-brau.de)
 
 ### Responsible for the content under § 18(2) MStV
 Oliver Hörold, address as above
