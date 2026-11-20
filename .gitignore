@@ -15,3 +15,6 @@ ios/BeerCore/.build/
 keystore.properties
 *.jks
 *.keystore
+
+# Local tool settings (Claude Code preview server)
+.claude/
